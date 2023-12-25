@@ -1,0 +1,122 @@
+<div id="carouselExampleCaptions"
+     class="carousel slide mb-4">
+    <div class="carousel-indicators">
+        <button type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="0"
+                class="active"></button>
+        <button type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="1"></button>
+        <button type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="2"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item"
+             *ngFor="let slide of slides;let i = index;"
+             [ngClass]="{ 'active' : i === 0 }">
+            <img [attr.src]="'assets/images/carousel/' + slide.img"
+                 class="d-block w-100"
+                 [attr.alt]="slide.label">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>{{slide.label}}</h5>
+                <p>{{slide.content}}</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"
+              aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+        <span class="carousel-control-next-icon"
+              aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div class="container">
+    <div class="d-flex justify-content-center mb-4">
+        <div class="d-flex justify-content-start align-items-center w-75 bg-light p-4"
+             style="background-image: url(assets/images/concept.png); background-position: top right; height: 425px; background-repeat: no-repeat;">
+            <div class="d-flex flex-column justify-content-start w-50">
+                <div class="h2">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </div>
+                <div class="text-muted">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. At, corrupti! Ullam recusandae esse nemo accusamus minima vitae, quidem voluptatibus illo unde tempora eius veniam quia non officiis accusantium odit laboriosam!
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="h1 text-center p-4">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    </div>
+    <div class="row row-cols-1 row-cols-lg-4 g-4">
+        <div class="col h-100 p-4">
+            <div class="card bg-light">
+                <img src="assets/images/section1.jpg"
+                     class="card-img-top" />
+                <div class="card-body">
+                    <div class="h4 card-title">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </div>
+                    <div class="card-subtitle">
+                        Debitis dolor commodi quis soluta eum, quas ab perspiciatis dicta illum impedit officia architecto.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col h-100 p-4">
+            <div class="card bg-light">
+                <img src="assets/images/section2.jpg"
+                     class="card-img-top" />
+                <div class="card-body">
+                    <div class="h4 card-title">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </div>
+                    <div class="card-subtitle">
+                        Debitis dolor commodi quis soluta eum, quas ab perspiciatis dicta illum impedit officia architecto.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col h-100 p-4">
+            <div class="card bg-light">
+                <img src="assets/images/section3.jpg"
+                     class="card-img-top" />
+                <div class="card-body">
+                    <div class="h4 card-title">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </div>
+                    <div class="card-subtitle">
+                        Debitis dolor commodi quis soluta eum, quas ab perspiciatis dicta illum impedit officia architecto.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col h-100 p-4">
+            <div class="card bg-light">
+                <img src="assets/images/section3.jpg"
+                     class="card-img-top" />
+                <div class="card-body">
+                    <div class="h4 card-title">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </div>
+                    <div class="card-subtitle">
+                        Debitis dolor commodi quis soluta eum, quas ab perspiciatis dicta illum impedit officia architecto.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
