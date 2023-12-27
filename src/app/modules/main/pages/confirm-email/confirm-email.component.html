@@ -1,0 +1,52 @@
+<app-loading-panel [visible]="!ready"></app-loading-panel>
+<div class="container">
+    <div class="mb-4">
+        <div class="h2">
+            E-Posta Doğrulama
+        </div>
+    </div>
+    <hr />
+    <div class="p-4 bg-light">
+        <form (ngSubmit)="confirm()"
+          #form="ngForm">
+        <div class="row">
+            <div class="mb-4">
+                <div class="col col-lg-6 form-floating">
+                    <input type="text"
+                           id="code"
+                           class="form-control"
+                           required
+                           pattern="^[0-9]{6}$"
+                           [(ngModel)]="formData.code"
+                           name="code"
+                           #code="ngModel"
+                           placeholder=""
+                           autocomplete="new-password" />
+                    <label class="form-label"
+                           for="code">Doğrulama Kodu</label>
+                </div>
+                <div *ngIf="code.invalid && (code.dirty || code.touched)"
+                     class="text-danger">
+                    <div *ngIf="code.errors?.['required']">Doğrulama kodu alanı boş bırakılamaz</div>
+                    <div *ngIf="code.errors?.['pattern']">Lütfen geçerli bir doğrulama kodu yazınız</div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <button type="submit"
+                        [disabled]="form.invalid"
+                        class="btn btn-primary">
+                    <i class="bi bi-check"></i>
+                    Gönder
+                </button>
+            </div>
+            <div class="mb-4"
+                 *ngIf="form.invalid">
+                <div class="text-danger">
+                    * Lütfen tüm alanları doldurunuz!
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+    
+</div>

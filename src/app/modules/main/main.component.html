@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom shadow-sm mb-4 fixed-top">
     <div class="container">
         <a class="navbar-brand"
            href="#">
-            <img src="assets/images/logo.png"
+            <img src="assets/images/logo.png" class="logo"
                  alt="ShipBu"
                  width="160"
                  height="48">
@@ -25,7 +25,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
-                       routerLink="/"
+                       routerLink="/main/register"
                        routerLinkActive="active">
                        <i class="bi bi-person-plus"></i>
                        Yeni Üyelik
@@ -33,7 +33,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
-                       routerLink="/"
+                       routerLink="/main/signin"
                        routerLinkActive="active">
                        <i class="bi bi-box-arrow-in-left"></i>
                        Üye Girişi
@@ -44,8 +44,10 @@
         </div>
     </div>
 </nav>
-<router-outlet></router-outlet>
-<div class="bg-dark text-light p-4">
+<div style="min-height: 100vh;" class="container border-start border-end bg-white py-4">
+    <router-outlet></router-outlet>
+</div>
+<div class="bg-dark text-light p-4 border-top border-4 border-warning">
     <div class="container">
         <div class="row">
             <div class="col col-lg-8 p-4">

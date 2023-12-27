@@ -1,0 +1,110 @@
+<app-loading-panel [visible]="!ready"></app-loading-panel>
+<div class="mb-4">
+    <div class="h2">
+        Yeni Üyelik
+    </div>
+</div>
+<hr />
+<div class="p-4 bg-light">
+    <form (ngSubmit)="register()"
+          #form="ngForm">
+        <div class="row">
+            <div class="mb-4">
+                <div class="col col-lg-6 form-floating">
+                    <input type="email"
+                           id="userName"
+                           class="form-control"
+                           required
+                           pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+                           [(ngModel)]="formData.userName"
+                           name="userName"
+                           #userName="ngModel"
+                           placeholder=""
+                           autocomplete="new-password" />
+                    <label class="form-label"
+                           for="userName">E-Posta</label>
+                </div>
+                <div *ngIf="userName.invalid && (userName.dirty || userName.touched)"
+                     class="text-danger">
+                    <div *ngIf="userName.errors?.['required']">E-Posta alanı boş bırakılamaz</div>
+                    <div *ngIf="userName.errors?.['pattern']">Lütfen geçerli bir e-posta adresi yazınız</div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <div class="col col-lg-6 form-floating">
+                    <input type="text"
+                           id="name"
+                           class="form-control"
+                           required
+                           [(ngModel)]="formData.name"
+                           name="name"
+                           #name="ngModel"
+                           placeholder=""
+                           autocomplete="new-password" />
+                    <label class="form-label"
+                           for="name">Ad Soyad</label>
+                </div>
+                <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                     class="text-danger">
+                    <div *ngIf="name.errors?.['required']">Ad Soyad alanı boş bırakılamaz</div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <div class="col col-lg-6 form-floating">
+                    <input type="password"
+                           id="password"
+                           class="form-control"
+                           required
+                           [(ngModel)]="formData.password"
+                           name="password"
+                           #password="ngModel"
+                           placeholder=""
+                           autocomplete="new-password" />
+                    <label class="form-label"
+                           for="password">Parola</label>
+                </div>
+                <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                     class="text-danger">
+                    <div *ngIf="password.errors?.['required']">Parola alanı boş bırakılamaz</div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <div class="col col-lg-6 form-floating">
+                    <input type="password"
+                           id="passwordCheck"
+                           class="form-control"
+                           required
+                           [(ngModel)]="formData.passwordCheck"
+                           name="passwordCheck"
+                           #passwordCheck="ngModel"
+                           placeholder=""
+                           autocomplete="new-passwordCheck" />
+                    <label class="form-label"
+                           for="passwordCheck">Parola Tekrar</label>
+                </div>
+                <div *ngIf="passwordCheck.invalid && (passwordCheck.dirty || passwordCheck.touched)"
+                     class="text-danger">
+                    <div *ngIf="passwordCheck.errors?.['required']">Parola Tekrar alanı boş bırakılamaz</div>
+                </div>
+                <div *ngIf="formData.password != formData.passwordCheck"
+                     class="text-danger">
+                    <div>Parola ve Parola Tekrar alanı aynı olmalıdır!</div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <button type="submit"
+                        [disabled]="form.invalid"
+                        class="btn btn-primary">
+                    <i class="bi bi-person-plus"></i>
+                    Kaydol
+                </button>
+            </div>
+            <div class="mb-4"
+                 *ngIf="form.invalid">
+                <div class="text-danger">
+                    * Lütfen tüm alanları doldurunuz!
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
