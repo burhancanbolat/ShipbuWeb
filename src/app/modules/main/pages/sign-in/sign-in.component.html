@@ -1,68 +1,69 @@
-<app-loading-panel [visible]="!ready"></app-loading-panel>
-<div class="mb-4">
-    <div class="h2">
-        Yeni Üyelik
-    </div>
-</div>
-<hr />
-<div class="p-4 bg-light">
-    <form (ngSubmit)="signin()"
-          #form="ngForm">
-        <div class="row">
-            <div class="mb-4">
-                <div class="col col-lg-6 form-floating">
-                    <input type="email"
-                           id="userName"
-                           class="form-control"
-                           required
-                           pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
-                           [(ngModel)]="formData.userName"
-                           name="userName"
-                           #userName="ngModel"
-                           placeholder=""
-                           autocomplete="new-password" />
-                    <label class="form-label"
-                           for="userName">E-Posta</label>
-                </div>
-                <div *ngIf="userName.invalid && (userName.dirty || userName.touched)"
-                     class="text-danger">
-                    <div *ngIf="userName.errors?.['required']">E-Posta alanı boş bırakılamaz</div>
-                    <div *ngIf="userName.errors?.['pattern']">Lütfen geçerli bir e-posta adresi yazınız</div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="col col-lg-6 form-floating">
-                    <input type="password"
-                           id="password"
-                           class="form-control"
-                           required
-                           [(ngModel)]="formData.password"
-                           name="password"
-                           #password="ngModel"
-                           placeholder=""
-                           autocomplete="new-password" />
-                    <label class="form-label"
-                           for="password">Parola</label>
-                </div>
-                <div *ngIf="password.invalid && (password.dirty || password.touched)"
-                     class="text-danger">
-                    <div *ngIf="password.errors?.['required']">Parola alanı boş bırakılamaz</div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <button type="submit"
-                        [disabled]="form.invalid"
-                        class="btn btn-primary">
-                    <i class="bi bi-box-arrow-in-left"></i>
-                    Giriş
-                </button>
-            </div>
-            <div class="mb-4"
-                 *ngIf="form.invalid">
-                <div class="text-danger">
-                    * Lütfen tüm alanları doldurunuz!
-                </div>
-            </div>
+<div class="container py-4">
+    <div class="mb-4">
+        <div class="h2">
+            Yeni Üyelik
         </div>
-    </form>
+    </div>
+    <hr />
+    <div class="p-4 bg-light">
+        <form (ngSubmit)="signin()"
+              #form="ngForm">
+            <div class="row">
+                <div class="mb-4">
+                    <div class="col col-lg-6 form-floating">
+                        <input type="email"
+                               id="userName"
+                               class="form-control"
+                               required
+                               pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+                               [(ngModel)]="formData.userName"
+                               name="userName"
+                               #userName="ngModel"
+                               placeholder=""
+                               autocomplete="new-password" />
+                        <label class="form-label"
+                               for="userName">E-Posta</label>
+                    </div>
+                    <div *ngIf="userName.invalid && (userName.dirty || userName.touched)"
+                         class="text-danger">
+                        <div *ngIf="userName.errors?.['required']">E-Posta alanı boş bırakılamaz</div>
+                        <div *ngIf="userName.errors?.['pattern']">Lütfen geçerli bir e-posta adresi yazınız</div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="col col-lg-6 form-floating">
+                        <input type="password"
+                               id="password"
+                               class="form-control"
+                               required
+                               [(ngModel)]="formData.password"
+                               name="password"
+                               #password="ngModel"
+                               placeholder=""
+                               autocomplete="new-password" />
+                        <label class="form-label"
+                               for="password">Parola</label>
+                    </div>
+                    <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                         class="text-danger">
+                        <div *ngIf="password.errors?.['required']">Parola alanı boş bırakılamaz</div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <button type="submit"
+                            [disabled]="form.invalid"
+                            class="btn btn-primary">
+                        <i class="bi bi-box-arrow-in-left"></i>
+                        Giriş
+                    </button>
+                </div>
+                <div class="mb-4"
+                     *ngIf="form.invalid">
+                    <div class="text-danger">
+                        * Lütfen tüm alanları doldurunuz!
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { UtilityService } from 'src/app/services/utility.service';
+
 
 @Component({
   selector: 'app-loading-panel',
@@ -7,6 +9,6 @@ import { Component, Input } from '@angular/core';
   ]
 })
 export class LoadingPanelComponent {
-  @Input()
-  public visible: boolean = false;
+
+  constructor(protected readonly utilityService : UtilityService){}
 }

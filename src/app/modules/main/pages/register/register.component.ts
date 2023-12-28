@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
+import { UtilityService } from 'src/app/services/utility.service';
 import * as swal from 'sweetalert2';
 
 @Component({
@@ -14,19 +15,19 @@ export class RegisterComponent {
   constructor(
     protected readonly accountService: AccountService,
     protected readonly router: Router,
+    protected readonly utilityService : UtilityService,
   ) {
 
   }
 
-  protected ready: boolean = true;
 
   protected formData: any = {
     email: null
   }
   protected async register() {
-    this.ready = false;
+    this.utilityService.loadingPanelVisible = true;
     var response = await this.accountService.register(this.formData);
-    this.ready = true;
+    this.utilityService.loadingPanelVisible = false;
     if (response.succeeded) {
       this.router.navigate(['main', 'confirmemail', this.formData.userName]);
     }

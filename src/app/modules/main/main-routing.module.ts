@@ -5,6 +5,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
+import { DashboardComponent } from './pages/profile/dashboard/dashboard.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [{
   path: '',
@@ -22,6 +24,17 @@ const routes: Routes = [{
       path: 'signin',
       component: SignInComponent
     },
+    {
+      path: 'profile',
+      component: ProfileComponent,
+      children: [
+        {
+          path : '**',
+          component : DashboardComponent
+        }
+      ]
+    },
+    
     {
       path: '',
       component: HomeComponent

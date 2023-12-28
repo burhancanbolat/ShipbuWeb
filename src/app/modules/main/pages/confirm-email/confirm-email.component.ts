@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
+import { UtilityService } from 'src/app/services/utility.service';
 import * as swal from 'sweetalert2';
 @Component({
   selector: 'app-confirm-email',
@@ -13,11 +14,11 @@ export class ConfirmEmailComponent implements OnInit {
     protected readonly accountService: AccountService,
     protected readonly activatedRoute: ActivatedRoute,
     protected readonly router: Router,
+    protected readonly utilityService : UtilityService,
   ) { }
 
   protected formData: any = {};
-  protected ready: boolean = true;
-
+  
   protected async confirm() {
     const response = await this.accountService.confirm(this.formData);
     if (response.succeeded) {

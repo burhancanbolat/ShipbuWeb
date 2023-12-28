@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-main',
@@ -7,5 +8,8 @@ import { Component } from '@angular/core';
   ]
 })
 export class MainComponent {
+  constructor(
+    protected readonly accountService: AccountService
+  ) { }
 
 }

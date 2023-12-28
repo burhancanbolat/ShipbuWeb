@@ -2,7 +2,8 @@
     <div class="container">
         <a class="navbar-brand"
            href="#">
-            <img src="assets/images/logo.png" class="logo"
+            <img src="assets/images/logo.png"
+                 class="logo"
                  alt="ShipBu"
                  width="160"
                  height="48">
@@ -20,31 +21,66 @@
                     <a class="nav-link"
                        routerLink="/"
                        routerLinkActive="active">
-                       <i class="bi bi-house"></i>
-                       Ana Sayfa</a>
+                        <i class="bi bi-house"></i>
+                        Ana Sayfa</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item"
+                    *ngIf="!accountService.isAuthenticated">
                     <a class="nav-link"
                        routerLink="/main/register"
                        routerLinkActive="active">
-                       <i class="bi bi-person-plus"></i>
-                       Yeni Üyelik
+                        <i class="bi bi-person-plus"></i>
+                        Yeni Üyelik
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item"
+                    *ngIf="!accountService.isAuthenticated">
                     <a class="nav-link"
                        routerLink="/main/signin"
                        routerLinkActive="active">
-                       <i class="bi bi-box-arrow-in-left"></i>
-                       Üye Girişi
+                        <i class="bi bi-box-arrow-in-left"></i>
+                        Üye Girişi
                     </a>
                 </li>
+                <li class="nav-item dropdown" *ngIf="accountService.isAuthenticated">
+                    <a class="nav-link dropdown-toggle"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <i class="bi bi-person"></i>
+                        {{accountService.user?.name}}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item d-flex"
+                               [routerLink]="['profile','dashboard']">
+                                <i class="bi bi-layout-text-sidebar-reverse me-2 text-end"></i>
+                                Profilim
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex"
+                               routerLink=""
+                               (click)="accountService.signout()">
+                                <i class="bi bi-box-arrow-right me-2 text-end"></i>
+                                Oturumu Kapat
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
+            <div class="navbar-text">
 
+            </div>
         </div>
     </div>
 </nav>
-<div style="min-height: 100vh;" class="container border-start border-end bg-white py-4">
+<div 
+     class="container border-start border-end bg-white h-100 p-0">
     <router-outlet></router-outlet>
 </div>
 <div class="bg-dark text-light p-4 border-top border-4 border-warning">
@@ -62,7 +98,7 @@
                     <div class="text-secondary d-flex gap-2">
                         <i class="bi bi-envelope"></i> <a href="mailto:info@shipbu.com">info@shipbu.com</a>
                     </div>
-                    
+
                 </div>
             </div>
         </div>

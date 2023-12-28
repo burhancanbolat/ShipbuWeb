@@ -7,8 +7,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { FormsModule } from '@angular/forms';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
-import { LoadingPanelComponent } from 'src/app/shared/loading-panel/loading-panel.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { DashboardComponent } from './pages/profile/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -17,8 +18,9 @@ import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.compo
     HomeComponent,
     RegisterComponent,
     SignInComponent,
-    LoadingPanelComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    ProfileComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,

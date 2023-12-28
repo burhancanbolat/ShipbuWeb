@@ -1,6 +1,6 @@
-<div *ngIf="visible"
-     class="position-fixed h-100 w-100 d-flex flex-column align-items-center justify-content-center"
-     style="background-color: rgba(0, 0, 0, .8); z-index: 3; top: 0; left: 0;">
+<div *ngIf="utilityService.loadingPanelVisible"
+     class="position-fixed fixed-top h-100 w-100 d-flex flex-column align-items-center justify-content-center"
+     style="background-color: rgba(0, 0, 0, .8); z-index: 1040; top: 0; left: 0;">
     <img src="assets/images/spinner.svg"
          width="120"
          height="120"
