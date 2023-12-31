@@ -1,0 +1,82 @@
+<app-page-header title="Konteyner Tipleri"></app-page-header>
+<app-panel>
+    <dx-data-grid [dataSource]="transportOrderItemContainerTypesService.store"
+                  keyExpr="id"
+                  [showBorders]="true"
+                  [showRowLines]="true"
+                  [rowAlternationEnabled]="true"
+                  [remoteOperations]="true"
+                  (onInitNewRow)="onInitNewRow($event)"
+                  (onRowInserting)="onRowInserting($event)"
+                  (onRowUpdating)="onRowUpdating($event)">
+        <dxo-search-panel [visible]="true"></dxo-search-panel>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-pager [allowedPageSizes]="[10,25,50,100]"
+                   displayMode="compact"
+                   [visible]="true"></dxo-pager>
+        <dxo-paging [enabled]="true"
+                    [pageSize]="10"></dxo-paging>
+        <dxo-row-dragging [allowReordering]="true"
+                          [onReorder]="onReorder"
+                          [dropFeedbackMode]="'push'"
+                          [dragDirection]="'vertical'"
+                          [showDragIcons]="true"></dxo-row-dragging>
+        <dxo-editing mode="popup"
+                     [useIcons]="true"
+                     [allowAdding]="true"
+                     [allowUpdating]="true"
+                     [allowDeleting]="true">
+            <dxo-popup title="Konteyner Tipi Ekleme / Güncelleme"
+                       [showTitle]="true">
+            </dxo-popup>
+            <dxo-form colCount="1">
+                <dxi-item itemType="group">
+                    <dxi-item itemType="tabbed">
+                        <dxi-tab title="Genel"
+                                 icon="bi bi-list">
+                            <dxi-item dataField="enabled"></dxi-item>
+                        </dxi-tab><dxi-tab title="Türkçe İçerik"
+                                 icon="fi fi-tr">
+                            <dxi-item dataField="nameTr">
+                                <dxo-label location="top"
+                                           text="Tip Adı"></dxo-label>
+                                <dxi-validation-rule type="required"
+                                                     message="Bu alan boş bırakılamaz!"></dxi-validation-rule>
+                            </dxi-item>
+
+                        </dxi-tab>
+                        <dxi-tab title="İngilizce İçerik"
+                                 icon="fi fi-gb">
+                            <dxi-item dataField="nameEn">
+                                <dxo-label location="top"
+                                           text="Tip Adı"></dxo-label>
+                                <dxi-validation-rule type="required"
+                                                     message="Bu alan boş bırakılamaz!"></dxi-validation-rule>
+                            </dxi-item>
+
+                        </dxi-tab>
+                    </dxi-item>
+                </dxi-item>
+
+            </dxo-form>
+        </dxo-editing>
+        <dxi-column dataField="nameTr"
+                    name="displayName"
+                    caption="Tip Adı"
+                    cellTemplate="labelCellTemplate"></dxi-column>
+        <dxi-column dataField="enabled"
+                    width="120"
+                    caption="Durum"
+                    cellTemplate=""></dxi-column>
+        <dxi-column dataField="nameTr"
+                    [visible]="false"></dxi-column>
+        <dxi-column dataField="nameEn"
+                    [visible]="false"></dxi-column>
+        <div *dxTemplate="let row of 'labelCellTemplate'"
+             class="d-flex flex-column gap-2">
+            <div>{{row.data.nameTr}}</div>
+            <div class="text-muted small">{{row.data.nameEn}}</div>
+        </div>
+
+    </dx-data-grid>
+</app-panel>

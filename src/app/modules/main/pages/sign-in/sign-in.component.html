@@ -15,7 +15,7 @@
                                id="userName"
                                class="form-control"
                                required
-                               pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+                               [pattern]="emailPattern"
                                [(ngModel)]="formData.userName"
                                name="userName"
                                #userName="ngModel"

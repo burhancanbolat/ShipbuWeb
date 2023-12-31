@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import * as swal from 'sweetalert2';
-
+import { emailPattern } from '../../constants';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -20,6 +20,7 @@ export class RegisterComponent {
 
   }
 
+  protected emailPattern = emailPattern;
 
   protected formData: any = {
     email: null

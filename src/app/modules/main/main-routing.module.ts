@@ -14,27 +14,33 @@ const routes: Routes = [{
   children: [
     {
       path: 'register',
-      component: RegisterComponent
+      component: RegisterComponent,
+      pathMatch: 'full'
     },
     {
       path: 'confirmemail/:userName',
-      component: ConfirmEmailComponent
+      component: ConfirmEmailComponent,
+      pathMatch: 'full'
+    },
+    {
+      path: 'signin/:returnUrl',
+      component: SignInComponent,
+      pathMatch: 'full'
     },
     {
       path: 'signin',
-      component: SignInComponent
+      component: SignInComponent,
     },
     {
       path: 'profile',
       component: ProfileComponent,
       children: [
         {
-          path : '**',
-          component : DashboardComponent
+          path: '**',
+          component: DashboardComponent
         }
       ]
     },
-    
     {
       path: '',
       component: HomeComponent

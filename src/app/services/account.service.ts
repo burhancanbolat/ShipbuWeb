@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as jwt_decode from "jwt-decode";
 import * as swal from "sweetalert2";
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +17,10 @@ export class AccountService {
 
   get isAuthenticated() {
     return this.user != null;
+  }
+
+  isInRole(role: 'Administrators' | 'Members'): boolean {
+    return this.user?.role == role ?? false;
   }
 
   init() {
@@ -51,8 +56,8 @@ export class AccountService {
       confirmButtonText: 'Devam',
       cancelButtonText: 'İptal',
       showCancelButton: true,
-    }).then((result)=>{
-      if(result.isConfirmed){
+    }).then((result) => {
+      if (result.isConfirmed) {
         this.user = null;
         localStorage.removeItem("user");
       }
