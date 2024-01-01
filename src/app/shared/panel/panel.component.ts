@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-panel',
@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   ]
 })
 export class PanelComponent {
-
+  @Input('class')
+  className?: string;
 }

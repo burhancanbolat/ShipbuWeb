@@ -64,7 +64,7 @@
                 <dx-button [icon]="isMenuOpen ? 'bi bi-chevron-left':'bi bi-chevron-right'"
                            (onClick)="toggleMenu()"
                            stylingMode="text"
-                           class="text-light"></dx-button>
+                           class="rounded rounded-circle"></dx-button>
             </div>
             <div style="width: 240px">
                 <div class="admin-menu">
@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-white h-100 p-4">
+        <div class="bg-white h-100 p-4 overflow-auto">
             <router-outlet></router-outlet>
         </div>
     </dx-drawer>
