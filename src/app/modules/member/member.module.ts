@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MemberRoutingModule } from './member-routing.module';
 import { MemberComponent } from './member.component';
-import { DxButtonModule, DxDataGridModule, DxDrawerModule, DxFileUploaderModule, DxFormModule, DxNumberBoxModule, DxPopupModule, DxSwitchModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxDrawerModule, DxFileUploaderModule, DxFormModule, DxNumberBoxModule, DxPopupModule, DxSwitchModule, DxTabsModule, DxToolbarModule } from 'devextreme-angular';
 import { PlaceOrderComponent } from './pages/place-order/place-order.component';
 import { SharedModule } from '../shared/shared.module';
 
@@ -24,7 +24,8 @@ import { SharedModule } from '../shared/shared.module';
     DxPopupModule,
     DxFileUploaderModule,
     DxDataGridModule,
-    DxNumberBoxModule
+    DxNumberBoxModule,
+    DxTabsModule,
   ]
 })
 export class MemberModule { }

@@ -32,6 +32,21 @@
     </dx-data-grid>
 </app-panel>
 <app-panel>
+
+    <div class="d-flex">
+        <dx-tabs [dataSource]="orderItemTypeTabs"
+                 width="auto"
+                 itemTemplate="tabItemTemplate"
+                 iconPosition="top"
+                 [selectedIndex]="0" class="mb-2">
+                 <div *dxTemplate="let item of 'tabItemTemplate'">
+                    <div class="d-flex flex-column align-items-center gap-2 p-0" style="min-width: 80px;">
+                        <i [attr.class]="item.icon"></i>
+                        <div>{{item.text}}</div>
+                    </div>
+                </div>
+        </dx-tabs>
+    </div>
     <dx-form #newOrderItemForm
              [(formData)]="newOrderItem"
              [colCount]="1"
@@ -39,8 +54,7 @@
         <dxi-item itemType="group"
                   [colCount]="8">
             <dxi-item dataField="quantity"
-                      editorType="dxNumberBox"
-                      [editorOptions]="{ }">
+                      editorType="dxNumberBox">
                 <dxo-label [visible]="false"
                            text="Adet"></dxo-label>
                 <dxi-validation-rule type="required"
@@ -50,8 +64,7 @@
                                      message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
             </dxi-item>
             <dxi-item dataField="weight"
-                      editorType="dxNumberBox"
-                      [editorOptions]="{ }">
+                      editorType="dxNumberBox">
                 <dxo-label [visible]="false"
                            text="Ağırlık"></dxo-label>
                 <dxi-validation-rule type="required"
@@ -66,8 +79,7 @@
                            text="Toplam Ağırlık"></dxo-label>
             </dxi-item>
             <dxi-item dataField="width"
-                      editorType="dxNumberBox"
-                      [editorOptions]="{ }">
+                      editorType="dxNumberBox">
                 <dxo-label [visible]="false"
                            text="En (cm)"></dxo-label>
                 <dxi-validation-rule type="required"
@@ -77,8 +89,7 @@
                                      message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
             </dxi-item>
             <dxi-item dataField="length"
-                      editorType="dxNumberBox"
-                      [editorOptions]="{ }">
+                      editorType="dxNumberBox">
                 <dxo-label [visible]="false"
                            text="Boy (cm)"></dxo-label>
                 <dxi-validation-rule type="required"
@@ -88,8 +99,7 @@
                                      message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
             </dxi-item>
             <dxi-item dataField="height"
-                      editorType="dxNumberBox"
-                      [editorOptions]="{ }">
+                      editorType="dxNumberBox">
                 <dxo-label [visible]="false"
                            text="Yükseklik (cm)"></dxo-label>
                 <dxi-validation-rule type="required"
@@ -105,8 +115,7 @@
                                      message="Bu alan boş bırakılamaz"></dxi-validation-rule>
             </dxi-item>
             <dxi-item dataField="products"
-                      editorType="dxNumberBox"
-                      [editorOptions]="{ }">
+                      editorType="dxNumberBox">
                 <dxo-label [visible]="false"
                            text="Ürün Adedi"></dxo-label>
                 <dxi-validation-rule type="required"

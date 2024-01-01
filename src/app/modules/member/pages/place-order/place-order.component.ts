@@ -31,7 +31,23 @@ export class PlaceOrderComponent implements OnInit {
   protected dropZoneEnter: boolean = false;
   protected items: any[] = [];
   protected newOrderItem!: any;
-
+  protected orderItemTypeTabs: any[] = [
+    {
+      id: 0,
+      text: 'Koli',
+      icon: 'bi bi-box',
+    },
+    {
+      id: 1,
+      text: 'Palet',
+      icon: 'bi bi-boxes',
+    },
+    {
+      id: 2,
+      text: 'Konteyner',
+      icon: 'bi bi-stack',
+    },
+  ];
   async ngOnInit(): Promise<any> {
     this.resetForm();
     this.utilityService.loadingPanelVisible = true;
