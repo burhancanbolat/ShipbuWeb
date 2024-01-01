@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { authGuardAdmin } from './guard';
+import { authGuardAdmin, authGuardMember } from './guard';
 
 const routes: Routes = [
+  {
+    path: 'member', 
+    loadChildren: () => import('./modules/member/member.module').then(m => m.MemberModule),
+    canActivate: [authGuardMember]
+  },
   {
     path: 'admin',
     loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule),
@@ -15,7 +20,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo : 'main'
+    redirectTo: 'main'
   },
 ];
 

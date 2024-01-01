@@ -1,11 +1,11 @@
 $yellow: #ff8800;
-$blue : #3a0070;
-
+$blue : #00607e;
+$green  :  #407e00;
 $font-size-base: 0.85rem;
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 @import "../node_modules/flag-icons/sass/flag-icons.scss";
 
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
 
 body,
@@ -14,7 +14,7 @@ html {
 }
 
 body {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Play", sans-serif;
     padding-top: 75px;
     @extend .bg-light;
 }

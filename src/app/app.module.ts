@@ -7,16 +7,17 @@ import { AppComponent } from './app.component';
 import { AccountService } from './services/account.service';
 import { LoadingPanelComponent } from './shared/loading-panel/loading-panel.component';
 import { AppHttpInterceptor } from './app-httpinterceptors';
-
+import { SharedModule } from './modules/shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent,
-    LoadingPanelComponent
+    LoadingPanelComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   providers: [
     {
@@ -25,7 +26,7 @@ import { AppHttpInterceptor } from './app-httpinterceptors';
       deps: [AccountService]
     },
     {
-      provide : HTTP_INTERCEPTORS,
+      provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,
       deps: [AccountService],
       multi: true,

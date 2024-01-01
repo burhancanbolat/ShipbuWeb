@@ -13,3 +13,13 @@ export const authGuardAdmin = async () => {
         
     return accountService.isInRole('Administrators') ? true : router.parseUrl(`/main/signin?returnUrl=/admin`);
 };
+export const authGuardMember = async () => {
+    const accountService = inject(AccountService);
+    const router = inject(Router);
+    router.events.pipe(filter((event: any) => event instanceof NavigationEnd))
+        .subscribe({
+            next: (e) => e.url
+        });
+        
+    return accountService.isInRole('Members') ? true : router.parseUrl(`/main/signin?returnUrl=/member`);
+};

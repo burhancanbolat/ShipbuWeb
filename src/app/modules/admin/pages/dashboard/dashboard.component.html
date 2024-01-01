@@ -1,27 +1,100 @@
-<div class="row row-cols-1 row-cols-md-4">
-    <div class="col">
-        <app-info-card icon="bi bi-people"
-                       title="Üye Adedi"
-                       value="65.535"
-                       color="text-bg-primary"></app-info-card>
-    </div>
-    <div class="col">
-        <app-info-card icon="bi bi-star"
-                       title="Yeni Teklif"
-                       value="98"
-                       color="text-bg-success"></app-info-card>
-    </div>
-    <div class="col">
-        <app-info-card icon="bi bi-currency-dollar"
-                       title="Bekleyen Teklif Tutarı"
-                       value="$7.220"
-                       color="text-bg-danger"></app-info-card>
-    </div>
-    <div class="col">
-        <app-info-card icon="bi bi-check2-square"
-                       title="Tamamlanan Teklif"
-                       value="7.781"
-                       color="text-bg-secondary"></app-info-card>
+<app-page-header title="Dashboard"></app-page-header>
+<app-panel>
+    <div class="row row-cols-1 row-cols-md-4 mb-4">
+        <div class="col">
+            <app-info-card icon="bi bi-people"
+                           title="Üye Adedi"
+                           value="65.535"
+                           color="text-bg-primary"></app-info-card>
+        </div>
+        <div class="col">
+            <app-info-card icon="bi bi-star"
+                           title="Yeni Teklif"
+                           value="98"
+                           color="text-bg-success"></app-info-card>
+        </div>
+        <div class="col">
+            <app-info-card icon="bi bi-currency-dollar"
+                           title="Bekleyen Teklif Tutarı"
+                           value="$7.220"
+                           color="text-bg-danger"></app-info-card>
+        </div>
+        <div class="col">
+            <app-info-card icon="bi bi-check2-square"
+                           title="Tamamlanan Teklif"
+                           value="7.781"
+                           color="text-bg-secondary"></app-info-card>
+        </div>
+
     </div>
 
-</div>
+    <div class="row">
+        <div class="col col-7">
+            <div class="card bg-white">
+                <div class="card-body">
+                    <dx-chart palette="yellow"
+                              [dataSource]="orderInfo"
+                              title="Aylara Göre Teklifler (2023)">
+                        <dxi-series valueField="total"
+                                    name="Teklif Tutarı"></dxi-series>
+                        <dxi-series valueField="amount"
+                                    name="Gerçekleşen Tutar"></dxi-series>
+                        <dxo-common-series-settings argumentField="month"
+                                                    type="spline">
+                        </dxo-common-series-settings>
+                        <dxo-margin [bottom]="20"></dxo-margin>
+                        <dxo-common-axis-settings>
+                            <dxo-grid [visible]="true"></dxo-grid>
+                        </dxo-common-axis-settings>
+                        <dxo-legend></dxo-legend>
+                        <dxo-argument-axis [allowDecimals]="false"
+                                           [axisDivisionFactor]="60">
+                            <dxo-label>
+                                <dxo-format type="decimal"></dxo-format>
+                            </dxo-label>
+                        </dxo-argument-axis>
+                        <dxo-tooltip [enabled]="true"></dxo-tooltip>
+                    </dx-chart>
+                </div>
+            </div>
+        </div>
+        <div class="col col-5">
+            <div class="card">
+                <div class="card-body small">
+                    <div class="d-flex align-items-center">
+                        <div>&nbsp;</div>
+                        <div class="text-center fs-4 flex-fill">Yeni Teklifler</div>
+                        <div>
+                            <a routerLink="">Tümü</a>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Üye Adı</th>
+                                <th>Tarih</th>
+                                <th>Nereden</th>
+                                <th>Nereye</th>
+                                <th>Tutar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of lastOrders">
+                                <td>
+                                    <img [src]="'https://api.dicebear.com/7.x/adventurer/svg?seed='+item.userName" width="24" height="24" />
+                                </td>
+                                <td>{{item.userName}}</td>
+                                <td>{{item.date}}</td>
+                                <td>{{item.from}}</td>
+                                <td>{{item.to}}</td>
+                                <td class="text-end text-monospace">{{item.amount}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-panel>
