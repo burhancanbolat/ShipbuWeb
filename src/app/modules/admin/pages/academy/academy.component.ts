@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import notify from 'devextreme/ui/notify';
+import { lastValueFrom } from 'rxjs';
 import { TransportAcademyVideosService } from 'src/app/services/transport-academy-videos.service';
 import { environment } from 'src/environments/environment';
 
@@ -46,26 +47,20 @@ export class AcademyComponent {
   }
 
   async setCellValue(rowData: any, value: any) {
-    
-    rowData.nameTr = "sdfksjdf";
-    return;
-    
     const params = new URLSearchParams(new URL(value).search);
     const id = params.get('v');
     const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${id}&key=${environment.youtubeApiKey}`;
 
-    await this.http.get<any>(url).subscribe({
-      next: (response) => {
-        if (response.items && response.items.length) {
-          rowData.nameTr = response.items[0].snippet.title;
-          rowData.nameEn = response.items[0].snippet.title;
-          rowData.descriptionTr = response.items[0].snippet.description;
-          rowData.descriptionEn = response.items[0].snippet.description;
-          rowData.imageUrl = `https://i.ytimg.com/vi/${response.items[0].id}/hqdefault.jpg`;
-        }
-      },
-      error: (e) => notify('Youtube Video getirmede hata oluştu!', 'error')
-    });
+    const response = await lastValueFrom(this.http.get<any>(url));
+    if (response.items && response.items.length) {
+      debugger;
+      rowData.url = value;
+      rowData.nameTr = response.items[0].snippet.title;
+      rowData.nameEn = response.items[0].snippet.title;
+      rowData.descriptionTr = response.items[0].snippet.description;
+      rowData.descriptionEn = response.items[0].snippet.description;
+      rowData.imageUrl = `https://i.ytimg.com/vi/${response.items[0].id}/hqdefault.jpg`;
+    }
   }
 
 

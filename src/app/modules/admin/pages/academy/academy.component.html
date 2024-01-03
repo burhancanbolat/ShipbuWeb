@@ -78,6 +78,7 @@
         </dxo-editing>
         <dxi-column dataField="imageUrl"
                     caption="Kapak Görseli"
+                    width="auto"
                     cellTemplate="imageCellTemplate"></dxi-column>
         <dxi-column dataField="nameTr"
                     name="displayName"
@@ -103,12 +104,13 @@
                     editCellTemplate="descriptionEnEditCellTemplate"></dxi-column>
         <div *dxTemplate="let cellInfo of 'imageCellTemplate'">
             <img [attr.src]="cellInfo.row.data.imageUrl ?? 'assets/images/no-image.png'"
-            class="border rounded p-2 object-fit-contain" width="80" height="60" />
+            class="border rounded p-2 object-fit-contain" width="240" height="180" />
         </div>
         <div *dxTemplate="let cellInfo of 'labelCellTemplate'"
              class="d-flex flex-column gap-2">
             <div>{{cellInfo.row.data.nameTr}}</div>
             <div class="text-muted small">{{cellInfo.row.data.nameEn}}</div>
+            <div><a [attr.href]="cellInfo.row.data.url" target="_blank" class="me-2">{{cellInfo.row.data.url}}</a> <i class="bi bi-box-arrow-up-right"></i></div>
         </div>
         <div *dxTemplate="let cellInfo of 'urlEditCellTemplate'"
              class="d-flex gap-2">
@@ -119,7 +121,7 @@
             </div>
             <div class="flex-fill d-flex flex-column gap-2">
                 <div class="d-flex align-items-center gap-2">
-                    <dx-text-box class="flex-fill"
+                    <dx-text-box class="flex-fill" [text]="cellInfo.row.data.url"
                     (onValueChanged)="cellInfo.setValue($event.value)"></dx-text-box>
                     <dx-button text="Video Getir"
                     icon="bi bi-youtube"

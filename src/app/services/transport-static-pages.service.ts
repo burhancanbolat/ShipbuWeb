@@ -8,11 +8,13 @@ import { environment } from 'src/environments/environment';
 })
 export class TransportStaticPagesService extends BaseService {
 
-  constructor() { 
+  constructor() {
     super('transportstaticpages')
   }
-  
-  async reorder(from:any, to:any): Promise<any> {
+
+  async reorder(from: any, to: any): Promise<any> {
     return lastValueFrom<any>(this.httpClient.get(`${environment.baseApiUrl}/${this.endpoint}/reorder/${from}/${to}`));
   }
+  currentPage?: any;
+  
 }

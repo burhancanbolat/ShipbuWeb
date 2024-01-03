@@ -10,6 +10,7 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { DashboardComponent } from './pages/profile/dashboard/dashboard.component';
+import { StaticPageComponent } from './pages/static-page/static-page.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { DashboardComponent } from './pages/profile/dashboard/dashboard.componen
     SignInComponent,
     ConfirmEmailComponent,
     ProfileComponent,
-    DashboardComponent
+    DashboardComponent,
+    StaticPageComponent
   ],
   imports: [
     CommonModule,

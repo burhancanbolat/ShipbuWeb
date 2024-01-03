@@ -28,7 +28,7 @@ export class MemberComponent {
         {
           icon: 'bi bi-plus-circle',
           title: 'Teklif Al',
-          url: 'transportorder',
+          url: 'placeorder',
         },
         {
           icon: 'bi bi-boxes',

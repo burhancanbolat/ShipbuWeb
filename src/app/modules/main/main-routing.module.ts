@@ -7,11 +7,17 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { DashboardComponent } from './pages/profile/dashboard/dashboard.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { StaticPageComponent } from './pages/static-page/static-page.component';
 
 const routes: Routes = [{
   path: '',
   component: MainComponent,
   children: [
+    {
+      path: 'home',
+      component: HomeComponent,
+      pathMatch: 'full'
+    },
     {
       path: 'register',
       component: RegisterComponent,
@@ -32,6 +38,10 @@ const routes: Routes = [{
       component: SignInComponent,
     },
     {
+      path: 'page/:name',
+      component: StaticPageComponent,
+    },
+    {
       path: 'profile',
       component: ProfileComponent,
       children: [
@@ -43,7 +53,8 @@ const routes: Routes = [{
     },
     {
       path: '',
-      component: HomeComponent
+      redirectTo: 'home',
+      pathMatch:'full'
     }
   ]
 }];

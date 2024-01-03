@@ -73,7 +73,7 @@
                             <span>{{group.title}}</span>
                             <ul>
                                 <li *ngFor="let item of group.items">
-                                    <a [routerLink]="['','admin', item.url]"
+                                    <a [routerLink]="['','member', item.url]"
                                        routerLinkActive="active"
                                        class="d-flex gap-2">
                                         <i [attr.class]="item.icon"></i>

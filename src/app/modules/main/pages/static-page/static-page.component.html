@@ -1,0 +1,5 @@
+<div class="p-4"
+     *ngIf="transportStaticPagesService.currentPage">
+    <h2>{{transportStaticPagesService.currentPage.labelTr}}</h2>
+    <div [innerHTML]="transportStaticPagesService.currentPage.contentTr"></div>
+</div>

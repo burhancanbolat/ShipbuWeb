@@ -9,6 +9,7 @@ export abstract class BaseService {
 
   constructor(endpoint: string, key: string = 'id') {
     this.endpoint = endpoint;
+    this.key = key;
     function isNotEmpty(value: any): boolean {
       return value !== undefined && value !== null && value !== '';
     }
@@ -105,8 +106,9 @@ export abstract class BaseService {
       });
     }
   }
-
+  protected key!: any;
+  protected endpoint!: string;
+  protected httpClient!: HttpClient;
   store!: CustomStore;
-  endpoint!: string;
-  httpClient!: HttpClient;
+
 }
