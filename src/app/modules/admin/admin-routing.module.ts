@@ -5,6 +5,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TransportStaticPagesComponent } from './pages/transport-static-pages/transport-static-pages.component';
 import { TransportOrderItemContainerTypesComponent } from './pages/transport-order-item-container-types/transport-order-item-container-types.component';
 import { TransportOrderItemFeaturesComponent } from './pages/transport-order-item-features/transport-order-item-features.component';
+import { AcademyComponent } from './pages/academy/academy.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path :'transportorderitemfeatures',
         component: TransportOrderItemFeaturesComponent
+      },
+      {
+        path :'academy',
+        component: AcademyComponent
       },
       {
         path :'**',

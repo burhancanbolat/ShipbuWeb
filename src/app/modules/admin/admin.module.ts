@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
-import { DxButtonModule, DxChartModule, DxDataGridModule, DxDrawerModule, DxHtmlEditorModule, DxMenuModule, DxSelectBoxModule } from 'devextreme-angular';
+import { DxButtonModule, DxChartModule, DxDataGridModule, DxDrawerModule, DxHtmlEditorModule, DxMenuModule, DxSelectBoxModule, DxTextBoxModule } from 'devextreme-angular';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TransportStaticPagesComponent } from './pages/transport-static-pages/transport-static-pages.component';
 import { TransportOrderItemContainerTypesComponent } from './pages/transport-order-item-container-types/transport-order-item-container-types.component';
 import { TransportOrderItemFeaturesComponent } from './pages/transport-order-item-features/transport-order-item-features.component';
 import { InfoCardComponent } from './components/info-card/info-card.component';
 import { SharedModule } from '../shared/shared.module';
+import { AcademyComponent } from './pages/academy/academy.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { SharedModule } from '../shared/shared.module';
     TransportStaticPagesComponent,
     TransportOrderItemContainerTypesComponent,
     TransportOrderItemFeaturesComponent,
-    InfoCardComponent
+    InfoCardComponent,
+    AcademyComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { SharedModule } from '../shared/shared.module';
     DxHtmlEditorModule,
     DxSelectBoxModule,
     DxChartModule,
+    DxTextBoxModule,
   ]
 })
 export class AdminModule { }

@@ -42,6 +42,11 @@ export class AdminComponent {
           url: 'transportstaticpages',
         },
         {
+          icon: 'bi bi-youtube',
+          title: 'Akademi',
+          url: 'academy',
+        },
+        {
           icon: 'bi bi-box',
           title: 'Konteyner Tipleri',
           url: 'transportorderitemcontainertypes',

@@ -13,11 +13,14 @@ export class AppHttpInterceptor implements HttpInterceptor {
 
     }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if (req.url.includes('googleapis')) {
+            return next.handle(req);
+        }
         if (!this.accountService.isAuthenticated)
             return next.handle(req);
         else {
             const tokenizedReq = req.clone({
-                headers: req.headers.set("Content-Type","application/json").set("Authorization", `Bearer ${this.accountService.user?.token}`)
+                headers: req.headers.set("Content-Type", "application/json").set("Authorization", `Bearer ${this.accountService.user?.token}`)
             });
             return next.handle(tokenizedReq);
         }
