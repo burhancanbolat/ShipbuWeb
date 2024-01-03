@@ -45,12 +45,16 @@ export class AcademyComponent {
     await e.component.refresh();
   }
 
-  setCellValue(rowData: any, n: any, r: any, k: any) {
-    const params = new URLSearchParams(new URL(n).search);
+  async setCellValue(rowData: any, value: any) {
+    
+    rowData.nameTr = "sdfksjdf";
+    return;
+    
+    const params = new URLSearchParams(new URL(value).search);
     const id = params.get('v');
     const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${id}&key=${environment.youtubeApiKey}`;
 
-    this.http.get<any>(url).subscribe({
+    await this.http.get<any>(url).subscribe({
       next: (response) => {
         if (response.items && response.items.length) {
           rowData.nameTr = response.items[0].snippet.title;
