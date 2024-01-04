@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import notify from 'devextreme/ui/notify';
 import { lastValueFrom } from 'rxjs';
 import { TransportAcademyVideosService } from 'src/app/services/transport-academy-videos.service';
 import { environment } from 'src/environments/environment';
@@ -53,7 +52,6 @@ export class AcademyComponent {
 
     const response = await lastValueFrom(this.http.get<any>(url));
     if (response.items && response.items.length) {
-      debugger;
       rowData.url = value;
       rowData.nameTr = response.items[0].snippet.title;
       rowData.nameEn = response.items[0].snippet.title;

@@ -123,10 +123,6 @@
                 <div class="d-flex align-items-center gap-2">
                     <dx-text-box class="flex-fill" [text]="cellInfo.row.data.url"
                     (onValueChanged)="cellInfo.setValue($event.value)"></dx-text-box>
-                    <dx-button text="Video Getir"
-                    icon="bi bi-youtube"
-                    [disabled]="!cellInfo.row.data.url"
-                    (onClick)="applyUrl(cellInfo)"></dx-button>
                 </div>
                 <div class="small text-info"><i class="bi bi-info-circle"></i> Youtube video url yapıştırınız..</div>
             </div>
