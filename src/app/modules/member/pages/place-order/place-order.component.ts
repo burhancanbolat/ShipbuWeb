@@ -70,6 +70,10 @@ export class PlaceOrderComponent implements OnInit {
       this.newOrderItem.features.push(f);
   }
 
+  protected hasFeature(feature: any) {
+    return this.newOrderItem.features.find((e: any) => e == feature);
+  }
+  
   protected imageDropzoneEnter(e: any) {
     this.dropZoneEnter = true;
   }
@@ -104,7 +108,7 @@ export class PlaceOrderComponent implements OnInit {
         this.items.push({ ...this.newOrderItem });
         this.newOrderItemForm.instance.clear();
         this.newOrderItem.image = undefined;
-        //this.resetForm();
+        this.newOrderItem.features = [];
       }
       else {
         notify({
@@ -115,6 +119,8 @@ export class PlaceOrderComponent implements OnInit {
       }
     }
   }
+
+
 
   private resetForm() {
     this.newOrderItem = {
