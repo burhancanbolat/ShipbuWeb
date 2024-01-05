@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $yellow: #ff8800;
 $blue : #00607e;
 $green  :  #407e00;
@@ -31,4 +33,10 @@ body {
     display: inline-block !important;
     width: 1.333333 * 1em !important;
     line-height: 1em !important;
+}
+
+.app-dropzone{
+    border: 2px dashed lighten($color: $danger, $amount: 40%);
+    background-color: lighten($color: $danger, $amount: 45%);
+    color: lighten($color: $danger, $amount: 20%);
 }

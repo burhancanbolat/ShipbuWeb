@@ -76,6 +76,10 @@ export class PlaceOrderComponent implements OnInit {
   protected hasFeature(feature: any) {
     return this.newOrderItem.features.find((e: any) => e == feature);
   }
+  protected hasFeatureAttachment(feature: any) {
+    const f = this.newOrderItem.features.find((e: any) => e == feature);
+    return f && f?.type != 0;
+  }
 
   protected imageDropzoneEnter(e: any) {
     this.dropZoneEnter = true;
@@ -105,9 +109,8 @@ export class PlaceOrderComponent implements OnInit {
         type: 'error'
       });
     } else {
-      const result = this.newOrderItemForm.instance.validate();
-
-      if (result.isValid) {
+      if (this.newOrderItemForm.instance.validate().isValid) {
+        this.newOrderItem.type = { ...this.currentOrderItemType };
         this.items.push({ ...this.newOrderItem });
         this.newOrderItemForm.instance.clear();
         this.resetForm();
@@ -142,7 +145,6 @@ export class PlaceOrderComponent implements OnInit {
 
   protected validateTransportValue(e: any) {
     let result = false;
-    console.log(e.value, e.formItem.dataField, this.currentOrderItemType.id == 2);
     switch (e.formItem.dataField) {
       case "quantity":
         result = (e.value > 0);
@@ -169,4 +171,8 @@ export class PlaceOrderComponent implements OnInit {
     }
     return result;
   }
+  attachmentChanged(e: any, t: any) {
+    console.log(e, t);
+  }
+
 }

@@ -10,6 +10,9 @@
                      [useIcons]="true"></dxo-editing>
         <dxo-master-detail [enabled]="true"
                            template="detailTemplate"></dxo-master-detail>
+        <dxi-column dataField="type"
+                    caption="Tip"
+                    cellTemplate="typeCellTemplate"></dxi-column>
         <dxi-column dataField="image"
                     caption="Görsel"
                     cellTemplate="imageCellTemplate"></dxi-column>
@@ -29,18 +32,32 @@
                     caption="Kategori / İçerik"></dxi-column>
         <dxi-column dataField="products"
                     caption="Ürün Adedi"></dxi-column>
-        <div *dxTemplate="let row of 'imageCellTemplate'">
-            <img [attr.src]="row.data.image"
+        <div *dxTemplate="let cellInfo of 'typeCellTemplate'"
+             class="d-flex flex-column gap-2 align-items-center justify-content-center small">
+            <div [ngSwitch]="cellInfo.data.type.id">
+                <i *ngSwitchCase="0"
+                   class="bi bi-box"></i>
+                <i *ngSwitchCase="1"
+                   class="bi bi-boxes"></i>
+                <i *ngSwitchCase="2"
+                   class="bi bi-stack"></i>
+            </div>
+            <div>{{cellInfo.data.type.text}}</div>
+        </div>
+        <div *dxTemplate="let cellInfo of 'imageCellTemplate'">
+            <img [attr.src]="cellInfo.data.image"
                  class="object-fit-contain"
                  height="60"
                  width="60" />
         </div>
+
         <div *dxTemplate="let cellInfo of 'detailTemplate'">
             <div class="card">
                 <div class="card-header">Seçilen İşlemler</div>
                 <div class="card-body">
                     <ul class="list-unstyled">
-                        <li *ngFor="let feature of cellInfo.data.features" class="d-flex gap-2">
+                        <li *ngFor="let feature of cellInfo.data.features"
+                            class="d-flex">
                             <i class="bi bi-check text-success"></i>
                             <div class="flex-fill">{{feature.nameTr}}</div>
                         </li>
@@ -162,21 +179,45 @@
                           [colCount]="2">
                     <dxi-item *ngFor="let feature of features">
                         <dxo-label [visible]="false"></dxo-label>
-                        <div class="d-flex align-items-center gap-2"
+                        <div class="d-flex align-items-start gap-2 border rounded p-2"
                              *dxTemplate>
                             <dx-switch switchedOffText="Hayır"
                                        switchedOnText="Evet"
                                        (valueChange)="switchFeature(feature)"
                                        [value]="hasFeature(feature)"></dx-switch>
-                            <div class="">
-                                {{feature.nameTr}}
+                            <div class="flex-fill d-flex flex-column gap-3">
+                                <label (click)="switchFeature(feature)"
+                                       style="cursor: pointer;">
+                                    {{feature.nameTr}}
+                                </label>
+                                <div *ngIf="hasFeatureAttachment(feature)">
+                                    <div [ngSwitch]="feature.type">
+                                        <div *ngSwitchCase="1">
+                                            Image
+                                        </div>
+                                        <div *ngSwitchCase="2">
+                                            <div class="p-4 rounded-4 app-dropzone pdf-dropzone">
+                                                PDF Dosyası seçin ya da buraya sürükleyin
+                                            </div>
+                                            <dx-file-uploader uploadMode="useButtons"
+                                                              [visible]="false"
+                                                              [multiple]="false"
+                                                              dialogTrigger=".pdf-dropzone"
+                                                              dropZone=".pdf-dropzone"
+                                                              [showFileList]="false"
+                                                              accept="application/pdf" (valueChange)="attachmentChanged($event, 'pdf')"></dx-file-uploader>
+                                        </div>
+                                        <div *ngSwitchCase="3">
+                                            <dx-text-area [placeholder]="feature.attachmentDescriptionTr"></dx-text-area>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <dx-button icon="bi bi-info-circle text-primary"
-                                           class="rounded rounded-circle"
-                                           stylingMode="text"
-                                           (onClick)="showFeatureDescriptionPopup(feature)"></dx-button>
-                            </div>
+                            <dx-button icon="bi bi-info-circle text-primary"
+                                       class="rounded rounded-circle flex-shrink-0"
+                                       stylingMode="text"
+                                       (onClick)="showFeatureDescriptionPopup(feature)"></dx-button>
                         </div>
                     </dxi-item>
                 </dxi-item>
@@ -190,7 +231,7 @@
                              *dxTemplate>
                             <div class="border rounded d-flex align-items-center justify-content-center p-1 bg-white image-drop-zone overflow-hidden"
                                  [ngClass]="{ 'border-primary'  : dropZoneEnter }"
-                                 style="width: 240px; height: 240px;">
+                                 style="width: 240px; height: 240px; cursor: pointer;">
                                 <img [attr.src]="!newOrderItem.image ? 'assets/images/no-image.png' : newOrderItem.image"
                                      class="img-fluid object-fit-cover" />
                                 <div *ngIf="!newOrderItem.image"
@@ -205,7 +246,6 @@
                                               [visible]="false"
                                               [multiple]="false"
                                               accept="image/*"
-                                              [allowedFileExtensions]="['.jpg', '.jpeg', '.gif', '.png']"
                                               (onDropZoneEnter)="imageDropzoneEnter($event)"
                                               (onDropZoneLeave)="imageDropzoneLeave($event)"
                                               (onValueChanged)="imageDropzoneValueChange($event)"></dx-file-uploader>
