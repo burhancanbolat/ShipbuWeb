@@ -16,7 +16,7 @@ export class PlaceOrderComponent implements OnInit {
     protected readonly utilityService: UtilityService,
     protected readonly transportOrderItemFeaturesService: TransportOrderItemFeaturesService,
   ) {
-
+    this.validateTransportValue = this.validateTransportValue.bind(this);
   }
 
 
@@ -48,6 +48,9 @@ export class PlaceOrderComponent implements OnInit {
       icon: 'bi bi-stack',
     },
   ];
+  protected currentOrderItemType: any = this.orderItemTypeTabs[0];
+  protected validationMessage = "Lütfen geçerli bir değer giriniz!";
+
   async ngOnInit(): Promise<any> {
     this.resetForm();
     this.utilityService.loadingPanelVisible = true;
@@ -73,7 +76,7 @@ export class PlaceOrderComponent implements OnInit {
   protected hasFeature(feature: any) {
     return this.newOrderItem.features.find((e: any) => e == feature);
   }
-  
+
   protected imageDropzoneEnter(e: any) {
     this.dropZoneEnter = true;
   }
@@ -107,8 +110,7 @@ export class PlaceOrderComponent implements OnInit {
       if (result.isValid) {
         this.items.push({ ...this.newOrderItem });
         this.newOrderItemForm.instance.clear();
-        this.newOrderItem.image = undefined;
-        this.newOrderItem.features = [];
+        this.resetForm();
       }
       else {
         notify({
@@ -120,20 +122,51 @@ export class PlaceOrderComponent implements OnInit {
     }
   }
 
-
-
   private resetForm() {
     this.newOrderItem = {
-      quantity: undefined,
-      weight: undefined,
-      height: undefined,
-      width: undefined,
-      length: undefined,
-      contents: undefined,
-      products: undefined,
+      quantity: 1,
+      weight: 1,
+      height: 1,
+      width: 1,
+      length: 1,
+      contents: '',
+      products: 1,
       features: [],
-      image: undefined,
+      image: null
     };
   }
 
+  protected orderItemTypeTabChanged(e: any) {
+    this.currentOrderItemType = e.itemData;
+  }
+
+  protected validateTransportValue(e: any) {
+    let result = false;
+    console.log(e.value, e.formItem.dataField, this.currentOrderItemType.id == 2);
+    switch (e.formItem.dataField) {
+      case "quantity":
+        result = (e.value > 0);
+        break;
+      case "weight":
+        result = (e.value > 0);
+        break;
+      case "width":
+        result = (e.value > 0) || this.currentOrderItemType.id == 2;
+        break;
+      case "height":
+        result = (e.value > 0) || this.currentOrderItemType.id == 2;
+        break;
+      case "length":
+        result = (e.value > 0) || this.currentOrderItemType.id == 2;
+        break;
+      case "contents":
+        result = e.value.length > 0 || this.currentOrderItemType.id == 2;
+        break;
+      case "products":
+        result = (e.value > 0) || this.currentOrderItemType.id != 0;
+        break;
+
+    }
+    return result;
+  }
 }
