@@ -151,7 +151,7 @@
                                          message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
                 </dxi-item>
                 <dxi-item dataField="contents"
-                          [visible]="currentOrderItemType.id != 2">
+                          [visible]="currentOrderItemType.id != 2" [editorOptions]="[]">
                     <dxo-label [visible]="false"
                                text="Kategori / İçerik"></dxo-label>
                     <dxi-validation-rule type="custom"
@@ -174,9 +174,9 @@
             <dxi-item itemType="group"
                       colCount="8">
                 <dxi-item itemType="group"
-                          colSpan="6"
+                          [colSpan]="5"
                           caption="Paket İşlemleri"
-                          [colCount]="2">
+                          [colCount]="1">
                     <dxi-item *ngFor="let feature of features">
                         <dxo-label [visible]="false"></dxo-label>
                         <div class="d-flex align-items-start gap-2 border rounded p-2"
@@ -193,11 +193,18 @@
                                 <div *ngIf="hasFeatureAttachment(feature)">
                                     <div [ngSwitch]="feature.type">
                                         <div *ngSwitchCase="1">
-                                            Image
-                                        </div>
-                                        <div *ngSwitchCase="2">
                                             <div class="p-4 rounded-4 app-dropzone pdf-dropzone">
-                                                PDF Dosyası seçin ya da buraya sürükleyin
+                                                <div *ngIf="!feature.attachment">
+                                                    Görsel Dosyası seçin ya da buraya sürükleyin
+                                                </div>
+                                                <div *ngIf="feature.attachment" class="d-flex align-items-center gap-2">
+                                                    <i class="bi bi-file-image" style="font-size: 1.5rem;"></i>
+                                                    <div class="flex-fill text-truncate overflow-hidden">
+                                                        {{ feature.attachmentFileName }}
+                                                    </div>
+                                                    <i class="bi bi-check text-success" style="font-size: 1.5rem;"></i>
+                                                </div>
+                                                
                                             </div>
                                             <dx-file-uploader uploadMode="useButtons"
                                                               [visible]="false"
@@ -205,10 +212,32 @@
                                                               dialogTrigger=".pdf-dropzone"
                                                               dropZone=".pdf-dropzone"
                                                               [showFileList]="false"
-                                                              accept="application/pdf" (valueChange)="attachmentChanged($event, 'pdf')"></dx-file-uploader>
+                                                              accept="image/*" (valueChange)="attachmentChanged($event, feature)"></dx-file-uploader>
+                                        </div>
+                                        <div *ngSwitchCase="2">
+                                            <div class="p-4 rounded-4 app-dropzone pdf-dropzone">
+                                                <div *ngIf="!feature.attachment">
+                                                    PDF Dosyası seçin ya da buraya sürükleyin
+                                                </div>
+                                                <div *ngIf="feature.attachment" class="d-flex align-items-center gap-2">
+                                                    <i class="bi bi-filetype-pdf" style="font-size: 1.5rem;"></i>
+                                                    <div class="flex-fill text-truncate overflow-hidden">
+                                                        {{ feature.attachmentFileName }}
+                                                    </div>
+                                                    <i class="bi bi-check text-success" style="font-size: 1.5rem;"></i>
+                                                </div>
+                                                
+                                            </div>
+                                            <dx-file-uploader uploadMode="useButtons"
+                                                              [visible]="false"
+                                                              [multiple]="false"
+                                                              dialogTrigger=".pdf-dropzone"
+                                                              dropZone=".pdf-dropzone"
+                                                              [showFileList]="false"
+                                                              accept="application/pdf" (valueChange)="attachmentChanged($event, feature)"></dx-file-uploader>
                                         </div>
                                         <div *ngSwitchCase="3">
-                                            <dx-text-area [placeholder]="feature.attachmentDescriptionTr"></dx-text-area>
+                                            <dx-text-area [placeholder]="feature.attachmentDescriptionTr" (onValueChanged)="feature.attachment = $event.value"></dx-text-area>
                                         </div>
 
                                     </div>
@@ -222,15 +251,14 @@
                     </dxi-item>
                 </dxi-item>
                 <dxi-item itemType="group"
-                          [colSpan]="2"
+                          [colSpan]="3"
                           caption="Görsel"
                           [colCount]="1">
                     <dxi-item dataField="image">
                         <dxo-label [visible]="false"></dxo-label>
                         <div class="d-flex flex-column align-items-center justify-content-center gap-2"
                              *dxTemplate>
-                            <div class="border rounded d-flex align-items-center justify-content-center p-1 bg-white image-drop-zone overflow-hidden"
-                                 [ngClass]="{ 'border-primary'  : dropZoneEnter }"
+                            <div class="d-flex align-items-center justify-content-center p-1 app-dropzone image-drop-zone p-4 rounded-4 overflow-hidden"
                                  style="width: 240px; height: 240px; cursor: pointer;">
                                 <img [attr.src]="!newOrderItem.image ? 'assets/images/no-image.png' : newOrderItem.image"
                                      class="img-fluid object-fit-cover" />

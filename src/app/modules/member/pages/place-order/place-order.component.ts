@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DxFormComponent } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
+import { isEmpty } from 'rxjs';
 import { TransportOrderItemFeaturesService } from 'src/app/services/transport-order-item-features.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
@@ -112,8 +113,8 @@ export class PlaceOrderComponent implements OnInit {
       if (this.newOrderItemForm.instance.validate().isValid) {
         this.newOrderItem.type = { ...this.currentOrderItemType };
         this.items.push({ ...this.newOrderItem });
-        this.newOrderItemForm.instance.clear();
         this.resetForm();
+        this.newOrderItemForm.instance.clear();
       }
       else {
         notify({
@@ -127,13 +128,13 @@ export class PlaceOrderComponent implements OnInit {
 
   private resetForm() {
     this.newOrderItem = {
-      quantity: 1,
-      weight: 1,
-      height: 1,
-      width: 1,
-      length: 1,
-      contents: '',
-      products: 1,
+      quantity: null,
+      weight: null,
+      height: null,
+      width: null,
+      length: null,
+      contents: null,
+      products: null,
       features: [],
       image: null
     };
@@ -162,7 +163,7 @@ export class PlaceOrderComponent implements OnInit {
         result = (e.value > 0) || this.currentOrderItemType.id == 2;
         break;
       case "contents":
-        result = e.value.length > 0 || this.currentOrderItemType.id == 2;
+        result = e.value?.length >= 0 || this.currentOrderItemType.id == 2;
         break;
       case "products":
         result = (e.value > 0) || this.currentOrderItemType.id != 0;
@@ -171,8 +172,14 @@ export class PlaceOrderComponent implements OnInit {
     }
     return result;
   }
-  attachmentChanged(e: any, t: any) {
-    console.log(e, t);
+  attachmentChanged(e: any, feature: any) {
+    console.log(e, feature);
+    const reader = new FileReader();
+    reader.onloadend = (event) => {
+      feature.attachment = reader.result;
+      feature.attachmentFileName = e[0].name;
+    };
+    reader.readAsDataURL(e[0]);
   }
 
 }
