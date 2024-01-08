@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'shipbu';
-  src:  url('fonts/shipbu.eot?h0h9rp');
-  src:  url('fonts/shipbu.eot?h0h9rp#iefix') format('embedded-opentype'),
-    url('fonts/shipbu.ttf?h0h9rp') format('truetype'),
-    url('fonts/shipbu.woff?h0h9rp') format('woff'),
-    url('fonts/shipbu.svg?h0h9rp#shipbu') format('svg');
+  font-family: "shipbu";
+  src: url("fonts/shipbu.eot?yc3tq6");
+  src: url("fonts/shipbu.eot?yc3tq6#iefix") format("embedded-opentype"),
+    url("fonts/shipbu.ttf?yc3tq6") format("truetype"),
+    url("fonts/shipbu.woff?yc3tq6") format("woff"),
+    url("fonts/shipbu.svg?yc3tq6#shipbu") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -12,7 +12,7 @@
 
 i {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'shipbu' !important;
+  font-family: "shipbu" !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -25,46 +25,14 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.si-gbsi .path1:before {
-  content: "\e900";
-  color: rgb(1, 33, 105);
-}
-.si-gbsi .path2:before {
-  content: "\e901";
-  margin-left: -1.3330078125em;
-  color: rgb(255, 255, 255);
-}
-.si-gbsi .path3:before {
-  content: "\e902";
-  margin-left: -1.3330078125em;
-  color: rgb(200, 16, 46);
-}
-.si-gbsi .path4:before {
-  content: "\e903";
-  margin-left: -1.3330078125em;
-  color: rgb(255, 255, 255);
-}
-.si-gbsi .path5:before {
-  content: "\e904";
-  margin-left: -1.3330078125em;
-  color: rgb(200, 16, 46);
-}
-.si-trsi .path1:before {
-  content: "\e905";
-  color: rgb(227, 10, 23);
-}
-.si-trsi .path2:before {
-  content: "\e906";
-  margin-left: -1.3330078125em;
-  color: rgb(255, 255, 255);
-}
-.si-trsi .path3:before {
-  content: "\e907";
-  margin-left: -1.3330078125em;
-  color: rgb(227, 10, 23);
-}
-.si-trsi .path4:before {
-  content: "\e908";
-  margin-left: -1.3330078125em;
-  color: rgb(255, 255, 255);
+.si {
+  &.si-si-container:before {
+    content: "\e900";
+  }
+  &.si-si-box:before {
+    content: "\e901";
+  }
+  &.si-si-pallet:before {
+    content: "\e902";
+  }
 }
