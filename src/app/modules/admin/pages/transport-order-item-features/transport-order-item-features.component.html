@@ -41,6 +41,13 @@
                                 </dxi-item>
                                 <dxi-item itemType="empty"
                                           [colSpan]="3"></dxi-item>
+                                <dxi-item dataField="fee"
+                                          editorType="dxNumberBox">
+                                    <dxo-label location="top"
+                                               text="Ücret"></dxo-label>
+                                </dxi-item>
+                                <dxi-item itemType="empty"
+                                          [colSpan]="3"></dxi-item>
                                 <dxi-item dataField="type"
                                           editorType="dxSelectBox"
                                           [editorOptions]="typesEditorOptions">
@@ -88,13 +95,19 @@
                     name="displayName"
                     caption="İşlem Adı"
                     cellTemplate="labelCellTemplate"></dxi-column>
+        <dxi-column dataField="fee"
+                    width="120"
+                    caption="Ücret"
+                    [visible]="true"
+                    dataType="number"></dxi-column>
         <dxi-column dataField="type"
                     width="120"
                     caption="Eklenti Türü"
                     cellTemplate="typeCellTemplate"></dxi-column>
         <dxi-column dataField="enabled"
                     width="120"
-                    caption="Durum" dataType="boolean"></dxi-column>
+                    caption="Durum"
+                    dataType="boolean"></dxi-column>
         <dxi-column dataField="nameTr"
                     [visible]="false"></dxi-column>
         <dxi-column dataField="nameEn"

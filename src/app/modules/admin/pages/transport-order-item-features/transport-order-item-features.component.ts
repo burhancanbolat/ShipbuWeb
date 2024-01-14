@@ -10,7 +10,7 @@ import { TransportOrderItemFeaturesService } from 'src/app/services/transport-or
 export class TransportOrderItemFeaturesComponent {
   constructor(
     protected readonly transportOrderItemFeaturesService: TransportOrderItemFeaturesService,
-  ) { 
+  ) {
     this.onReorder = this.onReorder.bind(this);
   }
 
@@ -27,6 +27,7 @@ export class TransportOrderItemFeaturesComponent {
 
   onInitNewRow(e: any) {
     e.data.enabled = true;
+    e.data.fee = 0;
   }
 
   onRowInserting(e: any) {
@@ -37,11 +38,11 @@ export class TransportOrderItemFeaturesComponent {
     e.newData = { ...e.oldData, ...e.newData };
   }
 
-  onReorder(e:any) {
+  onReorder(e: any) {
     e.promise = this.processReorder(e);
   }
 
-  async processReorder(e:any) {
+  async processReorder(e: any) {
     const visibleRows = e.component.getVisibleRows();
     const from = visibleRows[e.fromIndex].data.id;
     const to = visibleRows[e.toIndex].data.id;

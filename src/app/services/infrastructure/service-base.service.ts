@@ -106,9 +106,9 @@ export abstract class BaseService {
       });
     }
   }
-  protected key!: any;
-  protected endpoint!: string;
-  protected httpClient!: HttpClient;
+  key!: any;
+  endpoint!: string;
+  httpClient!: HttpClient;
   store!: CustomStore;
 
 }

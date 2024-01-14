@@ -1,353 +1,393 @@
-<app-page-header title="Yeni Yük"></app-page-header>
-<app-panel class="mb-4">
-    <dx-data-grid [showBorders]="true"
-                  [showRowLines]="true"
-                  [rowAlternationEnabled]="true"
-                  [dataSource]="items"
-                  noDataText="Aşağıdaki formu kullanarak yüklerinizi ekleyiniz..."
-                  (onRowRemoved)="onRowRemoved($event)"
-                  class="shadow-sm">
-        <dxo-editing [allowDeleting]="true"
-                     [useIcons]="true"></dxo-editing>
-        <dxo-master-detail [enabled]="true"
-                           template="detailTemplate"></dxo-master-detail>
-        <dxo-toolbar>
-            <dxi-item>
-                <div *dxTemplate>
-                    <dx-button text="Temizle"
-                               icon="bi bi-x"
-                               type="danger"
-                               stylingMode="text"
-                               [visible]="items.length != 0"
-                               (onClick)="clearItems()"></dx-button>
+<app-page-header title="Teklif Al"></app-page-header>
+<div [ngSwitch]="step">
+    <div *ngSwitchCase="'contents'">
+        <app-section-header title="Yeni Yük"></app-section-header>
+        <app-panel class="mb-4">
+            <dx-data-grid [showBorders]="true"
+                          [showRowLines]="true"
+                          [rowAlternationEnabled]="true"
+                          [dataSource]="newOrder.items"
+                          noDataText="Aşağıdaki formu kullanarak yüklerinizi ekleyiniz..."
+                          (onRowRemoved)="onRowRemoved($event)"
+                          class="shadow-sm">
+                <dxo-editing [allowDeleting]="true"
+                             [useIcons]="true"></dxo-editing>
+                <dxo-master-detail [enabled]="true"
+                                   template="detailTemplate"></dxo-master-detail>
+                <dxo-toolbar>
+                    <dxi-item>
+                        <div *dxTemplate>
+                            <dx-button text="Temizle"
+                                       icon="bi bi-x"
+                                       type="danger"
+                                       stylingMode="text"
+                                       [visible]="newOrder.items.length != 0"
+                                       (onClick)="clearItems()"></dx-button>
+                        </div>
+
+                    </dxi-item>
+                    <dxi-item>
+                        <div *dxTemplate>
+                            <dx-button text="Devam"
+                                       icon="bi bi-arrow-right"
+                                       type="success"
+                                       [visible]="newOrder.items.length != 0"
+                                       (onClick)="step = 'destination'"></dx-button>
+                        </div>
+                    </dxi-item>
+                </dxo-toolbar>
+                <dxi-column dataField="type"
+                            caption="Tip"
+                            width="80"
+                            cellTemplate="typeCellTemplate"></dxi-column>
+                <dxi-column dataField="image"
+                            caption="Görsel"
+                            cellTemplate="imageCellTemplate"></dxi-column>
+                <dxi-column dataField="quantity"
+                            format="#,##0"
+                            caption="Adet"></dxi-column>
+                <dxi-column dataField="weight"
+                            format="#,##0"
+                            caption="Ağırlık"></dxi-column>
+                <dxi-column dataField="amount"
+                            format="#,##0"
+                            caption="Toplam Ağırlık"></dxi-column>
+                <dxi-column dataField="width"
+                            caption="En (cm)"></dxi-column>
+                <dxi-column dataField="length"
+                            caption="Boy (cm)"></dxi-column>
+                <dxi-column dataField="height"
+                            caption="Yükseklik (cm)"></dxi-column>
+                <dxi-column dataField="contents"
+                            caption="Kategori / İçerik"></dxi-column>
+                <dxi-column dataField="products"
+                            caption="Ürün Adedi"></dxi-column>
+                <div *dxTemplate="let cellInfo of 'typeCellTemplate'"
+                     class="d-flex flex-column gap-2 align-items-center justify-content-center">
+                    <div [ngSwitch]="cellInfo.data.type.id">
+                        <i *ngSwitchCase="0"
+                           class="bi bi-box"></i>
+                        <i *ngSwitchCase="1"
+                           class="bi bi-boxes"></i>
+                        <i *ngSwitchCase="2"
+                           class="bi bi-stack"></i>
+                    </div>
+                    <div>{{cellInfo.data.type.text}}</div>
+                </div>
+                <div *dxTemplate="let cellInfo of 'imageCellTemplate'">
+                    <img [attr.src]="cellInfo.data.image"
+                         class="object-fit-contain"
+                         height="60"
+                         width="60" />
                 </div>
 
-            </dxi-item>
-            <dxi-item>
-                <div *dxTemplate>
-                    <dx-button text="Devam"
-                               icon="bi bi-arrow-right"
-                               type="success"
-                               [visible]="items.length != 0"
-                               (onClick)="clearItems()"></dx-button>
+                <div *dxTemplate="let cellInfo of 'detailTemplate'">
+                    <div class="card">
+                        <div class="card-header">Seçilen İşlemler</div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li *ngFor="let feature of cellInfo.data.features"
+                                    class="d-flex">
+                                    <i class="bi bi-check text-success"></i>
+                                    <div class="flex-fill">{{feature.nameTr}}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </dxi-item>
-        </dxo-toolbar>
-        <dxi-column dataField="type"
-                    caption="Tip"
-                    width="80"
-                    cellTemplate="typeCellTemplate"></dxi-column>
-        <dxi-column dataField="image"
-                    caption="Görsel"
-                    cellTemplate="imageCellTemplate"></dxi-column>
-        <dxi-column dataField="quantity"
-                    format="#,##0"
-                    caption="Adet"></dxi-column>
-        <dxi-column dataField="weight"
-                    format="#,##0"
-                    caption="Ağırlık"></dxi-column>
-        <dxi-column dataField="amount"
-                    format="#,##0"
-                    caption="Toplam Ağırlık"></dxi-column>
-        <dxi-column dataField="width"
-                    caption="En (cm)"></dxi-column>
-        <dxi-column dataField="length"
-                    caption="Boy (cm)"></dxi-column>
-        <dxi-column dataField="height"
-                    caption="Yükseklik (cm)"></dxi-column>
-        <dxi-column dataField="contents"
-                    caption="Kategori / İçerik"></dxi-column>
-        <dxi-column dataField="products"
-                    caption="Ürün Adedi"></dxi-column>
-        <div *dxTemplate="let cellInfo of 'typeCellTemplate'"
-             class="d-flex flex-column gap-2 align-items-center justify-content-center">
-            <div [ngSwitch]="cellInfo.data.type.id">
-                <i *ngSwitchCase="0"
-                   class="si si-si-box"></i>
-                <i *ngSwitchCase="1"
-                   class="si si-si-pallet"></i>
-                <i *ngSwitchCase="2"
-                   class="si si-si-container"></i>
-            </div>
-            <div>{{cellInfo.data.type.text}}</div>
-        </div>
-        <div *dxTemplate="let cellInfo of 'imageCellTemplate'">
-            <img [attr.src]="cellInfo.data.image"
-                 class="object-fit-contain"
-                 height="60"
-                 width="60" />
-        </div>
+            </dx-data-grid>
+        </app-panel>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="d-flex">
+                    <dx-tabs [dataSource]="orderItemTypeTabs"
+                             width="auto"
+                             width="400"
+                             iconPosition="top"
+                             [selectedIndex]="0"
+                             iconPosition="top"
+                             (onItemClick)="orderItemTypeTabChanged($event)">
+                    </dx-tabs>
+                    <div class="flex-fill border-bottom">&nbsp;</div>
+                </div>
+                <dx-form #newOrderItemForm
+                         [formData]="newOrderItem"
+                         [colCount]="1"
+                         [labelMode]="'static'">
+                    <dxi-item itemType="group"
+                              [colCount]="8"
+                              cssClass="p-4 border border-top-0 shadow-sm">
+                        <dxi-item dataField="containerType"
+                                  [visible]="currentOrderItemType.id == 2"
+                                  editorType="dxSelectBox"
+                                  [editorOptions]="{ displayExpr: 'nameTr', dataSource : transportOrderItemContainerTypesService.store }">
+                            <dxo-label [visible]="false"
+                                       text="Konteyner Türü"></dxo-label>
+                            <dxi-validation-rule type="custom"
+                                                 [validationCallback]="validateTransportValue"
+                                                 [message]="validationMessage"></dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item dataField="quantity"
+                                  editorType="dxNumberBox"
+                                  [editorOptions]="{ min : 1 }">
+                            <dxo-label [visible]="false"
+                                       text="Adet"></dxo-label>
+                            <dxi-validation-rule type="custom"
+                                                 [validationCallback]="validateTransportValue"
+                                                 [message]="validationMessage"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern"
+                                                 pattern="[0-9]+"
+                                                 message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item dataField="weight"
+                                  editorType="dxNumberBox"
+                                  [editorOptions]="{ min : 1 }">
+                            <dxo-label [visible]="false"
+                                       [text]="currentOrderItemType.id == 2 ? 'Adet Tonaj (ton)' : 'Adet Ağırlık (kg)'"></dxo-label>
+                            <dxi-validation-rule type="custom"
+                                                 [validationCallback]="validateTransportValue"
+                                                 [message]="validationMessage"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern"
+                                                 pattern="[0-9]+"
+                                                 message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item dataField="amount"
+                                  [editorOptions]="{ disabled: true, value : getAmount }">
+                            <dxo-label [visible]="false"
+                                       text="Toplam Ağırlık"></dxo-label>
+                        </dxi-item>
+                        <dxi-item dataField="width"
+                                  editorType="dxNumberBox"
+                                  [editorOptions]="{ min : 1, value : currentOrderItemType.id == 1 ? 120 : null, disabled : currentOrderItemType.id == 1 }"
+                                  [visible]="currentOrderItemType.id != 2"
+                                  [disabled]="">
+                            <dxo-label [visible]="false"
+                                       text="En (cm)"></dxo-label>
+                            <dxi-validation-rule type="custom"
+                                                 [validationCallback]="validateTransportValue"
+                                                 [message]="validationMessage"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern"
+                                                 pattern="[0-9]+"
+                                                 message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item dataField="length"
+                                  editorType="dxNumberBox"
+                                  [editorOptions]="{ min : 1, value : currentOrderItemType.id == 1 ? 80 : null, disabled : currentOrderItemType.id == 1 }"
+                                  [visible]="currentOrderItemType.id != 2">
+                            <dxo-label [visible]="false"
+                                       text="Boy (cm)"></dxo-label>
+                            <dxi-validation-rule type="custom"
+                                                 [validationCallback]="validateTransportValue"
+                                                 [message]="validationMessage"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern"
+                                                 pattern="[0-9]+"
+                                                 message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item dataField="height"
+                                  editorType="dxNumberBox"
+                                  [editorOptions]="{ min : 1 }"
+                                  [visible]="currentOrderItemType.id != 2">
+                            <dxo-label [visible]="false"
+                                       text="Yükseklik (cm)"></dxo-label>
+                            <dxi-validation-rule type="custom"
+                                                 [validationCallback]="validateTransportValue"
+                                                 [message]="validationMessage"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern"
+                                                 pattern="[0-9]+"
+                                                 message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item dataField="contents"
+                                  [visible]="currentOrderItemType.id != 2"
+                                  [editorOptions]="{ }">
+                            <dxo-label [visible]="false"
+                                       text="Kategori / İçerik"></dxo-label>
+                            <dxi-validation-rule type="custom"
+                                                 [validationCallback]="validateTransportValue"
+                                                 [message]="validationMessage"></dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item dataField="products"
+                                  editorType="dxNumberBox"
+                                  [editorOptions]="{ min : 1 }"
+                                  [visible]="currentOrderItemType.id == 0">
+                            <dxo-label [visible]="false"
+                                       text="Ürün Adedi"></dxo-label>
+                            <dxi-validation-rule type="custom"
+                                                 [validationCallback]="validateTransportValue"
+                                                 [message]="validationMessage"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern"
+                                                 pattern="[0-9]+"
+                                                 message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
+                        </dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group"
+                              colCount="8">
+                        <dxi-item itemType="group"
+                                  [colSpan]="5"
+                                  caption="Paket İşlemleri"
+                                  [colCount]="1">
+                            <dxi-item *ngFor="let feature of features">
+                                <dxo-label [visible]="false"></dxo-label>
+                                <div class="d-flex align-items-center gap-2 border rounded p-2"
+                                     *dxTemplate>
+                                    <dx-switch switchedOffText="Hayır"
+                                               switchedOnText="Evet"
+                                               width="60"
+                                               (valueChange)="switchFeature(feature)"
+                                               [value]="hasFeature(feature)"></dx-switch>
+                                    <div class="flex-fill d-flex flex-column gap-3">
+                                        <label (click)="switchFeature(feature)"
+                                               style="cursor: pointer;">
+                                            {{feature.nameTr}}
+                                        </label>
+                                        <div *ngIf="hasFeatureAttachment(feature)">
+                                            <div [ngSwitch]="feature.type">
+                                                <div *ngSwitchCase="1">
+                                                    <div class="p-4 rounded-4 app-dropzone pdf-dropzone">
+                                                        <div *ngIf="!feature.attachment">
+                                                            Görsel Dosyası seçin ya da buraya sürükleyin
+                                                        </div>
+                                                        <div *ngIf="feature.attachment"
+                                                             class="d-flex align-items-center gap-2">
+                                                            <i class="bi bi-file-image"
+                                                               style="font-size: 1.5rem;"></i>
+                                                            <div class="flex-fill text-truncate overflow-hidden">
+                                                                {{ feature.attachmentFileName }}
+                                                            </div>
+                                                            <i class="bi bi-check text-success"
+                                                               style="font-size: 1.5rem;"></i>
+                                                        </div>
 
-        <div *dxTemplate="let cellInfo of 'detailTemplate'">
-            <div class="card">
-                <div class="card-header">Seçilen İşlemler</div>
-                <div class="card-body">
-                    <ul class="list-unstyled">
-                        <li *ngFor="let feature of cellInfo.data.features"
-                            class="d-flex">
-                            <i class="bi bi-check text-success"></i>
-                            <div class="flex-fill">{{feature.nameTr}}</div>
-                        </li>
-                    </ul>
-                </div>
+                                                    </div>
+                                                    <dx-file-uploader uploadMode="useButtons"
+                                                                      [visible]="false"
+                                                                      [multiple]="false"
+                                                                      dialogTrigger=".pdf-dropzone"
+                                                                      dropZone=".pdf-dropzone"
+                                                                      [showFileList]="false"
+                                                                      accept="image/*"
+                                                                      (valueChange)="attachmentChanged($event, feature)"></dx-file-uploader>
+                                                </div>
+                                                <div *ngSwitchCase="2">
+                                                    <div class="p-4 rounded-4 app-dropzone pdf-dropzone">
+                                                        <div *ngIf="!feature.attachment">
+                                                            PDF Dosyası seçin ya da buraya sürükleyin
+                                                        </div>
+                                                        <div *ngIf="feature.attachment"
+                                                             class="d-flex align-items-center gap-2">
+                                                            <i class="bi bi-filetype-pdf"
+                                                               style="font-size: 1.5rem;"></i>
+                                                            <div class="flex-fill text-truncate">
+                                                                {{ feature.attachmentFileName }}
+                                                            </div>
+                                                            <i class="bi bi-check text-success"
+                                                               style="font-size: 1.5rem;"></i>
+                                                        </div>
+
+                                                    </div>
+                                                    <dx-file-uploader uploadMode="useButtons"
+                                                                      [visible]="false"
+                                                                      [multiple]="false"
+                                                                      dialogTrigger=".pdf-dropzone"
+                                                                      dropZone=".pdf-dropzone"
+                                                                      [showFileList]="false"
+                                                                      accept="application/pdf"
+                                                                      (valueChange)="attachmentChanged($event, feature)"></dx-file-uploader>
+                                                </div>
+                                                <div *ngSwitchCase="3">
+                                                    <dx-text-area [placeholder]="feature.attachmentDescriptionTr"
+                                                                  (onValueChanged)="feature.attachment = $event.value"></dx-text-area>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span *ngIf="feature.fee>0">${{feature.fee}}</span>
+                                    </div>
+                                    <dx-button icon="bi bi-info-circle text-primary"
+                                               class="rounded rounded-circle flex-shrink-0"
+                                               stylingMode="text"
+                                               (onClick)="showFeatureDescriptionPopup(feature)"></dx-button>
+                                </div>
+                            </dxi-item>
+                        </dxi-item>
+                        <dxi-item itemType="group"
+                                  [colSpan]="3"
+                                  caption="Görsel"
+                                  [colCount]="1">
+                            <dxi-item dataField="image">
+                                <dxo-label [visible]="false"></dxo-label>
+                                <div class="d-flex flex-column align-items-center justify-content-center gap-2"
+                                     *dxTemplate>
+                                    <div class="d-flex align-items-center justify-content-center p-1 app-dropzone image-drop-zone p-4 rounded-4 overflow-hidden"
+                                         style="width: 240px; height: 240px; cursor: pointer;">
+                                        <img [attr.src]="!newOrderItem.image ? 'assets/images/no-image.png' : newOrderItem.image"
+                                             class="img-fluid object-fit-cover" />
+                                        <div *ngIf="!newOrderItem.image"
+                                             class="position-absolute text-center"
+                                             style="max-width: 240px;">Görsel dosyasını buraya sürükleyin ya da buraya tıklayın...
+                                        </div>
+                                    </div>
+                                    <dx-file-uploader #fileUploader
+                                                      dialogTrigger=".image-drop-zone"
+                                                      dropZone=".image-drop-zone"
+                                                      uploadMode="useButtons"
+                                                      [visible]="false"
+                                                      [multiple]="false"
+                                                      accept="image/*"
+                                                      (onDropZoneEnter)="imageDropzoneEnter($event)"
+                                                      (onDropZoneLeave)="imageDropzoneLeave($event)"
+                                                      (onValueChanged)="imageDropzoneValueChange($event)"></dx-file-uploader>
+                                </div>
+                            </dxi-item>
+                        </dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                        <div *dxTemplate
+                             class="d-flex justify-content-end py-4">
+                            <dx-button text="Ekle"
+                                       icon="bi bi-plus"
+                                       type="success"
+                                       (onClick)="add()"></dx-button>
+                        </div>
+                    </dxi-item>
+                </dx-form>
             </div>
         </div>
-    </dx-data-grid>
-</app-panel>
-<div class="card shadow-sm">
-    <div class="card-body">
-        <div class="d-flex">
-            <dx-tabs [dataSource]="orderItemTypeTabs"
-                     width="auto"
-                     width="400"
-                     iconPosition="top"
-                     [selectedIndex]="0"
-                     iconPosition="top"
-                     (onItemClick)="orderItemTypeTabChanged($event)">
-            </dx-tabs>
-            <div class="flex-fill border-bottom">&nbsp;</div>
-        </div>
-        <dx-form #newOrderItemForm
-                 [formData]="newOrderItem"
-                 [colCount]="1"
+    </div>
+    <div *ngSwitchCase="'destination'">
+        <app-section-header title="Lokasyon Bilgileri"></app-section-header>
+        <dx-form [formData]="newOrder"
+                 [colCount]="4"
                  [labelMode]="'static'">
             <dxi-item itemType="group"
-                      [colCount]="8"
-                      cssClass="p-4 border border-top-0 shadow-sm">
-                <dxi-item dataField="containerType"
-                          [visible]="currentOrderItemType.id == 2"
+                      caption="Nereden">
+                <dxi-item dataField="origin"
                           editorType="dxSelectBox"
-                          [editorOptions]="{ displayExpr: 'nameTr', dataSource : transportOrderItemContainerTypesService.store }">
-                    <dxo-label [visible]="false"
-                               text="Konteyner Türü"></dxo-label>
-                    <dxi-validation-rule type="custom"
-                                         [validationCallback]="validateTransportValue"
-                                         [message]="validationMessage"></dxi-validation-rule>
-                </dxi-item>
-                <dxi-item dataField="quantity"
-                          editorType="dxNumberBox"
-                          [editorOptions]="{ min : 1 }">
-                    <dxo-label [visible]="false"
-                               text="Adet"></dxo-label>
-                    <dxi-validation-rule type="custom"
-                                         [validationCallback]="validateTransportValue"
-                                         [message]="validationMessage"></dxi-validation-rule>
-                    <dxi-validation-rule type="pattern"
-                                         pattern="[0-9]+"
-                                         message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
-                </dxi-item>
-                <dxi-item dataField="weight"
-                          editorType="dxNumberBox"
-                          [editorOptions]="{ min : 1 }">
-                    <dxo-label [visible]="false"
-                               [text]="currentOrderItemType.id == 2 ? 'Adet Tonaj (ton)' : 'Adet Ağırlık (kg)'"></dxo-label>
-                    <dxi-validation-rule type="custom"
-                                         [validationCallback]="validateTransportValue"
-                                         [message]="validationMessage"></dxi-validation-rule>
-                    <dxi-validation-rule type="pattern"
-                                         pattern="[0-9]+"
-                                         message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
-                </dxi-item>
-                <dxi-item dataField="amount"
-                          [editorOptions]="{ disabled: true, value : getAmount }">
-                    <dxo-label [visible]="false"
-                               text="Toplam Ağırlık"></dxo-label>
-                </dxi-item>
-                <dxi-item dataField="width"
-                          editorType="dxNumberBox"
-                          [editorOptions]="{ min : 1, value : currentOrderItemType.id == 1 ? 120 : null, disabled : currentOrderItemType.id == 1 }"
-                          [visible]="currentOrderItemType.id != 2"
-                          [disabled]="">
-                    <dxo-label [visible]="false"
-                               text="En (cm)"></dxo-label>
-                    <dxi-validation-rule type="custom"
-                                         [validationCallback]="validateTransportValue"
-                                         [message]="validationMessage"></dxi-validation-rule>
-                    <dxi-validation-rule type="pattern"
-                                         pattern="[0-9]+"
-                                         message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
-                </dxi-item>
-                <dxi-item dataField="length"
-                          editorType="dxNumberBox"
-                          [editorOptions]="{ min : 1, value : currentOrderItemType.id == 1 ? 80 : null, disabled : currentOrderItemType.id == 1 }"
-                          [visible]="currentOrderItemType.id != 2">
-                    <dxo-label [visible]="false"
-                               text="Boy (cm)"></dxo-label>
-                    <dxi-validation-rule type="custom"
-                                         [validationCallback]="validateTransportValue"
-                                         [message]="validationMessage"></dxi-validation-rule>
-                    <dxi-validation-rule type="pattern"
-                                         pattern="[0-9]+"
-                                         message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
-                </dxi-item>
-                <dxi-item dataField="height"
-                          editorType="dxNumberBox"
-                          [editorOptions]="{ min : 1 }"
-                          [visible]="currentOrderItemType.id != 2">
-                    <dxo-label [visible]="false"
-                               text="Yükseklik (cm)"></dxo-label>
-                    <dxi-validation-rule type="custom"
-                                         [validationCallback]="validateTransportValue"
-                                         [message]="validationMessage"></dxi-validation-rule>
-                    <dxi-validation-rule type="pattern"
-                                         pattern="[0-9]+"
-                                         message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
-                </dxi-item>
-                <dxi-item dataField="contents"
-                          [visible]="currentOrderItemType.id != 2"
-                          [editorOptions]="{ }">
-                    <dxo-label [visible]="false"
-                               text="Kategori / İçerik"></dxo-label>
-                    <dxi-validation-rule type="custom"
-                                         [validationCallback]="validateTransportValue"
-                                         [message]="validationMessage"></dxi-validation-rule>
-                </dxi-item>
-                <dxi-item dataField="products"
-                          editorType="dxNumberBox"
-                          [editorOptions]="{ min : 1 }"
-                          [visible]="currentOrderItemType.id == 0">
-                    <dxo-label [visible]="false"
-                               text="Ürün Adedi"></dxo-label>
-                    <dxi-validation-rule type="custom"
-                                         [validationCallback]="validateTransportValue"
-                                         [message]="validationMessage"></dxi-validation-rule>
-                    <dxi-validation-rule type="pattern"
-                                         pattern="[0-9]+"
-                                         message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
+                          [editorOptions]="{ dataSource : transportRegionsService.originsStore, displayExpr : 'nameTr', valueExpr : 'id', showClearButton : true }">
+                    <dxo-label text="Bölge Adı"></dxo-label>
                 </dxi-item>
             </dxi-item>
             <dxi-item itemType="group"
-                      colCount="8">
-                <dxi-item itemType="group"
-                          [colSpan]="5"
-                          caption="Paket İşlemleri"
-                          [colCount]="1">
-                    <dxi-item *ngFor="let feature of features">
-                        <dxo-label [visible]="false"></dxo-label>
-                        <div class="d-flex align-items-start gap-2 border rounded p-2"
-                             *dxTemplate>
-                            <dx-switch switchedOffText="Hayır"
-                                       switchedOnText="Evet"
-                                       width="60"
-                                       (valueChange)="switchFeature(feature)"
-                                       [value]="hasFeature(feature)"></dx-switch>
-                            <div class="flex-fill d-flex flex-column gap-3">
-                                <label (click)="switchFeature(feature)"
-                                       style="cursor: pointer;">
-                                    {{feature.nameTr}}
-                                </label>
-                                <div *ngIf="hasFeatureAttachment(feature)">
-                                    <div [ngSwitch]="feature.type">
-                                        <div *ngSwitchCase="1">
-                                            <div class="p-4 rounded-4 app-dropzone pdf-dropzone">
-                                                <div *ngIf="!feature.attachment">
-                                                    Görsel Dosyası seçin ya da buraya sürükleyin
-                                                </div>
-                                                <div *ngIf="feature.attachment"
-                                                     class="d-flex align-items-center gap-2">
-                                                    <i class="bi bi-file-image"
-                                                       style="font-size: 1.5rem;"></i>
-                                                    <div class="flex-fill text-truncate overflow-hidden">
-                                                        {{ feature.attachmentFileName }}
-                                                    </div>
-                                                    <i class="bi bi-check text-success"
-                                                       style="font-size: 1.5rem;"></i>
-                                                </div>
-
-                                            </div>
-                                            <dx-file-uploader uploadMode="useButtons"
-                                                              [visible]="false"
-                                                              [multiple]="false"
-                                                              dialogTrigger=".pdf-dropzone"
-                                                              dropZone=".pdf-dropzone"
-                                                              [showFileList]="false"
-                                                              accept="image/*"
-                                                              (valueChange)="attachmentChanged($event, feature)"></dx-file-uploader>
-                                        </div>
-                                        <div *ngSwitchCase="2">
-                                            <div class="p-4 rounded-4 app-dropzone pdf-dropzone">
-                                                <div *ngIf="!feature.attachment">
-                                                    PDF Dosyası seçin ya da buraya sürükleyin
-                                                </div>
-                                                <div *ngIf="feature.attachment"
-                                                     class="d-flex align-items-center gap-2">
-                                                    <i class="bi bi-filetype-pdf"
-                                                       style="font-size: 1.5rem;"></i>
-                                                    <div class="flex-fill text-truncate">
-                                                        {{ feature.attachmentFileName }}
-                                                    </div>
-                                                    <i class="bi bi-check text-success"
-                                                       style="font-size: 1.5rem;"></i>
-                                                </div>
-
-                                            </div>
-                                            <dx-file-uploader uploadMode="useButtons"
-                                                              [visible]="false"
-                                                              [multiple]="false"
-                                                              dialogTrigger=".pdf-dropzone"
-                                                              dropZone=".pdf-dropzone"
-                                                              [showFileList]="false"
-                                                              accept="application/pdf"
-                                                              (valueChange)="attachmentChanged($event, feature)"></dx-file-uploader>
-                                        </div>
-                                        <div *ngSwitchCase="3">
-                                            <dx-text-area [placeholder]="feature.attachmentDescriptionTr"
-                                                          (onValueChanged)="feature.attachment = $event.value"></dx-text-area>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <dx-button icon="bi bi-info-circle text-primary"
-                                       class="rounded rounded-circle flex-shrink-0"
-                                       stylingMode="text"
-                                       (onClick)="showFeatureDescriptionPopup(feature)"></dx-button>
-                        </div>
-                    </dxi-item>
+                      caption="Nereye">
+                <dxi-item dataField="destination"
+                          editorType="dxSelectBox"
+                          [editorOptions]="{ dataSource : transportRegionsService.destinationsStore, displayExpr : 'nameTr', showClearButton : true }">
+                    <dxo-label text="Bölge Adı"></dxo-label>
                 </dxi-item>
-                <dxi-item itemType="group"
-                          [colSpan]="3"
-                          caption="Görsel"
-                          [colCount]="1">
-                    <dxi-item dataField="image">
-                        <dxo-label [visible]="false"></dxo-label>
-                        <div class="d-flex flex-column align-items-center justify-content-center gap-2"
-                             *dxTemplate>
-                            <div class="d-flex align-items-center justify-content-center p-1 app-dropzone image-drop-zone p-4 rounded-4 overflow-hidden"
-                                 style="width: 240px; height: 240px; cursor: pointer;">
-                                <img [attr.src]="!newOrderItem.image ? 'assets/images/no-image.png' : newOrderItem.image"
-                                     class="img-fluid object-fit-cover" />
-                                <div *ngIf="!newOrderItem.image"
-                                     class="position-absolute text-center"
-                                     style="max-width: 240px;">Görsel dosyasını buraya sürükleyin ya da buraya tıklayın...
-                                </div>
-                            </div>
-                            <dx-file-uploader #fileUploader
-                                              dialogTrigger=".image-drop-zone"
-                                              dropZone=".image-drop-zone"
-                                              uploadMode="useButtons"
-                                              [visible]="false"
-                                              [multiple]="false"
-                                              accept="image/*"
-                                              (onDropZoneEnter)="imageDropzoneEnter($event)"
-                                              (onDropZoneLeave)="imageDropzoneLeave($event)"
-                                              (onValueChanged)="imageDropzoneValueChange($event)"></dx-file-uploader>
-                        </div>
-                    </dxi-item>
+                <dxi-item dataField="district"
+                          *ngIf="newOrder.destination"
+                          editorType="dxSelectBox"
+                          [editorOptions]="{ items : newOrder.destination.districts, displayExpr : 'nameTr', showClearButton : true }">
+                    <dxo-label text="Lokasyon Adı"></dxo-label>
                 </dxi-item>
-            </dxi-item>
-            <dxi-item itemType="group">
-                <div *dxTemplate
-                     class="d-flex justify-content-end py-4">
-                    <dx-button text="Ekle"
-                               icon="bi bi-plus"
-                               type="success"
-                               (onClick)="add()"></dx-button>
-                </div>
             </dxi-item>
         </dx-form>
     </div>
+    <div *ngSwitchCase="'order'">
+    </div>
 </div>
+
 <dx-popup [(visible)]="featureDescriptionPopupVisible"
           title="Paket İşlemi Hakkında"
           [showTitle]="true"

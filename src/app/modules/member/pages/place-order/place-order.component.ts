@@ -6,6 +6,7 @@ import * as dialog from 'devextreme/ui/dialog';
 import { TransportOrderItemFeaturesService } from 'src/app/services/transport-order-item-features.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { TransportOrderItemContainerTypesService } from 'src/app/services/transport-order-item-container-types.service';
+import { TransportRegionsService } from 'src/app/services/transport-regions.service';
 
 @Component({
   selector: 'app-place-order',
@@ -19,6 +20,7 @@ export class PlaceOrderComponent implements OnInit {
     protected readonly utilityService: UtilityService,
     protected readonly transportOrderItemFeaturesService: TransportOrderItemFeaturesService,
     protected readonly transportOrderItemContainerTypesService: TransportOrderItemContainerTypesService,
+    protected readonly transportRegionsService: TransportRegionsService,
   ) {
     this.validateTransportValue = this.validateTransportValue.bind(this);
   }
@@ -29,31 +31,35 @@ export class PlaceOrderComponent implements OnInit {
   @ViewChild('newOrderItemForm')
   protected newOrderItemForm!: DxFormComponent;
 
+  protected newOrder: any = {
+    items: []
+  };
+
   protected features!: any[];
   protected featureDescriptionPopupVisible: boolean = false;
   protected currentFeature?: any;
   protected dropZoneEnter: boolean = false;
-  protected items: any[] = [];
   protected newOrderItem!: any;
   protected orderItemTypeTabs: any[] = [
     {
       id: 0,
       text: 'Koli',
-      icon: 'si si-si-box',
+      icon: 'bi bi-box',
     },
     {
       id: 1,
       text: 'Palet',
-      icon: 'si si-si-pallet',
+      icon: 'bi bi-boxes',
     },
     {
       id: 2,
       text: 'Konteyner',
-      icon: 'si si-si-container',
+      icon: 'bi bi-stack',
     },
   ];
   protected currentOrderItemType: any = this.orderItemTypeTabs[0];
   protected validationMessage = "Lütfen geçerli bir değer giriniz!";
+  protected step: 'contents' | 'destination' | 'offer' = 'contents';
 
   async ngOnInit(): Promise<any> {
     this.resetForm();
@@ -66,9 +72,13 @@ export class PlaceOrderComponent implements OnInit {
   }
 
   private loadFromStorage() {
-    let items = sessionStorage.getItem('items');
-    if (items)
-      this.items = JSON.parse(items);
+    let newOrder = localStorage.getItem('newOrder');
+    if (newOrder)
+      this.newOrder = JSON.parse(newOrder);
+  }
+
+  private saveToStorage() {
+    localStorage.setItem('newOrder', JSON.stringify(this.newOrder));
   }
 
   protected showFeatureDescriptionPopup(feature: any) {
@@ -124,7 +134,7 @@ export class PlaceOrderComponent implements OnInit {
       }
       else {
         this.newOrderItem.type = { ...this.currentOrderItemType };
-        this.items.push({ ...this.newOrderItem });
+        this.newOrder.items.push({ ...this.newOrderItem });
         this.resetForm();
         this.newOrderItemForm.instance.clear();
         this.saveToStorage();
@@ -147,15 +157,13 @@ export class PlaceOrderComponent implements OnInit {
   protected clearItems() {
     dialog.confirm("Sevkiyat listesi temizlenecektir. Devam etmek istiyor musunuz?", "UYARI!").then((r) => {
       if (r) {
-        this.items = [];
+        this.newOrder.items = [];
         this.saveToStorage();
       }
     })
   }
 
-  private saveToStorage() {
-    sessionStorage.setItem('items', JSON.stringify(this.items));
-  }
+  
 
   private resetForm() {
     this.newOrderItem = {
@@ -198,7 +206,6 @@ export class PlaceOrderComponent implements OnInit {
       case "containerType":
         result = e.value && this.currentOrderItemType.id == 2;
         break;
-
     }
     return result;
   }
@@ -210,6 +217,10 @@ export class PlaceOrderComponent implements OnInit {
       feature.attachmentFileName = e[0].name;
     };
     reader.readAsDataURL(e[0]);
+  }
+
+  protected destinationPage() {
+
   }
 
 }
