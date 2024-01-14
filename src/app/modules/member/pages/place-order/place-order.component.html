@@ -114,6 +114,7 @@
                          [formData]="newOrderItem"
                          [colCount]="1"
                          [labelMode]="'static'">
+
                     <dxi-item itemType="group"
                               [colCount]="8"
                               cssClass="p-4 border border-top-0 shadow-sm">
@@ -217,6 +218,29 @@
                             <dxi-validation-rule type="pattern"
                                                  pattern="[0-9]+"
                                                  message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
+                        </dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group"
+                              caption="Alıcı Adres">
+                        <dxi-item>
+                            <div *dxTemplate>
+                                <dx-switch switchedOffText="Hayır"
+                                           switchedOnText="Evet"
+                                           (valueChange)="newOrderItem.hasAddress = $event"
+                                           [value]="newOrderItem.hasAddress"></dx-switch> Alıcı Adresi Var
+                            </div>
+                        </dxi-item>
+                        <dxi-item itemType="group"
+                                  [colCount]="12"
+                                  *ngIf="newOrderItem.hasAddress">
+                            <dxi-item itemType="group"
+                                      [colCount]="1" [colSpan]="3">
+                                <dxi-item dataField="phoneNumber"></dxi-item>
+                                <dxi-item dataField="name"></dxi-item>
+                            </dxi-item>
+                            <dxi-item dataField="address" [colSpan]="6"></dxi-item>
+                            <dxi-item itemType="empty"></dxi-item>
+
                         </dxi-item>
                     </dxi-item>
                     <dxi-item itemType="group"
@@ -357,6 +381,12 @@
     </div>
     <div *ngSwitchCase="'destination'">
         <app-section-header title="Lokasyon Bilgileri"></app-section-header>
+        <div class="p-2 d-flex justify-content-end border mb-4 shadow-sm">
+            <button class="btn btn-light"
+                    (click)="step = 'contents'">
+                <i class="bi bi-arrow-left"></i>
+                Geri</button>
+        </div>
         <dx-form [formData]="newOrder"
                  [colCount]="4"
                  [labelMode]="'static'">
