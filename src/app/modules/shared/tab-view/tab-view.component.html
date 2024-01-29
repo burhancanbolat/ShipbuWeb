@@ -1,0 +1,14 @@
+<div class="d-flex">
+    <div *ngFor="let item of items;let i = index;"
+         class="d-flex align-items-center justify-content-center gap-1 p-2 border col-2 col-xl-1 rounded-top-4"
+         [ngClass]="{ 'bg-white' : selectedIndex == i || hoveredIndex == i, 'border-bottom-0 text-primary' : selectedIndex == i, }"
+         (mouseenter)="hoveredIndex = i"
+         (mouseleave)="hoveredIndex = undefined"
+         (click)="click(item, i)"
+         style="cursor: pointer;">
+        <i [ngClass]="item.icon"></i>
+        <div class="text-truncate">{{item.text}}</div>
+    </div>
+    <div class="border-bottom flex-fill"></div>
+</div>
+<ng-content></ng-content>

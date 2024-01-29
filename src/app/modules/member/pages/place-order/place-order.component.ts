@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DxFormComponent } from 'devextreme-angular';
+import { DxFormComponent, DxSelectBoxComponent } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
 import * as dialog from 'devextreme/ui/dialog';
 
@@ -7,6 +7,10 @@ import { TransportOrderItemFeaturesService } from 'src/app/services/transport-or
 import { UtilityService } from 'src/app/services/utility.service';
 import { TransportOrderItemContainerTypesService } from 'src/app/services/transport-order-item-container-types.service';
 import { TransportRegionsService } from 'src/app/services/transport-regions.service';
+import { DxiItemComponent } from 'devextreme-angular/ui/nested';
+import CustomStore from 'devextreme/data/custom_store';
+import ImageResize from 'image-resize';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-place-order',
@@ -21,6 +25,7 @@ export class PlaceOrderComponent implements OnInit {
     protected readonly transportOrderItemFeaturesService: TransportOrderItemFeaturesService,
     protected readonly transportOrderItemContainerTypesService: TransportOrderItemContainerTypesService,
     protected readonly transportRegionsService: TransportRegionsService,
+    protected readonly accountService: AccountService,
   ) {
     this.validateTransportValue = this.validateTransportValue.bind(this);
   }
@@ -30,7 +35,6 @@ export class PlaceOrderComponent implements OnInit {
   protected imagePreview!: ElementRef<HTMLImageElement>;
   @ViewChild('newOrderItemForm')
   protected newOrderItemForm!: DxFormComponent;
-
   protected newOrder: any = {
     items: []
   };
@@ -61,14 +65,54 @@ export class PlaceOrderComponent implements OnInit {
   protected validationMessage = "Lütfen geçerli bir değer giriniz!";
   protected step: 'contents' | 'destination' | 'offer' = 'contents';
 
+  protected origins: any[] = [];
+  protected destinations: any[] = [];
+  protected districts: any[] = [];
+  protected stepIndex = 0;
+  protected offers: any[] = [];
+
   async ngOnInit(): Promise<any> {
     this.resetForm();
     this.utilityService.loadingPanelVisible = true;
     await this.transportOrderItemFeaturesService.store.load({ filter: ['enabled', '=', 'true'] }).then((result: any) => {
       this.features = result.data;
-      this.utilityService.loadingPanelVisible = false;
       this.loadFromStorage();
     });
+    this.origins = await this.transportRegionsService.getOrigins();
+    this.newOrder.origin = this.origins[0].id;
+    this.destinations = await this.transportRegionsService.getDestinations();
+    this.utilityService.loadingPanelVisible = false;
+
+  }
+
+  protected async nextStep() {
+    this.stepIndex++;
+    this.stepIndex %= 4;
+    if (this.stepIndex == 2) {
+      this.utilityService.loadingPanelVisible = true;
+      for (let i = 0; i < this.newOrder.items.length; i++) {
+        let item = this.newOrder.items[i];
+        if (item.type.id == 2) {
+          item.weight *= 1000;
+          item.amount *= 1000;
+        }
+      }
+      this.offers = await this.accountService.transportoffers(this.newOrder);
+      this.utilityService.loadingPanelVisible = false;
+    }
+  }
+  protected prevStep() {
+    if (this.stepIndex > 0)
+      this.stepIndex--;
+  }
+
+  async populateDistricts(e: any) {
+    this.newOrder.district = null;
+    if (e.value) {
+      this.utilityService.loadingPanelVisible = true;
+      this.districts = await this.transportRegionsService.getDistricts(e.value);
+      this.utilityService.loadingPanelVisible = false;
+    }
   }
 
   private loadFromStorage() {
@@ -97,6 +141,7 @@ export class PlaceOrderComponent implements OnInit {
   protected hasFeature(feature: any) {
     return this.newOrderItem.features.find((e: any) => e == feature);
   }
+
   protected hasFeatureAttachment(feature: any) {
     const f = this.newOrderItem.features.find((e: any) => e == feature);
     return f && f?.type != 0;
@@ -110,12 +155,13 @@ export class PlaceOrderComponent implements OnInit {
     this.dropZoneEnter = false;
   }
 
-  protected imageDropzoneValueChange(e: any) {
-    const fileReader = new FileReader();
-    fileReader.onloadend = (e) => {
-      this.newOrderItem.image = fileReader.result as string;
-    }
-    fileReader.readAsDataURL(e.value[0]);
+  protected async imageDropzoneValueChange(e: any) {
+    let imageResize = new ImageResize({
+      format: 'webp',
+      width: 320
+    });
+    this.newOrderItem.image = await imageResize.play(e.value[0]);
+
   }
 
   protected get getAmount() {
@@ -123,7 +169,6 @@ export class PlaceOrderComponent implements OnInit {
   }
 
   protected add() {
-
     if (this.newOrderItemForm.instance.validate().isValid) {
       if (!this.newOrderItem.image) {
         notify({
@@ -163,8 +208,6 @@ export class PlaceOrderComponent implements OnInit {
     })
   }
 
-  
-
   private resetForm() {
     this.newOrderItem = {
       quantity: null,
@@ -180,7 +223,7 @@ export class PlaceOrderComponent implements OnInit {
   }
 
   protected orderItemTypeTabChanged(e: any) {
-    this.currentOrderItemType = e.itemData;
+    this.currentOrderItemType = e;
   }
 
   protected validateTransportValue(e: any) {
@@ -211,16 +254,13 @@ export class PlaceOrderComponent implements OnInit {
   }
 
   protected attachmentChanged(e: any, feature: any) {
-    const reader = new FileReader();
-    reader.onloadend = (event) => {
-      feature.attachment = reader.result;
-      feature.attachmentFileName = e[0].name;
-    };
-    reader.readAsDataURL(e[0]);
-  }
-
-  protected destinationPage() {
-
+    debugger;
+    feature.attachment = e[0];
+    feature.attachmentFileName = e[0].name;
+    // const reader = new FileReader();
+    // reader.onloadend = (event) => {
+    // };
+    // reader.readAsDataURL(e[0]);
   }
 
 }

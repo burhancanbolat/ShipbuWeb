@@ -48,6 +48,10 @@ export class AccountService {
     });
   }
 
+  async transportoffers(data: any): Promise<any> {
+    return lastValueFrom(this.httpClient.post(`${environment.baseApiUrl}/account/transportoffers`, data, { headers: { 'Content-Type': 'application/json' } }));
+  }
+
   async signout(): Promise<any> {
     swal.default.fire({
       icon: 'warning',

@@ -1,115 +1,123 @@
 <app-page-header title="Teklif Al"></app-page-header>
-<div [ngSwitch]="step">
-    <div *ngSwitchCase="'contents'">
-        <app-section-header title="Yeni Yük"></app-section-header>
-        <app-panel class="mb-4">
-            <dx-data-grid [showBorders]="true"
-                          [showRowLines]="true"
-                          [rowAlternationEnabled]="true"
-                          [dataSource]="newOrder.items"
-                          noDataText="Aşağıdaki formu kullanarak yüklerinizi ekleyiniz..."
-                          (onRowRemoved)="onRowRemoved($event)"
-                          class="shadow-sm">
-                <dxo-editing [allowDeleting]="true"
-                             [useIcons]="true"></dxo-editing>
-                <dxo-master-detail [enabled]="true"
-                                   template="detailTemplate"></dxo-master-detail>
-                <dxo-toolbar>
-                    <dxi-item>
-                        <div *dxTemplate>
-                            <dx-button text="Temizle"
-                                       icon="bi bi-x"
-                                       type="danger"
-                                       stylingMode="text"
-                                       [visible]="newOrder.items.length != 0"
-                                       (onClick)="clearItems()"></dx-button>
-                        </div>
-
-                    </dxi-item>
-                    <dxi-item>
-                        <div *dxTemplate>
-                            <dx-button text="Devam"
-                                       icon="bi bi-arrow-right"
-                                       type="success"
-                                       [visible]="newOrder.items.length != 0"
-                                       (onClick)="step = 'destination'"></dx-button>
-                        </div>
-                    </dxi-item>
-                </dxo-toolbar>
-                <dxi-column dataField="type"
-                            caption="Tip"
-                            width="80"
-                            cellTemplate="typeCellTemplate"></dxi-column>
-                <dxi-column dataField="image"
-                            caption="Görsel"
-                            cellTemplate="imageCellTemplate"></dxi-column>
-                <dxi-column dataField="quantity"
-                            format="#,##0"
-                            caption="Adet"></dxi-column>
-                <dxi-column dataField="weight"
-                            format="#,##0"
-                            caption="Ağırlık"></dxi-column>
-                <dxi-column dataField="amount"
-                            format="#,##0"
-                            caption="Toplam Ağırlık"></dxi-column>
-                <dxi-column dataField="width"
-                            caption="En (cm)"></dxi-column>
-                <dxi-column dataField="length"
-                            caption="Boy (cm)"></dxi-column>
-                <dxi-column dataField="height"
-                            caption="Yükseklik (cm)"></dxi-column>
-                <dxi-column dataField="contents"
-                            caption="Kategori / İçerik"></dxi-column>
-                <dxi-column dataField="products"
-                            caption="Ürün Adedi"></dxi-column>
-                <div *dxTemplate="let cellInfo of 'typeCellTemplate'"
-                     class="d-flex flex-column gap-2 align-items-center justify-content-center">
-                    <div [ngSwitch]="cellInfo.data.type.id">
-                        <i *ngSwitchCase="0"
-                           class="bi bi-box"></i>
-                        <i *ngSwitchCase="1"
-                           class="bi bi-boxes"></i>
-                        <i *ngSwitchCase="2"
-                           class="bi bi-stack"></i>
-                    </div>
-                    <div>{{cellInfo.data.type.text}}</div>
+<div class="d-flex py-2 justify-content-end gap-2">
+    <dx-button text="Geri"
+               icon="bi bi-arrow-left"
+               type="normal"
+               [disabled]="stepIndex==0"
+               (onClick)="prevStep()"></dx-button>
+    <dx-button text="Devam"
+               icon="bi bi-arrow-right"
+               type="success"
+               [disabled]="newOrder.items.length < 1 || stepIndex == 3 || (stepIndex == 1 && !newOrder.district) || (stepIndex == 1 && !newOrder.district?.isAmazonDepot && (!newOrder.address || !newOrder.phoneNumber || !newOrder.name))"
+               (onClick)="nextStep()"></dx-button>
+</div>
+<app-panel class="mb-4"
+           *ngIf="stepIndex < 2">
+    <dx-data-grid [showBorders]="true"
+                  [showRowLines]="true"
+                  [rowAlternationEnabled]="true"
+                  [dataSource]="newOrder.items"
+                  noDataText="Aşağıdaki formu kullanarak yüklerinizi ekleyiniz..."
+                  (onRowRemoved)="onRowRemoved($event)"
+                  class="shadow-sm">
+        <dxo-editing [allowDeleting]="true"
+                     [useIcons]="true"></dxo-editing>
+        <dxo-master-detail [enabled]="true"
+                           template="detailTemplate"></dxo-master-detail>
+        <dxo-toolbar>
+            <dxi-item>
+                <div *dxTemplate>
+                    <dx-button text="Temizle"
+                               icon="bi bi-x"
+                               type="danger"
+                               stylingMode="text"
+                               [visible]="newOrder.items.length != 0"
+                               (onClick)="clearItems()"></dx-button>
                 </div>
-                <div *dxTemplate="let cellInfo of 'imageCellTemplate'">
-                    <img [attr.src]="cellInfo.data.image"
-                         class="object-fit-contain"
-                         height="60"
-                         width="60" />
+            </dxi-item>
+        </dxo-toolbar>
+        <dxo-paging [pageSize]="3"></dxo-paging>
+        <dxo-pager [visible]="true"></dxo-pager>
+        <dxi-column dataField="type"
+                    caption="Tip"
+                    width="80"
+                    cellTemplate="typeCellTemplate"></dxi-column>
+        <dxi-column dataField="image"
+                    caption="Görsel"
+                    cellTemplate="imageCellTemplate"></dxi-column>
+        <dxi-column dataField="quantity"
+                    format="#,##0"
+                    caption="Adet"></dxi-column>
+        <dxi-column dataField="weight"
+                    format="#,##0"
+                    caption="Ağırlık"
+                    cellTemplate="weightCellTemplate"></dxi-column>
+        <dxi-column dataField="amount"
+                    format="#,##0"
+                    caption="Toplam Ağırlık"
+                    cellTemplate="amountCellTemplate"></dxi-column>
+        <dxi-column dataField="width"
+                    caption="En (cm)"></dxi-column>
+        <dxi-column dataField="length"
+                    caption="Boy (cm)"></dxi-column>
+        <dxi-column dataField="height"
+                    caption="Yükseklik (cm)"></dxi-column>
+        <dxi-column dataField="contents"
+                    caption="Kategori / İçerik"></dxi-column>
+        <dxi-column dataField="products"
+                    caption="Ürün Adedi"></dxi-column>
+        <div *dxTemplate="let cellInfo of 'typeCellTemplate'"
+             class="d-flex flex-column gap-2 align-items-center justify-content-center">
+            <div [ngSwitch]="cellInfo.data.type.id">
+                <i *ngSwitchCase="0"
+                   class="bi bi-box"></i>
+                <i *ngSwitchCase="1"
+                   class="bi bi-boxes"></i>
+                <i *ngSwitchCase="2"
+                   class="bi bi-stack"></i>
+            </div>
+            <div>{{cellInfo.data.type.text}}</div>
+        </div>
+        <div *dxTemplate="let cellInfo of 'imageCellTemplate'">
+            <img [attr.src]="cellInfo.data.image"
+                 class="object-fit-contain"
+                 height="60"
+                 width="60" />
+        </div>
+        <div *dxTemplate="let cellInfo of 'amountCellTemplate'">
+            {{cellInfo.data.type.id == 2 ? cellInfo.data.amount * 1000 : cellInfo.data.amount| number }}
+        </div>
+        <div *dxTemplate="let cellInfo of 'weightCellTemplate'">
+            {{cellInfo.data.type.id == 2 ? cellInfo.data.weight * 1000 : cellInfo.data.weight| number }}
+        </div>
+        <div *dxTemplate="let cellInfo of 'detailTemplate'">
+            <div class="card">
+                <div class="card-header">Seçilen İşlemler</div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li *ngFor="let feature of cellInfo.data.features"
+                            class="d-flex">
+                            <i class="bi bi-check text-success"></i>
+                            <div class="flex-fill">{{feature.nameTr}}</div>
+                        </li>
+                    </ul>
                 </div>
-
-                <div *dxTemplate="let cellInfo of 'detailTemplate'">
-                    <div class="card">
-                        <div class="card-header">Seçilen İşlemler</div>
-                        <div class="card-body">
-                            <ul class="list-unstyled">
-                                <li *ngFor="let feature of cellInfo.data.features"
-                                    class="d-flex">
-                                    <i class="bi bi-check text-success"></i>
-                                    <div class="flex-fill">{{feature.nameTr}}</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </dx-data-grid>
-        </app-panel>
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <div class="d-flex">
-                    <dx-tabs [dataSource]="orderItemTypeTabs"
-                             width="auto"
-                             width="400"
-                             iconPosition="top"
-                             [selectedIndex]="0"
-                             iconPosition="top"
-                             (onItemClick)="orderItemTypeTabChanged($event)">
-                    </dx-tabs>
-                    <div class="flex-fill border-bottom">&nbsp;</div>
-                </div>
+            </div>
+        </div>
+    </dx-data-grid>
+</app-panel>
+<app-panel class="mb-4">
+    <div [ngSwitch]="stepIndex">
+        <div *ngSwitchCase="0">
+            <app-section-header title="Yeni Yük"></app-section-header>
+            <div class="d-flex justify-content-end">
+                <dx-button text="Ekle"
+                           icon="bi bi-plus"
+                           type="success"
+                           (onClick)="add()"></dx-button>
+            </div>
+            <app-tab-view [items]="orderItemTypeTabs"
+                          (onItemClick)="orderItemTypeTabChanged($event)">
                 <dx-form #newOrderItemForm
                          [formData]="newOrderItem"
                          [colCount]="1"
@@ -117,7 +125,7 @@
 
                     <dxi-item itemType="group"
                               [colCount]="8"
-                              cssClass="p-4 border border-top-0 shadow-sm">
+                              cssClass="p-4 border border-top-0 shadow-sm bg-white">
                         <dxi-item dataField="containerType"
                                   [visible]="currentOrderItemType.id == 2"
                                   editorType="dxSelectBox"
@@ -221,29 +229,6 @@
                         </dxi-item>
                     </dxi-item>
                     <dxi-item itemType="group"
-                              caption="Alıcı Adres">
-                        <dxi-item>
-                            <div *dxTemplate>
-                                <dx-switch switchedOffText="Hayır"
-                                           switchedOnText="Evet"
-                                           (valueChange)="newOrderItem.hasAddress = $event"
-                                           [value]="newOrderItem.hasAddress"></dx-switch> Alıcı Adresi Var
-                            </div>
-                        </dxi-item>
-                        <dxi-item itemType="group"
-                                  [colCount]="12"
-                                  *ngIf="newOrderItem.hasAddress">
-                            <dxi-item itemType="group"
-                                      [colCount]="1" [colSpan]="3">
-                                <dxi-item dataField="phoneNumber"></dxi-item>
-                                <dxi-item dataField="name"></dxi-item>
-                            </dxi-item>
-                            <dxi-item dataField="address" [colSpan]="6"></dxi-item>
-                            <dxi-item itemType="empty"></dxi-item>
-
-                        </dxi-item>
-                    </dxi-item>
-                    <dxi-item itemType="group"
                               colCount="8">
                         <dxi-item itemType="group"
                                   [colSpan]="5"
@@ -280,7 +265,6 @@
                                                             <i class="bi bi-check text-success"
                                                                style="font-size: 1.5rem;"></i>
                                                         </div>
-
                                                     </div>
                                                     <dx-file-uploader uploadMode="useButtons"
                                                                       [visible]="false"
@@ -306,7 +290,6 @@
                                                             <i class="bi bi-check text-success"
                                                                style="font-size: 1.5rem;"></i>
                                                         </div>
-
                                                     </div>
                                                     <dx-file-uploader uploadMode="useButtons"
                                                                       [visible]="false"
@@ -321,7 +304,6 @@
                                                     <dx-text-area [placeholder]="feature.attachmentDescriptionTr"
                                                                   (onValueChanged)="feature.attachment = $event.value"></dx-text-area>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -366,57 +348,136 @@
                             </dxi-item>
                         </dxi-item>
                     </dxi-item>
-                    <dxi-item itemType="group">
-                        <div *dxTemplate
-                             class="d-flex justify-content-end py-4">
-                            <dx-button text="Ekle"
-                                       icon="bi bi-plus"
-                                       type="success"
-                                       (onClick)="add()"></dx-button>
+                </dx-form>
+            </app-tab-view>
+        </div>
+        <div *ngSwitchCase="1">
+            <app-section-header title="Lokasyon Bilgileri"></app-section-header>
+            <dx-form [formData]="newOrder"
+                     [colCount]="2"
+                     [labelMode]="'static'">
+                <dxi-item itemType="group"
+                          caption="Nereden">
+                    <dxi-item>
+                        <dxo-label text="Bölge Adı"></dxo-label>
+                        <div *dxTemplate>
+                            <dx-select-box [items]="origins"
+                                           displayExpr="nameTr"
+                                           valueExpr="id"
+                                           [disabled]="false"
+                                           [showClearButton]="false"
+                                           [selectedItem]="origins[0].id"
+                                           [value]="newOrder.origin"></dx-select-box>
                         </div>
                     </dxi-item>
-                </dx-form>
+                </dxi-item>
+                <dxi-item itemType="group"
+                          caption="Nereye">
+                    <dxi-item>
+                        <dxo-label text="Bölge Adı"></dxo-label>
+                        <div *dxTemplate>
+                            <dx-select-box [items]="destinations"
+                                           displayExpr="nameTr"
+                                           valueExpr="id"
+                                           [showClearButton]="true"
+                                           [(value)]="newOrder.destination"
+                                           (onValueChanged)="populateDistricts($event)"></dx-select-box>
+                        </div>
+                    </dxi-item>
+                    <dxi-item *ngIf="newOrder.destination">
+                        <dxo-label text="Bölge Adı"></dxo-label>
+                        <div *dxTemplate>
+                            <dx-select-box [items]="districts"
+                                           displayExpr="nameTr"
+                                           [showClearButton]="true"
+                                           [(value)]="newOrder.district">
+                                <div *dxTemplate="let data of 'item'">
+                                    <div class="d-flex gap-2 px-2">
+                                        <div class="flex-grow-1">{{data.nameTr}}</div>
+                                        <div class="flex-shrink-0 text-center"
+                                             [ngSwitch]="data.isAmazonDepot">
+                                            <i *ngSwitchCase="false"
+                                               class="bi bi-map"></i>
+                                            <img *ngSwitchCase="true"
+                                                 src="assets/images/amazon-icon.svg"
+                                                 height="18" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </dx-select-box>
+                        </div>
+                    </dxi-item>
+                    <dxi-item itemType="group"
+                              caption="Alıcı Adresi"
+                              *ngIf="newOrder.district?.isAmazonDepot == false">
+                        <dxi-item dataField="name">
+                            <dxo-label text="Alıcı Adı / Ünvanı"></dxo-label>
+                        </dxi-item>
+                        <dxi-item dataField="phoneNumber"
+                                  [editorOptions]="{ mask : '00(000)000 00 00'}">
+                            <dxo-label text="İrtibat No."></dxo-label>
+                        </dxi-item>
+                        <dxi-item dataField="address"
+                                  editorType="dxTextArea">
+                            <dxo-label text="Adres"></dxo-label>
+                        </dxi-item>
+                    </dxi-item>
+                </dxi-item>
+            </dx-form>
+        </div>
+        <div *ngSwitchCase="2">
+            <div class="d-flex flex-column align-items-center justify-content-center gap-2">
+                <div class="card"
+                     *ngFor="let offer of offers;let i = index"
+                     style="width: 640px;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-8 d-flex flex-column gap-2">
+                                <div class="text-success fs-4"
+                                     *ngIf="i == 0">
+                                    EN UCUZ
+                                </div>
+                                <div class="fs-4">
+                                    {{offer.methodNameTr}}
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-fill">
+                                        <i class="bi bi-calendar"></i>
+                                        Tahmini Varış Tarihi :
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        {{offer.etaDate|date:'dd/MM/yyyy'}}
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="d-flex align-items-center"
+                                     *ngFor="let feature of newOrder.features">
+                                    <div class="flex-fill">
+                                        <i class="bi bi-check"></i>
+                                        {{feature.nameTr}}
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        {{feature.fee|number}}
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-4">
+                                <div class="d-flex flex-column gap-2">
+                                    <div class="fs-3">${{offer.price|number}}</div>
+                                    <dx-button type="danger"
+                                               text="Teklifi Seç"
+                                               icon="bi bi-arrow-right"></dx-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div *ngSwitchCase="'destination'">
-        <app-section-header title="Lokasyon Bilgileri"></app-section-header>
-        <div class="p-2 d-flex justify-content-end border mb-4 shadow-sm">
-            <button class="btn btn-light"
-                    (click)="step = 'contents'">
-                <i class="bi bi-arrow-left"></i>
-                Geri</button>
-        </div>
-        <dx-form [formData]="newOrder"
-                 [colCount]="4"
-                 [labelMode]="'static'">
-            <dxi-item itemType="group"
-                      caption="Nereden">
-                <dxi-item dataField="origin"
-                          editorType="dxSelectBox"
-                          [editorOptions]="{ dataSource : transportRegionsService.originsStore, displayExpr : 'nameTr', valueExpr : 'id', showClearButton : true }">
-                    <dxo-label text="Bölge Adı"></dxo-label>
-                </dxi-item>
-            </dxi-item>
-            <dxi-item itemType="group"
-                      caption="Nereye">
-                <dxi-item dataField="destination"
-                          editorType="dxSelectBox"
-                          [editorOptions]="{ dataSource : transportRegionsService.destinationsStore, displayExpr : 'nameTr', showClearButton : true }">
-                    <dxo-label text="Bölge Adı"></dxo-label>
-                </dxi-item>
-                <dxi-item dataField="district"
-                          *ngIf="newOrder.destination"
-                          editorType="dxSelectBox"
-                          [editorOptions]="{ items : newOrder.destination.districts, displayExpr : 'nameTr', showClearButton : true }">
-                    <dxo-label text="Lokasyon Adı"></dxo-label>
-                </dxi-item>
-            </dxi-item>
-        </dx-form>
-    </div>
-    <div *ngSwitchCase="'order'">
-    </div>
-</div>
+</app-panel>
+
 
 <dx-popup [(visible)]="featureDescriptionPopupVisible"
           title="Paket İşlemi Hakkında"
@@ -431,3 +492,7 @@
         <div [innerHTML]="currentFeature?.descriptionTr"></div>
     </app-panel>
 </dx-popup>
+
+<pre>
+    {{newOrder|json}}
+</pre>

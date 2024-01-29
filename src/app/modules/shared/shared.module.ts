@@ -1,24 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PanelComponent } from 'src/app/shared/panel/panel.component';
-import { PageHeaderComponent } from 'src/app/shared/page-header/page-header.component';
-import { SectionHeaderComponent } from 'src/app/shared/section-header/section-header.component';
+import { PageHeaderComponent } from 'src/app/modules/shared/page-header/page-header.component';
+import { SectionHeaderComponent } from 'src/app/modules/shared/section-header/section-header.component';
+import { LoadingPanelComponent } from './loading-panel/loading-panel.component';
+import { TabViewComponent } from './tab-view/tab-view.component';
+import { PanelComponent } from './panel/panel.component';
 
 
 
 @NgModule({
   declarations: [
+    LoadingPanelComponent,
     PanelComponent,
     PageHeaderComponent,
-    SectionHeaderComponent
+    SectionHeaderComponent,
+    TabViewComponent,
   ],
   imports: [
     CommonModule
   ],
   exports : [
+    LoadingPanelComponent,
     PanelComponent,
     PageHeaderComponent,
     SectionHeaderComponent,
+    TabViewComponent,
   ]
 })
 export class SharedModule { }

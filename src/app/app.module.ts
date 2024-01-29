@@ -5,13 +5,11 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccountService } from './services/account.service';
-import { LoadingPanelComponent } from './shared/loading-panel/loading-panel.component';
 import { AppHttpInterceptor } from './app-httpinterceptors';
 import { SharedModule } from './modules/shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent,
-    LoadingPanelComponent,
   ],
   imports: [
     BrowserModule,

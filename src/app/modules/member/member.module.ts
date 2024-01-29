@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MemberRoutingModule } from './member-routing.module';
 import { MemberComponent } from './member.component';
-import { DxButtonModule, DxDataGridModule, DxDrawerModule, DxFileUploaderModule, DxFormModule, DxNumberBoxModule, DxPopupModule, DxSelectBoxModule, DxSwitchModule, DxTabsModule, DxTextAreaModule, DxTileViewModule, DxToolbarModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxDrawerModule, DxFileUploaderModule, DxFormModule, DxLookupModule, DxNumberBoxModule, DxPopupModule, DxSelectBoxModule, DxSwitchModule, DxTextAreaModule, DxTileViewModule, DxToolbarModule } from 'devextreme-angular';
 import { PlaceOrderComponent } from './pages/place-order/place-order.component';
 import { SharedModule } from '../shared/shared.module';
 import { AcademyComponent } from './pages/academy/academy.component';
@@ -27,10 +27,10 @@ import { AcademyComponent } from './pages/academy/academy.component';
     DxFileUploaderModule,
     DxDataGridModule,
     DxNumberBoxModule,
-    DxTabsModule,
     DxTileViewModule,
     DxTextAreaModule,
     DxSelectBoxModule,
+    DxLookupModule
   ]
 })
 export class MemberModule { }
