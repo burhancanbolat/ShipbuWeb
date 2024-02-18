@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, lastValueFrom } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { lastValueFrom, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as jwt_decode from "jwt-decode";
 import * as swal from "sweetalert2";
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import CustomStore from 'devextreme/data/custom_store';
+import notify from 'devextreme/ui/notify';
 @Injectable({
   providedIn: 'root'
 })
@@ -52,6 +53,40 @@ export class AccountService {
     return lastValueFrom(this.httpClient.post(`${environment.baseApiUrl}/account/transportoffers`, data, { headers: { 'Content-Type': 'application/json' } }));
   }
 
+  async transportorder(data: any): Promise<any> {
+    return lastValueFrom(this.httpClient.post(`${environment.baseApiUrl}/account/transportorder`, data, { headers: { 'Content-Type': 'application/json' } }));
+  }
+
+  getOrdersStore(): CustomStore {
+    function isNotEmpty(value: any): boolean {
+      return value !== undefined && value !== null && value !== '';
+    }
+    return new CustomStore({
+      key: "id",
+      load: async (loadOptions: any) => {
+        let params: HttpParams = new HttpParams();
+        [
+          'skip',
+          'take',
+          'requireTotalCount',
+          'requireGroupCount',
+          'sort',
+          'filter',
+          'totalSummary',
+          'group',
+          'groupSummary',
+        ].forEach((i) => {
+          if (i in loadOptions && isNotEmpty(loadOptions[i])) {
+            params = params.set(i, JSON.stringify(loadOptions[i]));
+          }
+        });
+        return lastValueFrom(this.httpClient.get(`${environment.baseApiUrl}/account/orders`, { params }));
+      }
+    });
+
+  }
+
+  
   async signout(): Promise<any> {
     swal.default.fire({
       icon: 'warning',

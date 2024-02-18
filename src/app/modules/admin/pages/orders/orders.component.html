@@ -1,0 +1,40 @@
+<app-page-header title="Sevkiyatlar"></app-page-header>
+<app-panel>
+    <dx-data-grid keyExpr="Id"
+                  [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, useIcons: true }">
+        <dxi-column type="buttons"
+                    [buttons]="['edit', 'delete']"></dxi-column>
+        <dxi-column dataField="Id"
+                    caption="Detay Gör"
+                    cellTemplate="diffCellTemplate"
+                    width="75"></dxi-column>
+        <dxi-column dataField="ShipmentId"></dxi-column>
+        <dxi-column dataField="SendingRegion"></dxi-column>
+        <dxi-column dataField="DestinationRegion"></dxi-column>
+        <dxi-column dataField="Buyer"></dxi-column>
+        <dxi-column dataField="Fee"
+                    caption="Price"
+                    width="75"></dxi-column>
+        <dxi-column dataField="TrakingId"></dxi-column>
+        <dxi-column dataField="Status"
+                    caption="Status"
+                    cellTemplate="statusCellTemplate">
+            <dxo-lookup [dataSource]="statuses"
+                        valueExpr="value"
+                        displayExpr="name"></dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="DateCreated"
+                    dataType="date"></dxi-column>
+        <div *dxTemplate="let d of 'diffCellTemplate'"
+             class=" container-fluid d-flex justify-content-center">
+            <a class="btn hover"><i class="bi bi-search"></i></a>
+        </div>
+        <div *dxTemplate="let d of 'statusCellTemplate'">
+            <p *ngIf="d.value == 1">Ödeme Bekleniyor</p>
+            <p *ngIf="d.value == 0">Onay Bekliyor</p>
+            <p *ngIf="d.value == 2">Çıkış Yapıldı</p>
+            <p *ngIf="d.value == 3">Teslim Edildi</p>
+
+        </div>
+    </dx-data-grid>
+</app-panel>

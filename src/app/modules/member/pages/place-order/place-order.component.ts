@@ -94,9 +94,19 @@ export class PlaceOrderComponent implements OnInit {
       this.utilityService.loadingPanelVisible = false;
     }
   }
+
   protected prevStep() {
     if (this.stepIndex > 0)
       this.stepIndex--;
+  }
+
+  protected async transportorder(feeId: any, price: any) {
+    this.utilityService.loadingPanelVisible = true;
+    this.newOrder.transportFeeId = feeId;
+    this.newOrder.price = price;
+    await this.accountService.transportorder(this.newOrder);
+    this.utilityService.loadingPanelVisible = false;
+    this.stepIndex++;
   }
 
   async populateDistricts(e: any) {

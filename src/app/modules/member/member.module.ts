@@ -7,6 +7,7 @@ import { DxButtonModule, DxDataGridModule, DxDrawerModule, DxFileUploaderModule,
 import { PlaceOrderComponent } from './pages/place-order/place-order.component';
 import { SharedModule } from '../shared/shared.module';
 import { AcademyComponent } from './pages/academy/academy.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { AcademyComponent } from './pages/academy/academy.component';
     MemberComponent,
     PlaceOrderComponent,
     AcademyComponent,
+    OrdersComponent,
   ],
   imports: [
     CommonModule,

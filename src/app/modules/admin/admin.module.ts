@@ -11,6 +11,7 @@ import { TransportOrderItemFeaturesComponent } from './pages/transport-order-ite
 import { InfoCardComponent } from './components/info-card/info-card.component';
 import { SharedModule } from '../shared/shared.module';
 import { AcademyComponent } from './pages/academy/academy.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AcademyComponent } from './pages/academy/academy.component';
     TransportOrderItemContainerTypesComponent,
     TransportOrderItemFeaturesComponent,
     InfoCardComponent,
-    AcademyComponent
+    AcademyComponent,
+    OrdersComponent
   ],
   imports: [
     CommonModule,

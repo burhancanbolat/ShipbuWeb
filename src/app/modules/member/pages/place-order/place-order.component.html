@@ -8,6 +8,7 @@
     <dx-button text="Devam"
                icon="bi bi-arrow-right"
                type="success"
+               *ngIf="stepIndex<2"
                [disabled]="getNextDisabled"
                (onClick)="nextStep()"></dx-button>
 </div>
@@ -463,11 +464,23 @@
                                     <div class="fs-3">${{offer.price|number}}</div>
                                     <dx-button type="danger"
                                                text="Teklifi Seç"
-                                               icon="bi bi-arrow-right"></dx-button>
+                                               icon="bi bi-arrow-right"
+                                               (onClick)="transportorder(offer.id, offer.price)"></dx-button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="3">
+            <div class="d-flex flex-column align-items-center justify-content-center gap-2">
+                <div class="card m-5">
+                    <div class="card-body d-flex flex-column justify-content-center gap-2">
+                        <div>Teşekkürler</div>
+                        <div>Talebinizi Aldık. En kısa sürede sizinle iletişime geçip sevkiyatınızı tamamlayacağız.</div>
+                    </div>
+
                 </div>
             </div>
         </div>

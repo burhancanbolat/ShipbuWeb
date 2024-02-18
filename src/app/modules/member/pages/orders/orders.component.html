@@ -1,0 +1,55 @@
+<app-page-header title="Sevkiyatlarım"></app-page-header>
+
+<app-panel>
+    <dx-data-grid [dataSource]="ordersStore!">
+
+        <dxi-column caption="Sevkiyat No."
+                    dataField="shippingNumber"></dxi-column>
+        <dxi-column caption="Talep Tarihi"
+                    dataField="date"
+                    dataType="date"></dxi-column>
+        <dxi-column caption="Gönderici Ülke"
+                    dataField="originNameTr"></dxi-column>
+        <dxi-column caption="Varış Ülkesi"
+                    dataField="destinationRegionNameTr"></dxi-column>
+        <dxi-column caption="Alıcı"
+                    cellTemplate="districtCellTemplate"></dxi-column>
+        <dxi-column caption="Fiyat"
+                    dataField="price"
+                    format="currency"></dxi-column>
+        <dxi-column caption="Takip No."
+                    dataField="trackingNumber"></dxi-column>
+        <dxi-column caption="Statü"
+                    cellTemplate="statusCellTemplate"></dxi-column>
+        <dxi-column caption="Ödeme"
+                    cellTemplate="paymentLinkCellTemplate"></dxi-column>
+        <div *dxTemplate="let row of 'districtCellTemplate'">
+            <div *ngIf="row.data.isAmazonDepot">
+                {{row.data.destinationDistrictNameTr}}
+            </div>
+            <div *ngIf="!row.data.isAmazonDepot">
+                {{row.data.name}}
+            </div>
+        </div>
+        <div *dxTemplate="let row of 'statusCellTemplate'">
+            <div [ngSwitch]="row.data.status">
+                <div *ngSwitchCase="0">Teklif Verildi</div>
+                <div *ngSwitchCase="1">Ödeme Bekleniyor</div>
+                <div *ngSwitchCase="2">Ödeme Yapıldı</div>
+                <div *ngSwitchCase="3">Çıkış Yapıldı</div>
+                <div *ngSwitchCase="4">Teslim Edildi</div>
+            </div>
+        </div>
+        <div *dxTemplate="let row of 'paymentLinkCellTemplate'">
+            <div [ngSwitch]="row.data.status">
+                <div *ngSwitchCase="0"></div>
+                <div *ngSwitchCase="1">
+                    <a href="https://buy.stripe.com/28ofZjgsv2MV7T229K">Ödeme Yap</a>
+                </div>
+                <div *ngSwitchCase="2"></div>
+                <div *ngSwitchCase="3"></div>
+                <div *ngSwitchCase="4"></div>
+            </div>
+        </div>
+    </dx-data-grid>
+</app-panel>
