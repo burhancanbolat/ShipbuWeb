@@ -6,6 +6,7 @@ import { TransportStaticPagesComponent } from './pages/transport-static-pages/tr
 import { TransportOrderItemContainerTypesComponent } from './pages/transport-order-item-container-types/transport-order-item-container-types.component';
 import { TransportOrderItemFeaturesComponent } from './pages/transport-order-item-features/transport-order-item-features.component';
 import { AcademyComponent } from './pages/academy/academy.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path :'academy',
         component: AcademyComponent
+      },
+      {
+        path :'transportorders',
+        component: OrdersComponent
       },
       {
         path :'**',

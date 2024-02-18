@@ -67,6 +67,11 @@ export class AdminComponent {
           title: 'Üyeler',
           url: 'members',
         },
+        {
+          icon: 'bi bi-cart',
+          title: 'Sevkiyatlar',
+          url: 'transportorders',
+        },
       ]
     },
 

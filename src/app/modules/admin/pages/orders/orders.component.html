@@ -1,40 +1,98 @@
 <app-page-header title="Sevkiyatlar"></app-page-header>
 <app-panel>
-    <dx-data-grid keyExpr="Id"
-                  [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, useIcons: true }">
-        <dxi-column type="buttons"
-                    [buttons]="['edit', 'delete']"></dxi-column>
-        <dxi-column dataField="Id"
-                    caption="Detay Gör"
-                    cellTemplate="diffCellTemplate"
-                    width="75"></dxi-column>
-        <dxi-column dataField="ShipmentId"></dxi-column>
-        <dxi-column dataField="SendingRegion"></dxi-column>
-        <dxi-column dataField="DestinationRegion"></dxi-column>
-        <dxi-column dataField="Buyer"></dxi-column>
-        <dxi-column dataField="Fee"
-                    caption="Price"
-                    width="75"></dxi-column>
-        <dxi-column dataField="TrakingId"></dxi-column>
-        <dxi-column dataField="Status"
-                    caption="Status"
-                    cellTemplate="statusCellTemplate">
-            <dxo-lookup [dataSource]="statuses"
-                        valueExpr="value"
-                        displayExpr="name"></dxo-lookup>
-        </dxi-column>
-        <dxi-column dataField="DateCreated"
+    <dx-data-grid #mainGrid
+                  keyExpr="id"
+                  [dataSource]="transportOrdersService.store"
+                  [rowAlternationEnabled]="true">
+        <dxo-sorting></dxo-sorting>
+        <dxo-paging [enabled]="true"
+                    [pageSize]="10"></dxo-paging>
+        <dxi-column caption="Üye"
+                    cellTemplate="userCellTemplate"></dxi-column>
+        <dxi-column caption="Sevkiyat No."
+                    dataField="shippingNumber"></dxi-column>
+        <dxi-column caption="Talep Tarihi"
+                    dataField="date"
                     dataType="date"></dxi-column>
-        <div *dxTemplate="let d of 'diffCellTemplate'"
-             class=" container-fluid d-flex justify-content-center">
-            <a class="btn hover"><i class="bi bi-search"></i></a>
+        <dxi-column caption="Gönderici Ülke"
+                    dataField="originNameTr"></dxi-column>
+        <dxi-column caption="Varış Ülkesi"
+                    dataField="destinationRegionNameTr"></dxi-column>
+        <dxi-column caption="Alıcı"
+                    cellTemplate="districtCellTemplate"></dxi-column>
+        <dxi-column caption="Fiyat"
+                    dataField="price"
+                    format="currency"></dxi-column>
+        <dxi-column caption="Takip No."
+                    dataField="trackingNumber"></dxi-column>
+        <dxi-column caption="Statü"
+                    cellTemplate="statusCellTemplate"></dxi-column>
+        <dxi-column caption="İşlem"
+                    cellTemplate="actionCellTemplate"></dxi-column>
+        <div *dxTemplate="let row of 'districtCellTemplate'">
+            <div *ngIf="row.data.isAmazonDepot">
+                {{row.data.destinationDistrictNameTr}}
+            </div>
+            <div *ngIf="!row.data.isAmazonDepot">
+                {{row.data.name}}
+            </div>
         </div>
-        <div *dxTemplate="let d of 'statusCellTemplate'">
-            <p *ngIf="d.value == 1">Ödeme Bekleniyor</p>
-            <p *ngIf="d.value == 0">Onay Bekliyor</p>
-            <p *ngIf="d.value == 2">Çıkış Yapıldı</p>
-            <p *ngIf="d.value == 3">Teslim Edildi</p>
-
+        <div *dxTemplate="let row of 'userCellTemplate'">
+            <div class="d-flex flex-column gap-2">
+                <div class="">{{row.data.userGivenName}}</div>
+                <div class="small">
+                    <a [attr.href]="'mailto:'+row.data.userName">{{row.data.userName}}</a>
+                </div>
+            </div>
+        </div>
+        <div *dxTemplate="let row of 'statusCellTemplate'">
+            <div [ngSwitch]="row.data.status">
+                <div *ngSwitchCase="0">Teklif Verildi</div>
+                <div *ngSwitchCase="1">Ödeme Bekleniyor</div>
+                <div *ngSwitchCase="2">Ödeme Yapıldı</div>
+                <div *ngSwitchCase="3">Çıkış Yapıldı</div>
+                <div *ngSwitchCase="4">Teslim Edildi</div>
+            </div>
+        </div>
+        <div *dxTemplate="let row of 'actionCellTemplate'">
+            <div [ngSwitch]="row.data.status">
+                <div *ngSwitchCase="0">
+                    <dx-button text="Güncelle"
+                               (onClick)="status1FormData.id = row.data.id;status1FormData.newPrice = row.data.price; status1PopupVisible = true"></dx-button>
+                </div>
+                <div *ngSwitchCase="1">
+                    <dx-button text="Ödeme Geldi"
+                               (onClick)="paymentorder(row.data.id)"></dx-button>
+                </div>
+                <div *ngSwitchCase="2">
+                    <dx-button text="Sevk Hazırlanıyor"
+                               (onClick)="shiporder(row.data.id)"></dx-button>
+                </div>
+                <div *ngSwitchCase="3">
+                    <dx-button text="Çıkış Yapıldı"
+                               (onClick)="deliveredorder(row.data.id)"></dx-button>
+                </div>
+                <div *ngSwitchCase="4"></div>
+            </div>
         </div>
     </dx-data-grid>
 </app-panel>
+
+<dx-popup [(visible)]="status1PopupVisible"
+          title="Teklif Fiyat Güncelleme"
+          width="400"
+          height="200">
+    <dx-form [formData]="status1FormData"
+             labelLocation="top">
+        <dxi-item dataField="newPrice">
+            <dxo-label text="Yeni Fiyat"></dxo-label>
+        </dxi-item>
+        <dxi-item class="d-flex justify-content-end gap-2">
+            <dx-button text="İptal"
+                       (onClick)="status1PopupVisible = false"></dx-button>
+            <dx-button text="Kaydet"
+                       type="success"
+                       (onClick)="updateorderprice()"></dx-button>
+        </dxi-item>
+    </dx-form>
+</dx-popup>
