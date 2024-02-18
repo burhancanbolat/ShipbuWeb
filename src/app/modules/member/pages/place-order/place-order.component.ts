@@ -90,13 +90,6 @@ export class PlaceOrderComponent implements OnInit {
     this.stepIndex %= 4;
     if (this.stepIndex == 2) {
       this.utilityService.loadingPanelVisible = true;
-      for (let i = 0; i < this.newOrder.items.length; i++) {
-        let item = this.newOrder.items[i];
-        if (item.type.id == 2) {
-          item.weight *= 1000;
-          item.amount *= 1000;
-        }
-      }
       this.offers = await this.accountService.transportoffers(this.newOrder);
       this.utilityService.loadingPanelVisible = false;
     }
@@ -107,22 +100,24 @@ export class PlaceOrderComponent implements OnInit {
   }
 
   async populateDistricts(e: any) {
+
     this.newOrder.district = null;
     if (e.value) {
       this.utilityService.loadingPanelVisible = true;
       this.districts = await this.transportRegionsService.getDistricts(e.value);
       this.utilityService.loadingPanelVisible = false;
     }
+
   }
 
   private loadFromStorage() {
-    let newOrder = localStorage.getItem('newOrder');
-    if (newOrder)
-      this.newOrder = JSON.parse(newOrder);
+    // let newOrder = localStorage.getItem('newOrder');
+    // if (newOrder)
+    //   this.newOrder = JSON.parse(newOrder);
   }
 
   private saveToStorage() {
-    localStorage.setItem('newOrder', JSON.stringify(this.newOrder));
+    //localStorage.setItem('newOrder', JSON.stringify(this.newOrder));
   }
 
   protected showFeatureDescriptionPopup(feature: any) {
@@ -165,7 +160,7 @@ export class PlaceOrderComponent implements OnInit {
   }
 
   protected get getAmount() {
-    return this.newOrderItem.quantity && this.newOrderItem.weight ? this.newOrderItem.quantity * this.newOrderItem.weight : 0;
+    return this.newOrderItem.quantity && this.newOrderItem.weight ? this.newOrderItem.quantity * (this.newOrderItem.type.id == 2 ? this.newOrderItem.weight * 1000 : this.newOrderItem.weight) : 0;
   }
 
   protected add() {
@@ -218,12 +213,14 @@ export class PlaceOrderComponent implements OnInit {
       contents: "",
       products: null,
       features: [],
-      image: null
+      image: null,
+      type: this.newOrderItem?.type ?? { id: 0 }
     };
   }
 
   protected orderItemTypeTabChanged(e: any) {
     this.currentOrderItemType = e;
+    this.newOrderItem.type = e;
   }
 
   protected validateTransportValue(e: any) {
@@ -254,13 +251,13 @@ export class PlaceOrderComponent implements OnInit {
   }
 
   protected attachmentChanged(e: any, feature: any) {
-    debugger;
     feature.attachment = e[0];
     feature.attachmentFileName = e[0].name;
-    // const reader = new FileReader();
-    // reader.onloadend = (event) => {
-    // };
-    // reader.readAsDataURL(e[0]);
   }
-
+  protected get getNextDisabled(): boolean {
+    return this.newOrder.items.length < 1 ||
+      this.stepIndex == 3 ||
+      (this.stepIndex == 1 && this.newOrder.district == null) ||
+      (this.stepIndex == 1 && !this.newOrder.district?.isAmazonDepot && (!this.newOrder.address || !this.newOrder.phoneNumber || !this.newOrder.name))
+  }
 }

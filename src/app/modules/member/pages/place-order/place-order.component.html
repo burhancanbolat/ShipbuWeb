@@ -8,7 +8,7 @@
     <dx-button text="Devam"
                icon="bi bi-arrow-right"
                type="success"
-               [disabled]="newOrder.items.length < 1 || stepIndex == 3 || (stepIndex == 1 && !newOrder.district) || (stepIndex == 1 && !newOrder.district?.isAmazonDepot && (!newOrder.address || !newOrder.phoneNumber || !newOrder.name))"
+               [disabled]="getNextDisabled"
                (onClick)="nextStep()"></dx-button>
 </div>
 <app-panel class="mb-4"
@@ -46,16 +46,11 @@
                     caption="Görsel"
                     cellTemplate="imageCellTemplate"></dxi-column>
         <dxi-column dataField="quantity"
-                    format="#,##0"
                     caption="Adet"></dxi-column>
         <dxi-column dataField="weight"
-                    format="#,##0"
-                    caption="Ağırlık"
-                    cellTemplate="weightCellTemplate"></dxi-column>
+                    caption="Ağırlık"></dxi-column>
         <dxi-column dataField="amount"
-                    format="#,##0"
-                    caption="Toplam Ağırlık"
-                    cellTemplate="amountCellTemplate"></dxi-column>
+                    caption="Toplam Ağırlık"></dxi-column>
         <dxi-column dataField="width"
                     caption="En (cm)"></dxi-column>
         <dxi-column dataField="length"
@@ -83,12 +78,6 @@
                  class="object-fit-contain"
                  height="60"
                  width="60" />
-        </div>
-        <div *dxTemplate="let cellInfo of 'amountCellTemplate'">
-            {{cellInfo.data.type.id == 2 ? cellInfo.data.amount * 1000 : cellInfo.data.amount| number }}
-        </div>
-        <div *dxTemplate="let cellInfo of 'weightCellTemplate'">
-            {{cellInfo.data.type.id == 2 ? cellInfo.data.weight * 1000 : cellInfo.data.weight| number }}
         </div>
         <div *dxTemplate="let cellInfo of 'detailTemplate'">
             <div class="card">
@@ -150,7 +139,7 @@
                         </dxi-item>
                         <dxi-item dataField="weight"
                                   editorType="dxNumberBox"
-                                  [editorOptions]="{ min : 1 }">
+                                  [editorOptions]="{ min : 0,format: '#.#' }">
                             <dxo-label [visible]="false"
                                        [text]="currentOrderItemType.id == 2 ? 'Adet Tonaj (ton)' : 'Adet Ağırlık (kg)'"></dxo-label>
                             <dxi-validation-rule type="custom"
@@ -450,20 +439,27 @@
                                     </div>
                                 </div>
                                 <hr />
-                                <div class="d-flex align-items-center"
-                                     *ngFor="let feature of newOrder.features">
-                                    <div class="flex-fill">
-                                        <i class="bi bi-check"></i>
-                                        {{feature.nameTr}}
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        {{feature.fee|number}}
-                                    </div>
-                                </div>
-
+                                <table class="table table-sm small">
+                                    <thead>
+                                        <tr>
+                                            <th>Özellik Adı</th>
+                                            <th>Fiyat / kg</th>
+                                            <th>Tutar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let feature of offer.features">
+                                            <td>{{feature.nameTr}}</td>
+                                            <td>${{feature.fee|number}}</td>
+                                            <td>${{feature.amount|number}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="col-4">
                                 <div class="d-flex flex-column gap-2">
+                                    <div class="fs-6">${{offer.transportPrice|number}}</div>
+                                    <div class="fs-6">${{offer.featurePrice|number}}</div>
                                     <div class="fs-3">${{offer.price|number}}</div>
                                     <dx-button type="danger"
                                                text="Teklifi Seç"
@@ -492,7 +488,3 @@
         <div [innerHTML]="currentFeature?.descriptionTr"></div>
     </app-panel>
 </dx-popup>
-
-<pre>
-    {{newOrder|json}}
-</pre>
