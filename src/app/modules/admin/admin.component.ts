@@ -72,6 +72,12 @@ export class AdminComponent {
           title: 'Sevkiyatlar',
           url: 'transportorders',
         },
+        {
+          icon: 'bi bi-currency-dollar',
+          title: 'Ödemeler',
+          url: 'transportpayments',
+        },
+        
       ]
     },
 

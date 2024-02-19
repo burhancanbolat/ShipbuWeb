@@ -7,6 +7,7 @@ import { TransportOrderItemContainerTypesComponent } from './pages/transport-ord
 import { TransportOrderItemFeaturesComponent } from './pages/transport-order-item-features/transport-order-item-features.component';
 import { AcademyComponent } from './pages/academy/academy.component';
 import { OrdersComponent } from './pages/orders/orders.component';
+import { TransportPaymentsComponent } from './pages/transport-payments/transport-payments.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         path :'transportorders',
         component: OrdersComponent
+      },
+      {
+        path :'transportpayments',
+        component: TransportPaymentsComponent
       },
       {
         path :'**',

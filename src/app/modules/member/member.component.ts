@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { loadMessages, locale } from 'devextreme/localization';
 import { AccountService } from 'src/app/services/account.service';
 import * as trMessages from "devextreme/localization/messages/tr.json";
+import { TransportPaymentsService } from 'src/app/services/transport-payments.service';
 
 @Component({
   selector: 'app-member',
@@ -10,16 +11,19 @@ import * as trMessages from "devextreme/localization/messages/tr.json";
     './member.component.scss'
   ]
 })
-export class MemberComponent {
+export class MemberComponent implements OnInit {
   constructor(
-    protected readonly accountService: AccountService
+    protected readonly accountService: AccountService,
+    protected readonly transportPaymentsService: TransportPaymentsService
   ) {
     loadMessages(trMessages);
     locale('tr');
     this.isMenuOpen = JSON.parse(localStorage.getItem('isMenuOpen') ?? "true") as boolean;
   }
 
+
   protected isMenuOpen: boolean;
+  protected userBalance: number  = 0;
 
   protected menu: any[] = [
     {
@@ -65,11 +69,15 @@ export class MemberComponent {
           title: 'Nasıl Çalışır',
           url: 'howitworks',
         },
-        
+
       ]
     },
 
   ]
+
+  async ngOnInit(): Promise<any> {
+    this.userBalance = await this.transportPaymentsService.userBalance(this.accountService.user!.id);
+  }
 
   protected toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

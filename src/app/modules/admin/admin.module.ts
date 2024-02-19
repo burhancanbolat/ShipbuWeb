@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
-import { DxButtonModule, DxChartModule, DxDataGridModule, DxDrawerModule, DxFormModule, DxHtmlEditorModule, DxMenuModule, DxPopupModule, DxSelectBoxModule, DxTextBoxModule } from 'devextreme-angular';
+import { DxButtonModule, DxChartModule, DxCheckBoxModule, DxDataGridModule, DxDrawerModule, DxDropDownButtonModule, DxFormModule, DxHtmlEditorModule, DxLookupModule, DxMenuModule, DxPopupModule, DxSelectBoxModule, DxSwitchModule, DxTextBoxModule } from 'devextreme-angular';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TransportStaticPagesComponent } from './pages/transport-static-pages/transport-static-pages.component';
 import { TransportOrderItemContainerTypesComponent } from './pages/transport-order-item-container-types/transport-order-item-container-types.component';
@@ -12,6 +12,7 @@ import { InfoCardComponent } from './components/info-card/info-card.component';
 import { SharedModule } from '../shared/shared.module';
 import { AcademyComponent } from './pages/academy/academy.component';
 import { OrdersComponent } from './pages/orders/orders.component';
+import { TransportPaymentsComponent } from './pages/transport-payments/transport-payments.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { OrdersComponent } from './pages/orders/orders.component';
     TransportOrderItemFeaturesComponent,
     InfoCardComponent,
     AcademyComponent,
-    OrdersComponent
+    OrdersComponent,
+    TransportPaymentsComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,11 @@ import { OrdersComponent } from './pages/orders/orders.component';
     DxChartModule,
     DxTextBoxModule,
     DxPopupModule,
-    DxFormModule
+    DxFormModule,
+    DxDropDownButtonModule,
+    DxSwitchModule,
+    DxCheckBoxModule,
+    DxLookupModule
   ]
 })
 export class AdminModule { }

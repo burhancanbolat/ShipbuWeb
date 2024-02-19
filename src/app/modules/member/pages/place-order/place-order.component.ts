@@ -61,7 +61,7 @@ export class PlaceOrderComponent implements OnInit {
       icon: 'bi bi-stack',
     },
   ];
-  protected currentOrderItemType: any = this.orderItemTypeTabs[0];
+  //protected currentOrderItemType: any = this.orderItemTypeTabs[0];
   protected validationMessage = "Lütfen geçerli bir değer giriniz!";
   protected step: 'contents' | 'destination' | 'offer' = 'contents';
 
@@ -183,7 +183,7 @@ export class PlaceOrderComponent implements OnInit {
         });
       }
       else {
-        this.newOrderItem.type = { ...this.currentOrderItemType };
+        //this.newOrderItem.type = { ...this.currentOrderItemType };
         this.newOrder.items.push({ ...this.newOrderItem });
         this.resetForm();
         this.newOrderItemForm.instance.clear();
@@ -217,9 +217,9 @@ export class PlaceOrderComponent implements OnInit {
     this.newOrderItem = {
       quantity: null,
       weight: null,
-      height: null,
-      width: null,
-      length: null,
+      height:  null,
+      width: this.newOrderItem?.type.id==1 ? 120 : null,
+      length: this.newOrderItem?.type.id==1 ? 80 : null,
       contents: "",
       products: null,
       features: [],
@@ -229,7 +229,7 @@ export class PlaceOrderComponent implements OnInit {
   }
 
   protected orderItemTypeTabChanged(e: any) {
-    this.currentOrderItemType = e;
+    //this.currentOrderItemType = e;
     this.newOrderItem.type = e;
   }
 
@@ -245,16 +245,16 @@ export class PlaceOrderComponent implements OnInit {
       case "width":
       case "height":
       case "length":
-        result = (e.value > 0) || this.currentOrderItemType.id == 2;
+        result = (e.value > 0) || this.newOrderItem.type.id == 2;
         break;
       case "contents":
-        result = e.value || this.currentOrderItemType.id == 2;
+        result = e.value || this.newOrderItem.type.id == 2;
         break;
       case "products":
-        result = (e.value > 0) || this.currentOrderItemType.id != 0;
+        result = (e.value > 0) || this.newOrderItem.type.id != 0;
         break;
       case "containerType":
-        result = e.value && this.currentOrderItemType.id == 2;
+        result = e.value && this.newOrderItem.type.id == 2;
         break;
     }
     return result;

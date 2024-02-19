@@ -117,7 +117,7 @@
                               [colCount]="8"
                               cssClass="p-4 border border-top-0 shadow-sm bg-white">
                         <dxi-item dataField="containerType"
-                                  [visible]="currentOrderItemType.id == 2"
+                                  [visible]="newOrderItem.type.id == 2"
                                   editorType="dxSelectBox"
                                   [editorOptions]="{ displayExpr: 'nameTr', dataSource : transportOrderItemContainerTypesService.store }">
                             <dxo-label [visible]="false"
@@ -142,7 +142,7 @@
                                   editorType="dxNumberBox"
                                   [editorOptions]="{ min : 0,format: '#.#' }">
                             <dxo-label [visible]="false"
-                                       [text]="currentOrderItemType.id == 2 ? 'Adet Tonaj (ton)' : 'Adet Ağırlık (kg)'"></dxo-label>
+                                       [text]="newOrderItem.type.id == 2 ? 'Adet Tonaj (ton)' : 'Adet Ağırlık (kg)'"></dxo-label>
                             <dxi-validation-rule type="custom"
                                                  [validationCallback]="validateTransportValue"
                                                  [message]="validationMessage"></dxi-validation-rule>
@@ -157,8 +157,8 @@
                         </dxi-item>
                         <dxi-item dataField="width"
                                   editorType="dxNumberBox"
-                                  [editorOptions]="{ min : 1, value : currentOrderItemType.id == 1 ? 120 : null, disabled : currentOrderItemType.id == 1 }"
-                                  [visible]="currentOrderItemType.id != 2"
+                                  [editorOptions]="{ min : 1, value : newOrderItem.type.id == 1 ? 120 : null, disabled : newOrderItem.type.id == 1 }"
+                                  [visible]="newOrderItem.type.id != 2"
                                   [disabled]="">
                             <dxo-label [visible]="false"
                                        text="En (cm)"></dxo-label>
@@ -171,8 +171,8 @@
                         </dxi-item>
                         <dxi-item dataField="length"
                                   editorType="dxNumberBox"
-                                  [editorOptions]="{ min : 1, value : currentOrderItemType.id == 1 ? 80 : null, disabled : currentOrderItemType.id == 1 }"
-                                  [visible]="currentOrderItemType.id != 2">
+                                  [editorOptions]="{ min : 1, value : newOrderItem.type.id == 1 ? 80 : null, disabled : newOrderItem.type.id == 1 }"
+                                  [visible]="newOrderItem.type.id != 2">
                             <dxo-label [visible]="false"
                                        text="Boy (cm)"></dxo-label>
                             <dxi-validation-rule type="custom"
@@ -185,7 +185,7 @@
                         <dxi-item dataField="height"
                                   editorType="dxNumberBox"
                                   [editorOptions]="{ min : 1 }"
-                                  [visible]="currentOrderItemType.id != 2">
+                                  [visible]="newOrderItem.type.id != 2">
                             <dxo-label [visible]="false"
                                        text="Yükseklik (cm)"></dxo-label>
                             <dxi-validation-rule type="custom"
@@ -196,7 +196,7 @@
                                                  message="Lütfen geçerli bir değer yazınız"></dxi-validation-rule>
                         </dxi-item>
                         <dxi-item dataField="contents"
-                                  [visible]="currentOrderItemType.id != 2"
+                                  [visible]="newOrderItem.type.id != 2"
                                   [editorOptions]="{ }">
                             <dxo-label [visible]="false"
                                        text="Kategori / İçerik"></dxo-label>
@@ -207,7 +207,7 @@
                         <dxi-item dataField="products"
                                   editorType="dxNumberBox"
                                   [editorOptions]="{ min : 1 }"
-                                  [visible]="currentOrderItemType.id == 0">
+                                  [visible]="newOrderItem.type.id == 0">
                             <dxo-label [visible]="false"
                                        text="Ürün Adedi"></dxo-label>
                             <dxi-validation-rule type="custom"

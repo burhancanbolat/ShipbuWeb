@@ -1,0 +1,20 @@
+<app-page-header title="Ödemeler"></app-page-header>
+<app-panel>
+    <dx-data-grid keyExpr="id" [dataSource]="transportPaymentsService.store" (onInitNewRow)="onInitNewRow($event)">
+        <dxo-editing [allowAdding]="true"
+                     [allowUpdating]="true"
+                     [allowDeleting]="true" [useIcons]="true"></dxo-editing>
+        <dxi-column dataField="id"
+                    [visible]="false"></dxi-column>
+        <dxi-column dataField="date"
+                    dataType="date"></dxi-column>
+        <dxi-column dataField="userId">
+            <dxo-lookup [dataSource]="usersService.store"
+                        valueExpr="id"
+                        displayExpr="name">
+            </dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="amount"
+                    format="currency"></dxi-column>
+    </dx-data-grid>
+</app-panel>
