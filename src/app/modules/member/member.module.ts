@@ -8,6 +8,8 @@ import { PlaceOrderComponent } from './pages/place-order/place-order.component';
 import { SharedModule } from '../shared/shared.module';
 import { AcademyComponent } from './pages/academy/academy.component';
 import { OrdersComponent } from './pages/orders/orders.component';
+import { PaymentsComponent } from './pages/payments/payments.component';
+import { SupportComponent } from './pages/support/support.component';
 
 
 @NgModule({
@@ -16,6 +18,8 @@ import { OrdersComponent } from './pages/orders/orders.component';
     PlaceOrderComponent,
     AcademyComponent,
     OrdersComponent,
+    PaymentsComponent,
+    SupportComponent,
   ],
   imports: [
     CommonModule,
@@ -32,7 +36,8 @@ import { OrdersComponent } from './pages/orders/orders.component';
     DxTileViewModule,
     DxTextAreaModule,
     DxSelectBoxModule,
-    DxLookupModule
+    DxLookupModule,
+    DxTextAreaModule
   ]
 })
 export class MemberModule { }

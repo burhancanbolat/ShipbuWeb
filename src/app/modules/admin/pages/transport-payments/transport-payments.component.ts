@@ -17,4 +17,8 @@ export class TransportPaymentsComponent {
   onInitNewRow(e: any) {
     e.data.date = new Date();
   }
+
+  onRowUpdating(e: any) {
+    e.newData = [e.newData, ...e.oldData];
+  }
 }

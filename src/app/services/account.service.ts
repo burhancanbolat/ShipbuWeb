@@ -11,10 +11,38 @@ import notify from 'devextreme/ui/notify';
 })
 export class AccountService {
   user?: IUser | null;
+  payments?: CustomStore | null;
 
   constructor(
     protected readonly httpClient: HttpClient
-  ) { }
+  ) {
+    function isNotEmpty(value: any): boolean {
+      return value !== undefined && value !== null && value !== '';
+    }
+    this.payments = new CustomStore({
+      key: "id",
+      load: async (loadOptions: any) => {
+        let params: HttpParams = new HttpParams();
+        [
+          'skip',
+          'take',
+          'requireTotalCount',
+          'requireGroupCount',
+          'sort',
+          'filter',
+          'totalSummary',
+          'group',
+          'groupSummary',
+        ].forEach((i) => {
+          if (i in loadOptions && isNotEmpty(loadOptions[i])) {
+            params = params.set(i, JSON.stringify(loadOptions[i]));
+          }
+        });
+        return lastValueFrom(this.httpClient.get(`${environment.baseApiUrl}/account/payments`, { params }));
+      },
+    });
+  }
+
 
   get isAuthenticated() {
     return this.user != null;
@@ -86,7 +114,7 @@ export class AccountService {
 
   }
 
-  
+
   async signout(): Promise<any> {
     swal.default.fire({
       icon: 'warning',
@@ -101,6 +129,10 @@ export class AccountService {
         localStorage.removeItem("user");
       }
     })
+  }
+
+  async supportMessage(formData: any): Promise<any> {
+    return lastValueFrom(this.httpClient.post(`${environment.baseApiUrl}/account/supportMessage`, formData, { headers: { 'Content-Type': 'application/json' } }));
   }
 
 }

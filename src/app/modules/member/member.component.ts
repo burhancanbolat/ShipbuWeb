@@ -52,7 +52,7 @@ export class MemberComponent implements OnInit {
         {
           icon: 'bi bi-list-check',
           title: 'Ödemelerim',
-          url: 'transportorderitemfeatures',
+          url: 'payments',
         },
       ]
     },

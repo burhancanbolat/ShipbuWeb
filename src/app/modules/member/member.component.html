@@ -21,6 +21,9 @@
                 <li class="nav-item me-2">
                     <div class="navbar-text text-bg-success rounded px-2">Bakiye : ${{userBalance}}</div>
                 </li>
+                <li class="nav-item me-2">
+                    <a class="nav-link" [routerLink]="['','member', 'support']" routerLinkActive="active">Destek Talebi</a>
+                </li>
                 <li class="nav-item dropdown "
                     *ngIf="accountService.isAuthenticated">
                     <a class="nav-link dropdown-toggle"

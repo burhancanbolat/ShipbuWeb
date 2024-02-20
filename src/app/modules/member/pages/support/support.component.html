@@ -1,0 +1,24 @@
+<app-page-header title="Destek Mesajı Formu"></app-page-header>
+<app-panel>
+    <p>Aşağıdaki formu kullanarak destek talebinizi bize iletebilirsiniz.</p>
+    <dx-form #form
+             [formData]="formData"
+             labelLocation="top">
+        <dxi-item dataField="subject">
+            <dxo-label text="Konu"></dxo-label>
+            <dxi-validation-rule type="required"
+                                 message="Konu alanı boş bırakılamaz!"></dxi-validation-rule>
+        </dxi-item>
+        <dxi-item dataField="message"
+                  editorType="dxTextArea">
+            <dxo-label text="Mesaj"></dxo-label>
+            <dxi-validation-rule type="required"
+                                 message="Mesaj alanı boş bırakılamaz!"></dxi-validation-rule>
+        </dxi-item>
+        <dxi-item name="submit"
+                  itemType="button"
+                  [buttonOptions]="sendButtonOptions">
+
+        </dxi-item>
+    </dx-form>
+</app-panel>

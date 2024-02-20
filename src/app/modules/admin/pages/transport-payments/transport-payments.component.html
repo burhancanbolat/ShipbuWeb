@@ -1,20 +1,50 @@
 <app-page-header title="Ödemeler"></app-page-header>
 <app-panel>
-    <dx-data-grid keyExpr="id" [dataSource]="transportPaymentsService.store" (onInitNewRow)="onInitNewRow($event)">
+    <dx-data-grid keyExpr="id"
+                  [dataSource]="transportPaymentsService.store"
+                  [showBorders]="true"
+                  [showRowLines]="true"
+                  [rowAlternationEnabled]="true"
+                  (onInitNewRow)="onInitNewRow($event)"
+                  (onRowUpdating)="onRowUpdating($event)">
         <dxo-editing [allowAdding]="true"
                      [allowUpdating]="true"
-                     [allowDeleting]="true" [useIcons]="true"></dxo-editing>
+                     [allowDeleting]="true"
+                     [useIcons]="true"></dxo-editing>
+        <dxo-paging [enabled]="true"
+                    [pageSize]="10"></dxo-paging>
+        <dxo-pager [visible]="true"
+                   [allowedPageSizes]="[10,50,100]"
+                   [showPageSizeSelector]="true"></dxo-pager>
+        <dxo-summary>
+            <dxi-total-item column="amount"
+                            summaryType="sum"
+                            valueFormat="currency">
+            </dxi-total-item>
+        </dxo-summary>
         <dxi-column dataField="id"
                     [visible]="false"></dxi-column>
         <dxi-column dataField="date"
-                    dataType="date"></dxi-column>
+                    [sortIndex]="0"
+                    sortOrder="desc"
+                    dataType="date">
+            <dxi-validation-rule type="required"
+                                 message="Tarih seçiniz!"></dxi-validation-rule>
+        </dxi-column>
         <dxi-column dataField="userId">
             <dxo-lookup [dataSource]="usersService.store"
                         valueExpr="id"
                         displayExpr="name">
             </dxo-lookup>
+            <dxi-validation-rule type="required"
+                                 message="Kullanıcı seçiniz!"></dxi-validation-rule>
         </dxi-column>
         <dxi-column dataField="amount"
-                    format="currency"></dxi-column>
+                    format="currency">
+            <dxi-validation-rule type="required"
+                                 message="Tutar yazınız!"></dxi-validation-rule>
+            <dxi-validation-rule type="pattern"
+                                 pattern="[0-9]+"
+                                 message="Geçerli bir tutar yazınız!"></dxi-validation-rule></dxi-column>
     </dx-data-grid>
 </app-panel>
