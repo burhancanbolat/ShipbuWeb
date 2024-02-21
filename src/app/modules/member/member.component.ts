@@ -30,6 +30,11 @@ export class MemberComponent implements OnInit {
       title: 'YÖNETİM PANELİ',
       items: [
         {
+          icon: 'bi bi-person',
+          title: 'Dashboard',
+          url: 'profile',
+        },
+        {
           icon: 'bi bi-plus-circle',
           title: 'Teklif Al',
           url: 'placeorder',
@@ -45,11 +50,6 @@ export class MemberComponent implements OnInit {
       title: 'HESAP',
       items: [
         {
-          icon: 'bi bi-person',
-          title: 'Profilim',
-          url: 'profile',
-        },
-        {
           icon: 'bi bi-list-check',
           title: 'Ödemelerim',
           url: 'payments',
@@ -64,12 +64,6 @@ export class MemberComponent implements OnInit {
           title: 'Shipbu Akademi',
           url: 'academy',
         },
-        {
-          icon: 'bi bi-question-circle',
-          title: 'Nasıl Çalışır',
-          url: 'howitworks',
-        },
-
       ]
     },
 

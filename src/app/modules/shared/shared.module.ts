@@ -5,6 +5,7 @@ import { SectionHeaderComponent } from 'src/app/modules/shared/section-header/se
 import { LoadingPanelComponent } from './loading-panel/loading-panel.component';
 import { TabViewComponent } from './tab-view/tab-view.component';
 import { PanelComponent } from './panel/panel.component';
+import { StatusViewComponent } from './status-view/status-view.component';
 
 
 
@@ -15,6 +16,7 @@ import { PanelComponent } from './panel/panel.component';
     PageHeaderComponent,
     SectionHeaderComponent,
     TabViewComponent,
+    StatusViewComponent,
   ],
   imports: [
     CommonModule
@@ -25,6 +27,7 @@ import { PanelComponent } from './panel/panel.component';
     PageHeaderComponent,
     SectionHeaderComponent,
     TabViewComponent,
+    StatusViewComponent,
   ]
 })
 export class SharedModule { }

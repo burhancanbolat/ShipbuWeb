@@ -23,13 +23,17 @@ export class TransportOrdersService extends BaseService {
   async paymentorder(id: any): Promise<any> {
     return lastValueFrom(this.httpClient.get(`${environment.baseApiUrl}/transportorders/paymentorder/${id}`));
   }
- 
+
   async deliveredorder(id: any): Promise<any> {
     return lastValueFrom(this.httpClient.get(`${environment.baseApiUrl}/transportorders/deliveredorder/${id}`));
   }
-  
+
   async cancelorder(id: any): Promise<any> {
     return lastValueFrom(this.httpClient.get(`${environment.baseApiUrl}/transportorders/cancelorder/${id}`));
   }
-  
+  async detail(id: any): Promise<any> {
+    return lastValueFrom(this.httpClient.get(`${environment.baseApiUrl}/transportorders/${id}`));
+  }
 }
+
+

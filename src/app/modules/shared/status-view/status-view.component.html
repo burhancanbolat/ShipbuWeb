@@ -1,0 +1,14 @@
+<div [ngSwitch]="status">
+    <div *ngSwitchCase="0"
+         class="">Teklif Verildi</div>
+    <div *ngSwitchCase="1"
+         class="text-info">Ödeme Bekleniyor</div>
+    <div *ngSwitchCase="2"
+         class="text-warning">Ödeme Yapıldı</div>
+    <div *ngSwitchCase="3"
+         class="text-primary">Çıkış Yapıldı</div>
+    <div *ngSwitchCase="4"
+         class="text-success">Teslim Edildi</div>
+    <div *ngSwitchCase="5"
+         class="text-danger">İptal Edildi</div>
+</div>

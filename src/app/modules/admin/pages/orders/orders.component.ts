@@ -35,6 +35,11 @@ export class OrdersComponent {
   protected status3PopupVisible: boolean = false;
   protected status3FormData: any = {};
 
+  protected detailPopupVisible: boolean = false;
+  protected currentOrder?: any;
+  protected imagePopupVisible: boolean = false;
+  protected currentImage?: any;
+
   protected actions: any[] = [
     { id: 0, name: 'Güncelle', icon: 'bi bi-pencil' },
     { id: 1, name: 'Ödeme Geldi', icon: 'bi bi-check' },
@@ -55,7 +60,6 @@ export class OrdersComponent {
   }
 
   async actionChanged(e: any, data: any) {
-    console.log(e)
     switch (e.itemData.id) {
       case 0:
         this.status1FormData.id = data.id;
@@ -78,6 +82,12 @@ export class OrdersComponent {
         const result = await confirm("Sipariş iptal edilecektir. Devam etmek istiyor musunuz?", "UYARI");
         if (result)
           this.cancelorder(data.id);
+        break;
+      case 5:
+        this.utilityService.loadingPanelVisible = true;
+        this.currentOrder = await this.transportOrdersService.detail(data.id);
+        this.utilityService.loadingPanelVisible = false;
+        this.detailPopupVisible = true;
         break;
 
     }

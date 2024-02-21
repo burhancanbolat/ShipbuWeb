@@ -184,6 +184,8 @@ export class PlaceOrderComponent implements OnInit {
       }
       else {
         //this.newOrderItem.type = { ...this.currentOrderItemType };
+        if (this.newOrderItem.type.id == 2)
+          this.newOrderItem.weight *= 1000;
         this.newOrder.items.push({ ...this.newOrderItem });
         this.resetForm();
         this.newOrderItemForm.instance.clear();
@@ -217,9 +219,9 @@ export class PlaceOrderComponent implements OnInit {
     this.newOrderItem = {
       quantity: null,
       weight: null,
-      height:  null,
-      width: this.newOrderItem?.type.id==1 ? 120 : null,
-      length: this.newOrderItem?.type.id==1 ? 80 : null,
+      height: null,
+      width: this.newOrderItem?.type.id == 1 ? 120 : null,
+      length: this.newOrderItem?.type.id == 1 ? 80 : null,
       contents: "",
       products: null,
       features: [],
@@ -264,6 +266,7 @@ export class PlaceOrderComponent implements OnInit {
     feature.attachment = e[0];
     feature.attachmentFileName = e[0].name;
   }
+
   protected get getNextDisabled(): boolean {
     return this.newOrder.items.length < 1 ||
       this.stepIndex == 3 ||
