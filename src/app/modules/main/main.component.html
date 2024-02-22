@@ -17,105 +17,11 @@
         <div class="collapse navbar-collapse"
              id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link"
-                       [routerLink]="['','main', 'home']"
-                       routerLinkActive="active">
-                        <i class="bi bi-house"></i>
-                        Ana Sayfa</a>
-                </li>
-                <li class="nav-item"
-                    *ngFor="let page of staticPages">
-                    <a class="nav-link"
-                       [routerLink]="['', 'main', 'page', page.labelTr]"
-                       routerLinkActive="active" (click)="transportStaticPagesService.currentPage = page">
-                        <i class="bi bi-chevron-right"></i>
-                        {{page.labelTr}}
-                    </a>
-                </li>
-
-                <li class="nav-item"
-                    *ngIf="isDevMode">
-                    <a class="nav-link"
-                       [routerLink]="['','admin']"
-                       routerLinkActive="active">
-                        <i class="bi bi-house"></i>
-                        Admin</a>
-                </li>
-                <li class="nav-item"
-                    *ngIf="!accountService.isAuthenticated">
-                    <a class="nav-link"
-                       routerLink="/main/register"
-                       routerLinkActive="active">
-                        <i class="bi bi-person-plus"></i>
-                        Yeni Üyelik
-                    </a>
-                </li>
-                <li class="nav-item"
-                    *ngIf="!accountService.isAuthenticated">
-                    <a class="nav-link"
-                       routerLink="/main/signin"
-                       routerLinkActive="active">
-                        <i class="bi bi-box-arrow-in-left"></i>
-                        Üye Girişi
-                    </a>
-                </li>
-                <li class="nav-item dropdown"
-                    *ngIf="accountService.isAuthenticated">
-                    <a class="nav-link dropdown-toggle"
-                       href="#"
-                       role="button"
-                       data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        <i class="bi bi-person"></i>
-                        {{accountService.user?.name}}
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item d-flex"
-                               [routerLink]="['','member']">
-                                <i class="bi bi-layout-text-sidebar-reverse me-2 text-end"></i>
-                                Profilim
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <a class="dropdown-item d-flex"
-                               routerLink=""
-                               (click)="accountService.signout()">
-                                <i class="bi bi-box-arrow-right me-2 text-end"></i>
-                                Oturumu Kapat
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                
             </ul>
         </div>
     </div>
 </nav>
 <div class="container border-start border-end bg-white h-100 p-0">
     <router-outlet></router-outlet>
-</div>
-<div class="bg-dark text-light p-4 border-top border-4 border-warning">
-    <div class="container">
-        <div class="row">
-            <div class="col col-lg-8 p-4">
-                <div class="d-flex flex-column gap-4">
-                    <div class="text-warning fs-1">Shipbu</div>
-                    <div class="fs-5">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </div>
-                    <div class="text-secondary d-flex gap-2">
-                        <i class="bi bi-phone"></i> +90 555 555 55 55
-                    </div>
-                    <div class="text-secondary d-flex gap-2">
-                        <i class="bi bi-envelope"></i> <a href="mailto:info@shipbu.com">info@shipbu.com</a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

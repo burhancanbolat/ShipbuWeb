@@ -8,46 +8,51 @@ import { TransportOrderItemFeaturesComponent } from './pages/transport-order-ite
 import { AcademyComponent } from './pages/academy/academy.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { TransportPaymentsComponent } from './pages/transport-payments/transport-payments.component';
+import { TransportFeeManagementComponent } from './pages/transport-fee-management/transport-fee-management.component';
 
 const routes: Routes = [
   {
-    path: '', 
+    path: '',
     component: AdminComponent,
-    children : [
+    children: [
       {
-        path :'dashboard',
+        path: 'dashboard',
         component: DashboardComponent
       },
       {
-        path :'transportstaticpages',
+        path: 'transportstaticpages',
         component: TransportStaticPagesComponent
       },
       {
-        path :'transportorderitemcontainertypes',
+        path: 'transportorderitemcontainertypes',
         component: TransportOrderItemContainerTypesComponent
       },
       {
-        path :'transportorderitemfeatures',
+        path: 'transportorderitemfeatures',
         component: TransportOrderItemFeaturesComponent
       },
       {
-        path :'academy',
+        path: 'academy',
         component: AcademyComponent
       },
       {
-        path :'transportorders',
+        path: 'transportorders',
         component: OrdersComponent
       },
       {
-        path :'transportpayments',
+        path: 'transportpayments',
         component: TransportPaymentsComponent
       },
       {
-        path :'**',
+        path: 'transportfee',
+        component: TransportFeeManagementComponent
+      },
+      {
+        path: '**',
         redirectTo: 'dashboard',
         pathMatch: 'full'
       },
-      
+
     ]
   }];
 

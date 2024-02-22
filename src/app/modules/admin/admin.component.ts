@@ -56,6 +56,11 @@ export class AdminComponent {
           title: 'Sipariş Paket İşlem',
           url: 'transportorderitemfeatures',
         },
+        {
+          icon: 'bi bi-truck',
+          title: 'Nakliye Fiyat Yönetimi',
+          url: 'transportfee',
+        },
 
       ]
     },

@@ -11,6 +11,7 @@ import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.compo
 import { ProfileComponent } from './pages/profile/profile.component';
 import { DashboardComponent } from './pages/profile/dashboard/dashboard.component';
 import { StaticPageComponent } from './pages/static-page/static-page.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { StaticPageComponent } from './pages/static-page/static-page.component';
     ConfirmEmailComponent,
     ProfileComponent,
     DashboardComponent,
-    StaticPageComponent
+    StaticPageComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,

@@ -1,11 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { lastValueFrom, map } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as jwt_decode from "jwt-decode";
-import * as swal from "sweetalert2";
+import swal from "sweetalert2";
 import CustomStore from 'devextreme/data/custom_store';
-import notify from 'devextreme/ui/notify';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +14,8 @@ export class AccountService {
   payments?: CustomStore | null;
 
   constructor(
-    protected readonly httpClient: HttpClient
+    protected readonly httpClient: HttpClient,
+    protected readonly router: Router
   ) {
     function isNotEmpty(value: any): boolean {
       return value !== undefined && value !== null && value !== '';
@@ -54,8 +55,10 @@ export class AccountService {
 
   init() {
     const item = localStorage.getItem("user");
-    if (item)
+    if (item) {
       this.user = JSON.parse(item);
+      this.router.navigate([this.isInRole('Administrators') ? 'admin' : 'member']);
+    }
   }
 
   async register(formData: any): Promise<any> {
@@ -77,6 +80,14 @@ export class AccountService {
     });
   }
 
+  async forgotpassword(formData: any): Promise<any> {
+    return lastValueFrom(this.httpClient.get(`${environment.baseApiUrl}/account/forgotpassword/${formData.userName}`, { headers: { 'Content-Type': 'application/json' } }));
+  }
+
+  async resetpassword(formData: any): Promise<any> {
+    return lastValueFrom(this.httpClient.post(`${environment.baseApiUrl}/account/resetpassword`, formData, { headers: { 'Content-Type': 'application/json' } }));
+  }
+
   async transportoffers(data: any): Promise<any> {
     return lastValueFrom(this.httpClient.post(`${environment.baseApiUrl}/account/transportoffers`, data, { headers: { 'Content-Type': 'application/json' } }));
   }
@@ -84,6 +95,8 @@ export class AccountService {
   async transportorder(data: any): Promise<any> {
     return lastValueFrom(this.httpClient.post(`${environment.baseApiUrl}/account/transportorder`, data, { headers: { 'Content-Type': 'application/json' } }));
   }
+
+
 
   getOrdersStore(): CustomStore {
     function isNotEmpty(value: any): boolean {
@@ -116,17 +129,19 @@ export class AccountService {
 
 
   async signout(): Promise<any> {
-    swal.default.fire({
+    return swal.fire({
       icon: 'warning',
       title: 'Uyarı!',
       html: 'Oturumunuz sonlandırılacaktır. Devam etmek istiyor musunuz?',
       confirmButtonText: 'Devam',
       cancelButtonText: 'İptal',
       showCancelButton: true,
+      heightAuto: false,
     }).then((result) => {
       if (result.isConfirmed) {
         this.user = null;
         localStorage.removeItem("user");
+        this.router.navigate(['', 'main', 'signin']);
       }
     })
   }

@@ -1,0 +1,52 @@
+<app-page-header title="Sevkiyat Fiyat Yönetimi"></app-page-header>
+<app-panel>
+    <dx-form labelLocation="top"
+             [formData]="formData">
+        <dxi-item itemType="group"
+                  colCount="4">
+            <dxi-item dataField="region"
+                      editorType="dxLookup"
+                      [editorOptions]="{ dataSource : destinations, displayExpr:'nameTr', onValueChanged : onRegionValueChanged }">
+                <dxo-label text="Ülke"></dxo-label>
+            </dxi-item>
+            <dxi-item dataField="method"
+                      editorType="dxLookup"
+                      [editorOptions]="{ dataSource : methods, displayExpr:'nameTr', onValueChanged : onMethodValueChanged }">
+                <dxo-label text="Gönderim Türü"></dxo-label>
+            </dxi-item>
+            <dxi-item dataField="district"
+                      editorType="dxLookup"
+                      [editorOptions]="{ dataSource : districts, displayExpr:'nameTr', onValueChanged : onDistrictValueChanged }">
+                <dxo-label text="Bölge"></dxo-label>
+            </dxi-item>
+        </dxi-item>
+    </dx-form>
+    <div class="d-flex flex-column gap-2 mb-4"
+         *ngIf="formData.region && formData.district">
+        <div *ngFor="let method of formData.region.transportMethods">
+            <div class="fs-4">{{method.nameTr}}</div>
+        </div>
+    </div>
+
+    <dx-data-grid #feeGrid [dataSource]="fees"
+                  [showColumnLines]="true"
+                  [showBorders]="true"
+                  [rowAlternationEnabled]="true"
+                  *ngIf="formData.region && formData.method && formData.district" (onRowUpdated)="feeUpdated($event)">
+        <dxo-editing [useIcons]="true"
+                     [allowUpdating]="true"></dxo-editing>
+        <dxi-column dataField="id"
+                    [visible]="false"></dxi-column>
+        <dxi-column dataField="minWeight"
+                    cellTemplate="weightCellTemplate"
+                    [sortIndex]="0"
+                    sortOrder="asc"
+                    [allowEditing]="false"
+                    caption="Ağırlık"></dxi-column>
+        <dxi-column dataField="value"
+                    caption="Birim Fiyat ($)"></dxi-column>
+        <div *dxTemplate="let row of 'weightCellTemplate'" class="text-start">
+            {{row.data.minWeight}} - {{row.data.maxWeight}}
+        </div>
+    </dx-data-grid>
+</app-panel>

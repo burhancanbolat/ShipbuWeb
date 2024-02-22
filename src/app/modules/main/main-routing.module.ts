@@ -8,16 +8,12 @@ import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.compo
 import { DashboardComponent } from './pages/profile/dashboard/dashboard.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { StaticPageComponent } from './pages/static-page/static-page.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 const routes: Routes = [{
   path: '',
   component: MainComponent,
   children: [
-    {
-      path: 'home',
-      component: HomeComponent,
-      pathMatch: 'full'
-    },
     {
       path: 'register',
       component: RegisterComponent,
@@ -38,6 +34,10 @@ const routes: Routes = [{
       component: SignInComponent,
     },
     {
+      path: 'resetpassword',
+      component: ResetPasswordComponent,
+    },
+    {
       path: 'page/:name',
       component: StaticPageComponent,
     },
@@ -53,7 +53,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'home',
+      redirectTo: 'signin',
       pathMatch:'full'
     }
   ]

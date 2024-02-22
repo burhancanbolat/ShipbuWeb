@@ -6,12 +6,17 @@ import { AcademyComponent } from './pages/academy/academy.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PaymentsComponent } from './pages/payments/payments.component';
 import { SupportComponent } from './pages/support/support.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
     path: '',
     component: MemberComponent,
     children : [
+      {
+        path : 'dashboard',
+        component : DashboardComponent
+      },
       {
         path : 'placeorder',
         component : PlaceOrderComponent
@@ -33,8 +38,8 @@ const routes: Routes = [
         component : SupportComponent
       },
       {
-        path : '**',
-        redirectTo : 'placeorder',
+        path : '',
+        redirectTo : 'dashboard',
         pathMatch : 'full'
       },
       

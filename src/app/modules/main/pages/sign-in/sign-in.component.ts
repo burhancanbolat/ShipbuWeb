@@ -36,7 +36,7 @@ export class SignInComponent {
     if (response.result.succeeded) {
       const returnUrl = this.activatedRoute.paramMap.subscribe({
         next: (e) => {
-          this.router.navigate(['']);
+          this.router.navigate([this.accountService.user?.role == 'Members' ? 'member' : 'admin']);
         }
       })
     }

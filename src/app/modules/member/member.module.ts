@@ -10,6 +10,7 @@ import { AcademyComponent } from './pages/academy/academy.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PaymentsComponent } from './pages/payments/payments.component';
 import { SupportComponent } from './pages/support/support.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { SupportComponent } from './pages/support/support.component';
     OrdersComponent,
     PaymentsComponent,
     SupportComponent,
+    DashboardComponent,
   ],
   imports: [
     CommonModule,

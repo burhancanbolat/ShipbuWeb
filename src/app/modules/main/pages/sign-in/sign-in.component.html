@@ -1,15 +1,19 @@
 <div class="container py-4">
     <div class="mb-4">
         <div class="h2">
-            Yeni Üyelik
+            Kullanıcı Girişi
         </div>
     </div>
     <hr />
     <div class="p-4 bg-light">
         <form (ngSubmit)="signin()"
               #form="ngForm">
-            <div class="row">
-                <div class="mb-4">
+            <div class="d-flex flex-column gap-4">
+                <div>
+                    <i class="bi bi-person-lock"
+                       style="font-size: 4rem;"></i>
+                </div>
+                <div>
                     <div class="col col-lg-6 form-floating">
                         <input type="email"
                                id="userName"
@@ -30,7 +34,7 @@
                         <div *ngIf="userName.errors?.['pattern']">Lütfen geçerli bir e-posta adresi yazınız</div>
                     </div>
                 </div>
-                <div class="mb-4">
+                <div>
                     <div class="col col-lg-6 form-floating">
                         <input type="password"
                                id="password"
@@ -49,7 +53,7 @@
                         <div *ngIf="password.errors?.['required']">Parola alanı boş bırakılamaz</div>
                     </div>
                 </div>
-                <div class="mb-4">
+                <div>
                     <button type="submit"
                             [disabled]="form.invalid"
                             class="btn btn-primary">
@@ -57,11 +61,19 @@
                         Giriş
                     </button>
                 </div>
-                <div class="mb-4"
-                     *ngIf="form.invalid">
+                <div *ngIf="form.invalid">
                     <div class="text-danger">
                         * Lütfen tüm alanları doldurunuz!
                     </div>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <a class="btn btn-outline-secondary" [routerLink]="['','main','resetpassword']">
+                        <i class="bi bi-lock"></i> Parolamı Yenile
+                    </a>
+                    <a class="btn btn-outline-secondary" [routerLink]="['','main','register']">
+                        <i class="bi bi-person-add"></i> Yeni Üyelik
+                    </a>
+                    
                 </div>
             </div>
         </form>

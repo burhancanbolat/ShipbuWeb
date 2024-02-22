@@ -13,6 +13,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AcademyComponent } from './pages/academy/academy.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { TransportPaymentsComponent } from './pages/transport-payments/transport-payments.component';
+import { TransportFeeManagementComponent } from './pages/transport-fee-management/transport-fee-management.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { TransportPaymentsComponent } from './pages/transport-payments/transport
     InfoCardComponent,
     AcademyComponent,
     OrdersComponent,
-    TransportPaymentsComponent
+    TransportPaymentsComponent,
+    TransportFeeManagementComponent
   ],
   imports: [
     CommonModule,
