@@ -32,5 +32,8 @@ export class TransportRegionsService {
   updateFee(id: any, fee: any): Promise<any[]> {
     return lastValueFrom(this.http.get<any[]>(`${environment.baseApiUrl}/transportregions/updatefee/${id}/${fee}`));
   }
+  updateEta(regionId: any, methodId: any, etaMin:any, etaMax:any): Promise<any[]> {
+    return lastValueFrom(this.http.get<any[]>(`${environment.baseApiUrl}/transportregions/updateeta/${regionId}/${methodId}/${etaMin}/${etaMax}`));
+  }
 
 }

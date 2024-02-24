@@ -19,8 +19,4 @@ export class OrdersComponent {
 
   protected ordersStore?: CustomStore;
 
-protected hedeHodo(e:any){
-  console.log(e);
-}
-
 }

@@ -64,4 +64,10 @@ export class TransportFeeManagementComponent implements OnInit {
     await this.transportRegionsService.updateFee(e.data.id, e.data.value);
     this.utilityService.loadingPanelVisible = false;
   }
+
+  async etaUpdated(e: any) {
+    this.utilityService.loadingPanelVisible = true;
+    await this.transportRegionsService.updateEta(e.data.regionId, e.data.methodId, e.data.etaMin, e.data.etaMax);
+    this.utilityService.loadingPanelVisible = false;
+  }
 }

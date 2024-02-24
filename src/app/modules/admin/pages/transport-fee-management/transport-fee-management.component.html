@@ -21,32 +21,54 @@
             </dxi-item>
         </dxi-item>
     </dx-form>
-    <div class="d-flex flex-column gap-2 mb-4"
-         *ngIf="formData.region && formData.district">
-        <div *ngFor="let method of formData.region.transportMethods">
-            <div class="fs-4">{{method.nameTr}}</div>
+    <hr />
+    <div class="mb-4">
+        <h4 class="border-bottom">Tahmini Varış Süreleri</h4>
+        <div *ngIf="!formData.region" class="alert alert-warning d-flex align-items-center gap-2">
+            <i class="bi bi-exclamation-triangle"></i> Ülke seçiniz...
         </div>
+        <dx-data-grid [dataSource]="formData.region.transportRegionMethods"
+                      [showColumnLines]="true"
+                      [showBorders]="true"
+                      [rowAlternationEnabled]="true"
+                      (onRowUpdated)="etaUpdated($event)" *ngIf="formData.region">
+            <dxo-editing [useIcons]="true"
+                         [allowUpdating]="true"></dxo-editing>
+            <dxi-column dataField="methodName"
+                        caption="Gönderim Methodu" [allowEditing]="false"></dxi-column>
+            <dxi-column dataField="etaMin"
+                        caption="Min. Varış Süresi (gün)"></dxi-column>
+                        <dxi-column dataField="etaMax"
+                        caption="Max. Varış Süresi (gün)"></dxi-column>
+        </dx-data-grid>
     </div>
-
-    <dx-data-grid #feeGrid [dataSource]="fees"
-                  [showColumnLines]="true"
-                  [showBorders]="true"
-                  [rowAlternationEnabled]="true"
-                  *ngIf="formData.region && formData.method && formData.district" (onRowUpdated)="feeUpdated($event)">
-        <dxo-editing [useIcons]="true"
-                     [allowUpdating]="true"></dxo-editing>
-        <dxi-column dataField="id"
-                    [visible]="false"></dxi-column>
-        <dxi-column dataField="minWeight"
-                    cellTemplate="weightCellTemplate"
-                    [sortIndex]="0"
-                    sortOrder="asc"
-                    [allowEditing]="false"
-                    caption="Ağırlık"></dxi-column>
-        <dxi-column dataField="value"
-                    caption="Birim Fiyat ($)"></dxi-column>
-        <div *dxTemplate="let row of 'weightCellTemplate'" class="text-start">
-            {{row.data.minWeight}} - {{row.data.maxWeight}}
+    <div class="mb-4">
+        <h4 class="border-bottom">Fiyat</h4>
+        <div  *ngIf="!(formData.region && formData.district && formData.method)" class="alert alert-warning d-flex align-items-center gap-2">
+            <i class="bi bi-exclamation-triangle"></i> Gönderim Şekli ve Bölge seçiniz...
         </div>
-    </dx-data-grid>
+        <dx-data-grid #feeGrid
+                      [dataSource]="fees"
+                      [showColumnLines]="true"
+                      [showBorders]="true"
+                      [rowAlternationEnabled]="true"
+                      (onRowUpdated)="feeUpdated($event)" *ngIf="formData.region && formData.district && formData.method">
+            <dxo-editing [useIcons]="true"
+                         [allowUpdating]="true"></dxo-editing>
+            <dxi-column dataField="id"
+                        [visible]="false"></dxi-column>
+            <dxi-column dataField="minWeight"
+                        cellTemplate="weightCellTemplate"
+                        [sortIndex]="0"
+                        sortOrder="asc"
+                        [allowEditing]="false"
+                        caption="Ağırlık"></dxi-column>
+            <dxi-column dataField="value"
+                        caption="Birim Fiyat ($)"></dxi-column>
+            <div *dxTemplate="let row of 'weightCellTemplate'"
+                 class="text-start">
+                {{row.data.minWeight}} - {{row.data.maxWeight}}
+            </div>
+        </dx-data-grid>
+    </div>
 </app-panel>
