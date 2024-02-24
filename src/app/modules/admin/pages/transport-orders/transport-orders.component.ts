@@ -5,12 +5,12 @@ import { TransportOrdersService } from 'src/app/services/transport-orders.servic
 import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
+  selector: 'app-transport-orders',
+  templateUrl: './transport-orders.component.html',
   styles: [
   ]
 })
-export class OrdersComponent {
+export class TransportOrdersComponent {
 
   constructor(
     protected readonly transportOrdersService: TransportOrdersService,

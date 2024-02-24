@@ -1,0 +1,57 @@
+<app-page-header title="Üyeler"></app-page-header>
+<app-panel>
+    <dx-data-grid #mainGrid
+                  [dataSource]="usersService.store"
+                  [showColumnLines]="true"
+                  [showBorders]="true"
+                  [rowAlternationEnabled]="true">
+        <dxo-search-panel [visible]="true"></dxo-search-panel>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-pager [allowedPageSizes]="[10,25,50,100]"
+                   [visible]="true"></dxo-pager>
+        <dxo-paging [enabled]="true"
+                    [pageSize]="10"></dxo-paging>
+        <dxi-column dataField="name"
+                    caption="Ad / Soyad"></dxi-column>
+        <dxi-column dataField="userName"
+                    caption="E-Posta"></dxi-column>
+        <dxi-column dataField="dateCreated"
+                    caption="Üyelik Başlangıcı"
+                    dataType="date"></dxi-column>
+        <dxi-column dataField="enabled"
+                    caption="Durum"
+                    cellTemplate="enabledCellTemplate"></dxi-column>
+        <dxi-column caption="İşlem"
+                    [allowFiltering]="false"
+                    cellTemplate="buttonsCellTemplate"></dxi-column>
+        <div *dxTemplate="let row of 'enabledCellTemplate'">
+            <div class="d-flex align-items-center gap-2 text-success"
+                 *ngIf="row.data.enabled">
+                <i class="bi bi-check"></i>
+                <span>Aktif</span>
+            </div>
+            <div class="d-flex align-items-center gap-2 text-success"
+                 *ngIf="!row.data.enabled">
+                <i class="bi bi-check"></i>
+                <span>Pasif</span>
+            </div>
+        </div>
+        <div *dxTemplate="let row of 'buttonsCellTemplate'"
+             class="d-flex justify-content-center gap-2">
+            <div class="d-flex align-items-center gap-2 text-success">
+                <dx-button type="danger"
+                           text="Yasakla"
+                           icon="bi bi-ban"
+                           *ngIf="row.data.enabled"
+                           (onClick)="banUser(row.data.id)"></dx-button>
+                <dx-button type="success"
+                           text="Etkinleştir"
+                           icon="bi bi-check"
+                           *ngIf="!row.data.enabled"
+                           (onClick)="unBanUser(row.data.id)"></dx-button>
+
+            </div>
+
+        </div>
+    </dx-data-grid>
+</app-panel>

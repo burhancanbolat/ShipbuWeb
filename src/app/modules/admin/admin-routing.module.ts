@@ -6,9 +6,10 @@ import { TransportStaticPagesComponent } from './pages/transport-static-pages/tr
 import { TransportOrderItemContainerTypesComponent } from './pages/transport-order-item-container-types/transport-order-item-container-types.component';
 import { TransportOrderItemFeaturesComponent } from './pages/transport-order-item-features/transport-order-item-features.component';
 import { AcademyComponent } from './pages/academy/academy.component';
-import { OrdersComponent } from './pages/orders/orders.component';
 import { TransportPaymentsComponent } from './pages/transport-payments/transport-payments.component';
 import { TransportFeeManagementComponent } from './pages/transport-fee-management/transport-fee-management.component';
+import { TransportOrdersComponent } from './pages/transport-orders/transport-orders.component';
+import { UsersComponent } from './pages/users/users.component';
 
 const routes: Routes = [
   {
@@ -37,7 +38,7 @@ const routes: Routes = [
       },
       {
         path: 'transportorders',
-        component: OrdersComponent
+        component: TransportOrdersComponent
       },
       {
         path: 'transportpayments',
@@ -46,6 +47,10 @@ const routes: Routes = [
       {
         path: 'transportfee',
         component: TransportFeeManagementComponent
+      },
+      {
+        path: 'members',
+        component: UsersComponent
       },
       {
         path: '**',

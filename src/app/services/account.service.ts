@@ -71,6 +71,7 @@ export class AccountService {
 
   async signin(formData: any): Promise<any> {
     return lastValueFrom(this.httpClient.post(`${environment.baseApiUrl}/account/token`, formData, { headers: { 'Content-Type': 'application/json' } })).then<any>((response: any) => {
+      debugger;
       if (response.result.succeeded) {
         const payload = jwt_decode.jwtDecode(response.token) as any;
         this.user = { id: payload.nameid, name: payload.given_name, userName: payload.unique_name, token: response.token, role: payload.role, refreshToken: payload.refreshToken };
