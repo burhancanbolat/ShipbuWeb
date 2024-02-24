@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AccountService } from './services/account.service';
 import { AppHttpInterceptor } from './app-httpinterceptors';
 import { SharedModule } from './modules/shared/shared.module';
+import { UtilityService } from './services/utility.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,8 +21,11 @@ import { SharedModule } from './modules/shared/shared.module';
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: (accountService: AccountService) => accountService.init(),
-      deps: [AccountService]
+      useFactory: (accountService: AccountService, utilityService: UtilityService) => {
+        accountService.init();
+        utilityService.init();
+      },
+      deps: [AccountService, UtilityService]
     },
     {
       provide: HTTP_INTERCEPTORS,

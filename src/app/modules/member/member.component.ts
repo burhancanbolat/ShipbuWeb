@@ -3,6 +3,7 @@ import { loadMessages, locale } from 'devextreme/localization';
 import { AccountService } from 'src/app/services/account.service';
 import * as trMessages from "devextreme/localization/messages/tr.json";
 import { TransportPaymentsService } from 'src/app/services/transport-payments.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-member',
@@ -14,7 +15,8 @@ import { TransportPaymentsService } from 'src/app/services/transport-payments.se
 export class MemberComponent implements OnInit {
   constructor(
     protected readonly accountService: AccountService,
-    protected readonly transportPaymentsService: TransportPaymentsService
+    protected readonly transportPaymentsService: TransportPaymentsService,
+    protected readonly utilityService : UtilityService,
   ) {
     loadMessages(trMessages);
     locale('tr');
@@ -36,12 +38,12 @@ export class MemberComponent implements OnInit {
         },
         {
           icon: 'bi bi-plus-circle',
-          title: 'Teklif Al',
+          title: this.utilityService.translate('menuPlaceOrder'),
           url: 'placeorder',
         },
         {
           icon: 'bi bi-boxes',
-          title: 'Sevkiyatlarım',
+          title: this.utilityService.translate('menuTransports'),
           url: 'orders',
         },
       ]

@@ -37,11 +37,6 @@ export class AdminComponent {
       title: 'TANIMLAMALAR',
       items: [
         {
-          icon: 'bi bi-file-richtext',
-          title: 'İçerik Sayfaları',
-          url: 'transportstaticpages',
-        },
-        {
           icon: 'bi bi-youtube',
           title: 'Akademi',
           url: 'academy',

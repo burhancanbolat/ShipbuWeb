@@ -17,6 +17,27 @@
         <div class="collapse navbar-collapse"
              id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown me-2">
+                    <a class="nav-link dropdown-toggle"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <img width="24" height="18" [src]="'https://flagicons.lipis.dev/flags/4x3/'+(utilityService.lang == 'tr' ? 'tr' : 'gb')+'.svg'" />
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end ">
+                        <li>
+                            <a class="dropdown-item d-flex" (click)="utilityService.switchLanguage('tr')">
+                                Türkçe
+                            </a>
+                            <a class="dropdown-item d-flex" (click)="utilityService.switchLanguage('en')">
+                                English
+                            </a>
+                            
+                        </li>
+                        
+                    </ul>
+                </li>
                 
             </ul>
         </div>
