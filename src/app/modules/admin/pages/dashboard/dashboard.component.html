@@ -1,28 +1,40 @@
 <app-page-header title="Dashboard"></app-page-header>
 <app-panel>
-    <div class="row row-cols-1 row-cols-md-4 mb-4">
+    <div class="row row-cols-1 row-cols-md-6 mb-4">
         <div class="col">
             <app-info-card icon="bi bi-people"
                            title="Üye Adedi"
-                           value="65.535"
+                           [value]="stats.users"
                            color="text-bg-primary"></app-info-card>
         </div>
         <div class="col">
             <app-info-card icon="bi bi-star"
                            title="Yeni Teklif"
-                           value="98"
+                           [value]="stats.orders"
                            color="text-bg-success"></app-info-card>
+        </div>
+        <div class="col">
+            <app-info-card icon="bi bi-truck"
+                           title="Çıkış Yapılanlar"
+                           [value]="stats.deliveredOrders"
+                           color="text-bg-info"></app-info-card>
+        </div>
+        <div class="col">
+            <app-info-card icon="bi bi-x"
+                           title="İptal Edilenler"
+                           [value]="stats.cancelledOrders"
+                           color="text-bg-warning"></app-info-card>
         </div>
         <div class="col">
             <app-info-card icon="bi bi-currency-dollar"
                            title="Bekleyen Teklif Tutarı"
-                           value="$7.220"
+                           [value]="stats.totalNewOrderAmount"
                            color="text-bg-danger"></app-info-card>
         </div>
         <div class="col">
-            <app-info-card icon="bi bi-check2-square"
+            <app-info-card icon="bi bi-check"
                            title="Tamamlanan Teklif"
-                           value="7.781"
+                           [value]="stats.totalOrderAmount"
                            color="text-bg-secondary"></app-info-card>
         </div>
 
@@ -33,12 +45,12 @@
             <div class="card bg-white">
                 <div class="card-body">
                     <dx-chart palette="yellow"
-                              [dataSource]="orderInfo"
+                              [dataSource]="stats.chartData"
                               title="Aylara Göre Teklifler (2023)">
                         <dxi-series valueField="total"
-                                    name="Teklif Tutarı"></dxi-series>
-                        <dxi-series valueField="amount"
                                     name="Gerçekleşen Tutar"></dxi-series>
+                        <dxi-series valueField="amount"
+                                    name="Teklif Tutarı"></dxi-series>
                         <dxo-common-series-settings argumentField="month"
                                                     type="spline">
                         </dxo-common-series-settings>
@@ -81,15 +93,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of lastOrders">
+                            <tr *ngFor="let item of stats.lastOrders">
                                 <td>
-                                    <img [src]="'https://api.dicebear.com/7.x/adventurer/svg?seed='+item.userName" width="24" height="24" />
+                                    <img [src]="'https://api.dicebear.com/7.x/bottts/svg?seed='+item.userGivenName" width="24" height="24" />
                                 </td>
-                                <td>{{item.userName}}</td>
-                                <td>{{item.date}}</td>
-                                <td>{{item.from}}</td>
-                                <td>{{item.to}}</td>
-                                <td class="text-end text-monospace">{{item.amount}}</td>
+                                <td>{{item.userGivenName}}</td>
+                                <td>{{item.date|date}}</td>
+                                <td>{{item.origin}}</td>
+                                <td>{{item.destination}}</td>
+                                <td class="text-end text-monospace">{{item.amount|currency}}</td>
                             </tr>
                         </tbody>
                     </table>

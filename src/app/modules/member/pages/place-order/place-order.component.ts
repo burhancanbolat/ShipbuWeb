@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DxFormComponent, DxSelectBoxComponent } from 'devextreme-angular';
+import { DxFormComponent } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
 import * as dialog from 'devextreme/ui/dialog';
 
@@ -7,10 +7,9 @@ import { TransportOrderItemFeaturesService } from 'src/app/services/transport-or
 import { UtilityService } from 'src/app/services/utility.service';
 import { TransportOrderItemContainerTypesService } from 'src/app/services/transport-order-item-container-types.service';
 import { TransportRegionsService } from 'src/app/services/transport-regions.service';
-import { DxiItemComponent } from 'devextreme-angular/ui/nested';
-import CustomStore from 'devextreme/data/custom_store';
 import ImageResize from 'image-resize';
 import { AccountService } from 'src/app/services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-place-order',
@@ -26,6 +25,7 @@ export class PlaceOrderComponent implements OnInit {
     protected readonly transportOrderItemContainerTypesService: TransportOrderItemContainerTypesService,
     protected readonly transportRegionsService: TransportRegionsService,
     protected readonly accountService: AccountService,
+    protected readonly router: Router
   ) {
     this.validateTransportValue = this.validateTransportValue.bind(this);
   }
@@ -215,7 +215,15 @@ export class PlaceOrderComponent implements OnInit {
     })
   }
 
-  private resetForm() {
+  protected clear() {
+    this.step = 'contents';
+    this.stepIndex = 0;
+    this.newOrder = { items: [] };
+    this.resetForm();
+  }
+
+  protected resetForm() {
+
     this.newOrderItem = {
       quantity: null,
       weight: null,

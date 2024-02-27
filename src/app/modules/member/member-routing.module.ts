@@ -39,7 +39,7 @@ const routes: Routes = [
       },
       {
         path : '',
-        redirectTo : 'dashboard',
+        redirectTo : 'placeorder',
         pathMatch : 'full'
       },
       

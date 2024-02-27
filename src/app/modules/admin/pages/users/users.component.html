@@ -12,7 +12,8 @@
         <dxo-paging [enabled]="true"
                     [pageSize]="10"></dxo-paging>
         <dxi-column dataField="name"
-                    caption="Ad / Soyad"></dxi-column>
+                    caption="Ad / Soyad"
+                    cellTemplate="userNameCellTemplate"></dxi-column>
         <dxi-column dataField="userName"
                     caption="E-Posta"></dxi-column>
         <dxi-column dataField="dateCreated"
@@ -24,6 +25,13 @@
         <dxi-column caption="İşlem"
                     [allowFiltering]="false"
                     cellTemplate="buttonsCellTemplate"></dxi-column>
+        <div *dxTemplate="let row of 'userNameCellTemplate'"
+             class="d-flex align-items-center gap-2">
+            <img [src]="'https://api.dicebear.com/7.x/bottts/svg?seed='+row.data.name"
+                 width="48"
+                 height="48" />
+            <div>{{row.data.name}}</div>
+        </div>
         <div *dxTemplate="let row of 'enabledCellTemplate'">
             <div class="d-flex align-items-center gap-2 text-success"
                  *ngIf="row.data.enabled">

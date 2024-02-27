@@ -32,11 +32,6 @@ export class MemberComponent implements OnInit {
       title: 'YÖNETİM PANELİ',
       items: [
         {
-          icon: 'bi bi-person',
-          title: 'Dashboard',
-          url: 'profile',
-        },
-        {
           icon: 'bi bi-plus-circle',
           title: this.utilityService.translate('menuPlaceOrder'),
           url: 'placeorder',
